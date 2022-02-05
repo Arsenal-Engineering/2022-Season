@@ -56,8 +56,8 @@ public class LimelightDistance extends CommandBase {
     {
       steering_adjust = Kp*heading_error + min_command;
     }
-    //Robot.robotContainer.driveTrain.driveSpeed(steering_adjust);
-    //swerveDrive.drive
+
+    swerveDrive.drive(0, steering_adjust, 0);
   }
  
   // Called once the command ends or is interrupted.
