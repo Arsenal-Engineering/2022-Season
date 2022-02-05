@@ -59,7 +59,7 @@ public class RobotContainer {
     subsystemList[4] = bR;
     subsystemList[5] = cam;
  
-    driveJoystick = new DriveJoystick(subsystemList[0], joystick, swerveDrive);
+    driveJoystick = new DriveJoystick(swerveDrive, joystick);
  
     buttonB = new JoystickButton(joystick, 1);
     buttonY = new JoystickButton(joystick, 3);

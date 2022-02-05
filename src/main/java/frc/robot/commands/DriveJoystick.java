@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.*;
 
@@ -15,8 +14,8 @@ public class DriveJoystick extends CommandBase {
   private SwerveDrive swerveDrive;
   private XboxController joystick;
 
-  public DriveJoystick(SubsystemBase subsystem, XboxController joystick, SwerveDrive swerveDrive) {
-    addRequirements(subsystem);
+  public DriveJoystick(SwerveDrive swerveDrive, XboxController joystick) {
+    addRequirements(swerveDrive);
     this.swerveDrive = swerveDrive;
     this.joystick = joystick;
 
