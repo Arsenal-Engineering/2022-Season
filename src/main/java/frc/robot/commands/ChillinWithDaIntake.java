@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj.XboxController;
 
 public class ChillinWithDaIntake extends CommandBase {
   /** Creates a new ControlConveyor. */
-  private Conveyer conveyor;
+  private Conveyor conveyor;
   private XboxController controller;
-  public ChillinWithDaIntake(Conveyer conveyor, XboxController controller) {
+  public ChillinWithDaIntake(Conveyor conveyor, XboxController controller) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(conveyor);
     this.conveyor = conveyor;

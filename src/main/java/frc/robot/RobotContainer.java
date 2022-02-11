@@ -31,7 +31,7 @@ public class RobotContainer {
   private final WheelDrive bL;
   private final WheelDrive bR;
   public final DriveJoystick driveJoystick;
-  private final Conveyer conveyer;
+  private final Conveyor conveyor;
   private final SubsystemBase[] subsystemList;
   public final ChillinWithDaIntake chillinWithDaIntake;
  
@@ -48,7 +48,7 @@ public class RobotContainer {
     bL = new WheelDrive("BL", Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, 15, 0.00, 2000, 1023, true);
     bR = new WheelDrive("BR", Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, 15, 0.00, 20, 1023, true);
     swerveDrive = new SwerveDrive(bR, bL, fR, fL, 27.0, 21.0);
-    conveyer = new Conveyer();
+    conveyor = new Conveyor();
 
     subsystemList = new SubsystemBase[7];
       subsystemList[0] = swerveDrive;
@@ -56,10 +56,11 @@ public class RobotContainer {
       subsystemList[2] = fR;
       subsystemList[3] = bL;
       subsystemList[4] = bR;
-      subsystemList[6] = conveyer;
+      subsystemList[6] = conveyor;
+
 
     driveJoystick = new DriveJoystick(subsystemList[0], joystick, swerveDrive);
-    chillinWithDaIntake = new ChillinWithDaIntake(conveyer, joystick);
+    chillinWithDaIntake = new ChillinWithDaIntake(conveyor, joystick);
   }
 
   /**

@@ -29,4 +29,7 @@ public final class Constants {
     //ID for conveyor motors
     public final static int CONVEYOR_TOP = 9;
     public final static int CONVEYOR_BOT = 10;
+
+    //ID for Shooter Motors
+    public final static int SHOOTER = 11;
 }
