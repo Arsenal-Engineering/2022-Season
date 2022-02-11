@@ -33,7 +33,8 @@ public class RobotContainer {
   public final DriveJoystick driveJoystick;
   private final Conveyer conveyer;
   private final SubsystemBase[] subsystemList;
-
+  public final ChillinWithDaIntake chillinWithDaIntake;
+ 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -58,6 +59,7 @@ public class RobotContainer {
       subsystemList[6] = conveyer;
 
     driveJoystick = new DriveJoystick(subsystemList[0], joystick, swerveDrive);
+    chillinWithDaIntake = new ChillinWithDaIntake(conveyer, joystick);
   }
 
   /**

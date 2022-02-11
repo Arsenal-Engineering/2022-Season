@@ -6,26 +6,30 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj.XboxController;
 
-public class ControlConveyor extends CommandBase {
+public class ChillinWithDaIntake extends CommandBase {
   /** Creates a new ControlConveyor. */
   private Conveyer conveyor;
-  public ControlConveyor(Conveyer conveyor) {
+  private XboxController controller;
+  public ChillinWithDaIntake(Conveyer conveyor, XboxController controller) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(conveyor);
     this.conveyor = conveyor;
+    this.controller = controller;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    conveyor.setConveyor(0.5);
+    if (controller.getLeftTriggerAxis() > .5)
+      conveyor.setConveyorBot(.5);
+    else
+      conveyor.setConveyor(0);
   }
 
   // Called once the command ends or is interrupted.
