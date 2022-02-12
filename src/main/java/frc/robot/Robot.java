@@ -8,6 +8,11 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Timer;
+
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
+import frc.robot.Constants;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,6 +30,17 @@ public class Robot extends TimedRobot {
 
   private final XboxController joystick = new XboxController(0);
 
+  private final Timer timer = new Timer();
+
+  private final Conveyor conveyor = new Conveyor(Constants.CONVEYOR_TOP, Constants.CONVEYOR_BOT);
+  private final Shooter shooter = new Shooter(Constants.SHOOTER);
+  private final SwerveDrive swerveDrive = new SwerveDrive(27.0, 21.0);
+
+  private final NoMoPewPew noMoPewPew = new NoMoPewPew(conveyor, shooter);
+  private final DoDaPewPew doDaPewPew = new DoDaPewPew(conveyor, shooter);
+  private final ChillinWithDaIntake chillinWithDaIntake = new ChillinWithDaIntake(conveyor);
+  private final DriveJoystick driveJoystick = new DriveJoystick(joystick, swerveDrive);
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any
@@ -35,7 +51,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer(joystick);
+    m_robotContainer = new RobotContainer(joystick,swerveDrive,conveyor,shooter);
 
   }
 
@@ -83,11 +99,27 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+    timer.reset();
+    timer.start();
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    /*
+     * Master Plan
+     * 1. Start x distance away from a pre-placed ball
+     * 2. Shoot ball in storage
+     * 3. Back up & intake ball behind robot
+     * a. make sure robot is ACTUALLY out of Tarmac
+     * 4. Return to start pos
+     * 5. Shoot ball in storage
+     */
+    if (timer.get() < 2) {
+      doDaPewPew.schedule();
+    } else if (timer.get() < 0/* Insert Value Here */) {
+      driveJoystick.schedule();
+    }
   }
 
   @Override
@@ -100,19 +132,20 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    m_robotContainer.driveJoystick.schedule();
-    m_robotContainer.chillinWithDaIntake.schedule();
+    driveJoystick.schedule();
+    chillinWithDaIntake.schedule();
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    driveJoystick.schedule();
     if (joystick.getRightTriggerAxis() > .5) {
-      m_robotContainer.doDaPewPew.schedule();
+      doDaPewPew.schedule();
     } else if (joystick.getLeftTriggerAxis() > .5) {
-      m_robotContainer.chillinWithDaIntake.schedule();
+      chillinWithDaIntake.schedule();
     } else {
-      m_robotContainer.noMoPewPew.schedule();
+      noMoPewPew.schedule();
     }
   }
 
@@ -121,7 +154,7 @@ public class Robot extends TimedRobot {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
 
-    m_robotContainer.driveJoystick.schedule();
+    driveJoystick.schedule();
 
   }
 

@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
 import frc.robot.subsystems.*;
@@ -26,40 +25,23 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private XboxController joystick;
 
-  private final SubsystemBase[] subsystemList;
-
   private final SwerveDrive swerveDrive;
   private final Conveyor conveyor;
   private final Shooter shooter;
-
-  public final NoMoPewPew noMoPewPew;
-  public final DoDaPewPew doDaPewPew;
-  public final ChillinWithDaIntake chillinWithDaIntake;
-  public final DriveJoystick driveJoystick;
 
   private JoystickButton lBumper;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-  public RobotContainer(XboxController controller) {
+  public RobotContainer(XboxController controller, SwerveDrive swerveDrive, Conveyor conveyor, Shooter shooter) {
     // Configure the button bindings
     configureButtonBindings();
     joystick = controller;
 
-    swerveDrive = new SwerveDrive(27.0, 21.0);
-    conveyor = new Conveyor(Constants.CONVEYOR_TOP, Constants.CONVEYOR_BOT);
-    shooter = new Shooter(Constants.SHOOTER);
-
-    subsystemList = new SubsystemBase[3];
-    subsystemList[0] = swerveDrive;
-    subsystemList[1] = conveyor;
-    subsystemList[2] = shooter;
-
-    driveJoystick = new DriveJoystick(joystick, swerveDrive);
-    chillinWithDaIntake = new ChillinWithDaIntake(conveyor);
-    doDaPewPew = new DoDaPewPew(conveyor, shooter);
-    noMoPewPew = new NoMoPewPew(conveyor, shooter);
+    this.swerveDrive = swerveDrive;
+    this.conveyor = conveyor;
+    this.shooter = shooter;
 
     lBumper = new JoystickButton(joystick, 4);
   }
