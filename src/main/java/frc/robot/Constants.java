@@ -20,7 +20,6 @@ public final class Constants {
     public final static int ANGLEMOTOR_BR = 4;
 
     //ID for speed motors
-
     public final static int SPEEDMOTOR_FL = 5;
     public final static int SPEEDMOTOR_FR = 6;
     public final static int SPEEDMOTOR_BL = 7;
@@ -29,4 +28,7 @@ public final class Constants {
     //ID for conveyor motors
     public final static int CONVEYOR_TOP = 9;
     public final static int CONVEYOR_BOT = 10;
+
+    //ID for lift motor
+    public final static int LIFT = 12;
 }

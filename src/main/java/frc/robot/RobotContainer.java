@@ -24,22 +24,25 @@ import frc.robot.commands.*;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private XboxController joystick;
+  private JoystickButton buttonA, buttonB, buttonX, buttonY;
 
+  //Subsystems
+  private final SubsystemBase[] subsystemList;
   private final SwerveDrive swerveDrive;
   private final WheelDrive fL;
   private final WheelDrive fR;
   private final WheelDrive bL;
   private final WheelDrive bR;
+  private final Lift lift;
+
+  //Commands
   public final DriveJoystick driveJoystick;
-  private final Conveyer conveyer;
-  private final SubsystemBase[] subsystemList;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer(XboxController controller) {
     // Configure the button bindings
-    configureButtonBindings();
     joystick = controller;
 
     fL = new WheelDrive("FL", Constants.SPEEDMOTOR_FL, Constants.ANGLEMOTOR_FL, 15, 0.00, 2000, 1023, true);
@@ -47,7 +50,8 @@ public class RobotContainer {
     bL = new WheelDrive("BL", Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, 15, 0.00, 2000, 1023, true);
     bR = new WheelDrive("BR", Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, 15, 0.00, 20, 1023, true);
     swerveDrive = new SwerveDrive(bR, bL, fR, fL, 27.0, 21.0);
-    conveyer = new Conveyer();
+
+    lift = new Lift();
 
     subsystemList = new SubsystemBase[7];
       subsystemList[0] = swerveDrive;
@@ -55,9 +59,14 @@ public class RobotContainer {
       subsystemList[2] = fR;
       subsystemList[3] = bL;
       subsystemList[4] = bR;
-      subsystemList[6] = conveyer;
 
-    driveJoystick = new DriveJoystick(subsystemList[0], joystick, swerveDrive);
+    driveJoystick = new DriveJoystick(joystick, swerveDrive);
+      buttonA = new JoystickButton(joystick, 1);
+      buttonB = new JoystickButton(joystick, 2);
+      buttonX = new JoystickButton(joystick, 3);
+      buttonY = new JoystickButton(joystick, 4);
+
+    configureButtonBindings();
   }
 
   /**
@@ -69,6 +78,15 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    buttonA.whenPressed(new MoveThyLify(-0.5, lift));
+    buttonB.whenPressed(new MoveThyLify(0.5, lift));
+    buttonX.whenPressed(new MoveThyLify(-1, lift));
+    buttonY.whenPressed(new MoveThyLify(1, lift));
+
+    buttonA.whenReleased(new StopLift(lift));
+    buttonB.whenReleased(new StopLift(lift));
+    buttonX.whenReleased(new StopLift(lift));
+    buttonY.whenReleased(new StopLift(lift));
   }
 
   /**

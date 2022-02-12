@@ -7,26 +7,26 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 
-public class ControlConveyor extends CommandBase {
-  /** Creates a new ControlConveyor. */
-  private Conveyer conveyor;
-  public ControlConveyor(Conveyer conveyor) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(conveyor);
-    this.conveyor = conveyor;
+public class StopLift extends CommandBase {
+  /** Creates a new DownLift. */
+  private Lift lift;
+
+  public StopLift(Lift lift) {
+    addRequirements(lift);
+    this.lift = lift;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    lift.moveCertainSpeed(0);
 
+    //fix to make one time command
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    conveyor.setConveyor(0.5);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -35,6 +35,6 @@ public class ControlConveyor extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

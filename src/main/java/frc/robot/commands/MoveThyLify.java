@@ -5,41 +5,41 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.*;
 
-public class DriveJoystick extends CommandBase {
-  /** Creates a new DriveJoystick. */
+public class MoveThyLify extends CommandBase {
+  private double speed;
+  private Lift lift;
 
-  private SwerveDrive swerveDrive;
-  private XboxController joystick;
-
-  public DriveJoystick(XboxController joystick, SwerveDrive swerveDrive) {
-    addRequirements(swerveDrive);
-    this.swerveDrive = swerveDrive;
-    this.joystick = joystick;
-
+  public MoveThyLify(double speed, Lift lift) {
+    if (lift == null) {
+      System.out.println("lift is null");
+    } else {
+      
+      System.out.println("lift OK!!");
+    }
+    addRequirements(lift);
+    this.lift = lift;
+    this.speed = speed;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    swerveDrive.drive(joystick.getLeftX(), joystick.getLeftY(), joystick.getRightX());
+    lift.moveCertainSpeed(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return false; //return true if all buttons read nothing
   }
 }
