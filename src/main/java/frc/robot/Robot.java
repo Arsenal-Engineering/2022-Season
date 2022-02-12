@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.IFollower;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -99,15 +101,21 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
     m_robotContainer.driveJoystick.schedule();
     m_robotContainer.chillinWithDaIntake.schedule();
-
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-
+    if (joystick.getRightTriggerAxis() > .5) {
+      m_robotContainer.doDaPewPew.schedule();
+    } else if (joystick.getLeftTriggerAxis() > .5) {
+      m_robotContainer.chillinWithDaIntake.schedule();
+    } else {
+      m_robotContainer.noMoPewPew.schedule();
+    }
   }
 
   @Override
@@ -116,6 +124,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().cancelAll();
 
     m_robotContainer.driveJoystick.schedule();
+
   }
 
   /** This function is called periodically during test mode. */
@@ -123,4 +132,4 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
   }
 }
-// funny
+// funny //

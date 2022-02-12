@@ -7,11 +7,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 
-public class ChillinWithDaIntake extends CommandBase {
+public class GoinBackWithDaIntake extends CommandBase {
   /** Creates a new ControlConveyor. */
   private Conveyor conveyor;
 
-  public ChillinWithDaIntake(Conveyor conveyor) {
+  public GoinBackWithDaIntake(Conveyor conveyor) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(conveyor);
     this.conveyor = conveyor;
@@ -25,7 +25,7 @@ public class ChillinWithDaIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    conveyor.setConveyor(0.5);
+    conveyor.setConveyor(-0.5);
   }
 
   // Called once the command ends or is interrupted.

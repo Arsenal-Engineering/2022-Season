@@ -11,22 +11,23 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.*;
 
-public class DoDaPewPew extends CommandBase {
+public class NoMoPewPew extends CommandBase {
   Timer timer;
 
   private Conveyor conveyor;
   private Shooter shooter;
-
+  
   /**
-   * Creates a new DoDaPewPew.
+   * Creates a new NoMoPewPew. :(
    */
 
-  public DoDaPewPew(Conveyor conveyor, Shooter shooter) {
+  public NoMoPewPew(Conveyor conveyor, Shooter shooter) {
     timer = new Timer();
     addRequirements(shooter);
     addRequirements(conveyor);
     this.conveyor = conveyor;
     this.shooter = shooter;
+
   }
 
   // Called when the command is initially scheduled.
@@ -39,11 +40,10 @@ public class DoDaPewPew extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (timer.get() > 1) {
-      shooter.setShooter(1);
-      conveyor.setConveyor(0.7);
-    } else
-      shooter.setShooter(1);
+
+    shooter.setShooter(0);
+    conveyor.setConveyor(0);
+
   }
 
   // Called once the command ends or is interrupted.

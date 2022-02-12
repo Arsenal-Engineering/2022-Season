@@ -25,16 +25,18 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private XboxController joystick;
 
-  private final SwerveDrive swerveDrive;
-  private final WheelDrive fL;
-  private final WheelDrive fR;
-  private final WheelDrive bL;
-  private final WheelDrive bR;
-  public final DriveJoystick driveJoystick;
-  private final Conveyor conveyor;
   private final SubsystemBase[] subsystemList;
-  public final ChillinWithDaIntake chillinWithDaIntake;
  
+  private final SwerveDrive swerveDrive;
+  private final Conveyor conveyor;
+  private final Shooter shooter;
+
+  public final NoMoPewPew noMoPewPew;
+  public final DoDaPewPew doDaPewPew;
+  public final ChillinWithDaIntake chillinWithDaIntake;
+  public final DriveJoystick driveJoystick;
+
+  private JoystickButton lBumper;
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -43,24 +45,21 @@ public class RobotContainer {
     configureButtonBindings();
     joystick = controller;
 
-    fL = new WheelDrive("FL", Constants.SPEEDMOTOR_FL, Constants.ANGLEMOTOR_FL, 15, 0.00, 2000, 1023, true);
-    fR = new WheelDrive("FR", Constants.SPEEDMOTOR_FR, Constants.ANGLEMOTOR_FR, 15, 0.00, 20, 1023, true);
-    bL = new WheelDrive("BL", Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, 15, 0.00, 2000, 1023, true);
-    bR = new WheelDrive("BR", Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, 15, 0.00, 20, 1023, true);
-    swerveDrive = new SwerveDrive(bR, bL, fR, fL, 27.0, 21.0);
+    swerveDrive = new SwerveDrive(27.0, 21.0);
     conveyor = new Conveyor();
+    shooter = new Shooter();
 
-    subsystemList = new SubsystemBase[7];
-      subsystemList[0] = swerveDrive;
-      subsystemList[1] = fL;
-      subsystemList[2] = fR;
-      subsystemList[3] = bL;
-      subsystemList[4] = bR;
-      subsystemList[6] = conveyor;
+    subsystemList = new SubsystemBase[3];
+    subsystemList[0] = swerveDrive;
+    subsystemList[1] = conveyor;
+    subsystemList[2] = shooter;
 
+    driveJoystick = new DriveJoystick(joystick, swerveDrive);
+    chillinWithDaIntake = new ChillinWithDaIntake(conveyor);
+    doDaPewPew = new DoDaPewPew(conveyor, shooter);
+    noMoPewPew = new NoMoPewPew(conveyor, shooter);
 
-    driveJoystick = new DriveJoystick(subsystemList[0], joystick, swerveDrive);
-    chillinWithDaIntake = new ChillinWithDaIntake(conveyor, joystick);
+    lBumper = new JoystickButton(joystick, 4);
   }
 
   /**
@@ -68,10 +67,11 @@ public class RobotContainer {
    * created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
-   * it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   * it to a {@linkedu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    //Conveyor
+    lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));    
   }
 
   /**

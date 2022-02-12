@@ -11,29 +11,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 //Talon Motor Imports
-//import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class Shooter extends SubsystemBase {
-  //private WPI_TalonSRX conveyorTop;
-  //private WPI_TalonSRX conveyorBot;
   private WPI_TalonFX shooter;
-  // private WPI_TalonSRX bottomShooter;
 
   public Shooter() {
-    //conveyorTop = new WPI_TalonSRX(Constants.CONVEYOR_TOP);
-    //conveyorBot = new WPI_TalonSRX(Constants.CONVEYOR_BOT);
     
     shooter = new WPI_TalonFX(Constants.SHOOTER);
-  }// e
-
-  // Sets the PWM value, should only input a value between -1 and 1, inclusive
-  public void startShooter() {
-    shooter.set(1);
   }
 
-  public void stopShooter() {
-    shooter.set(0);
+  // Sets the PWM value, should only input a value between -1 and 1, inclusive
+  public void setShooter(double speed) {
+    shooter.set(speed);
   }
 
   @Override
