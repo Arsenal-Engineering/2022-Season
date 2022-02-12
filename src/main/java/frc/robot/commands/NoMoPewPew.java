@@ -16,7 +16,7 @@ public class NoMoPewPew extends CommandBase {
 
   private Conveyor conveyor;
   private Shooter shooter;
-  
+
   /**
    * Creates a new NoMoPewPew. :(
    */

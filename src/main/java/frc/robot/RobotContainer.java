@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 
@@ -26,7 +27,7 @@ public class RobotContainer {
   private XboxController joystick;
 
   private final SubsystemBase[] subsystemList;
- 
+
   private final SwerveDrive swerveDrive;
   private final Conveyor conveyor;
   private final Shooter shooter;
@@ -37,6 +38,7 @@ public class RobotContainer {
   public final DriveJoystick driveJoystick;
 
   private JoystickButton lBumper;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -46,8 +48,8 @@ public class RobotContainer {
     joystick = controller;
 
     swerveDrive = new SwerveDrive(27.0, 21.0);
-    conveyor = new Conveyor();
-    shooter = new Shooter();
+    conveyor = new Conveyor(Constants.CONVEYOR_TOP, Constants.CONVEYOR_BOT);
+    shooter = new Shooter(Constants.SHOOTER);
 
     subsystemList = new SubsystemBase[3];
     subsystemList[0] = swerveDrive;
@@ -70,8 +72,8 @@ public class RobotContainer {
    * it to a {@linkedu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    //Conveyor
-    lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));    
+    // Conveyor
+    lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));
   }
 
   /**

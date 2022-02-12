@@ -8,17 +8,13 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-
-//Talon Motor Imports
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class Shooter extends SubsystemBase {
   private WPI_TalonFX shooter;
 
-  public Shooter() {
-    
-    shooter = new WPI_TalonFX(Constants.SHOOTER);
+  public Shooter(int shooterID) {
+    shooter = new WPI_TalonFX(shooterID);
   }
 
   // Sets the PWM value, should only input a value between -1 and 1, inclusive
@@ -27,5 +23,6 @@ public class Shooter extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+  }
 }
