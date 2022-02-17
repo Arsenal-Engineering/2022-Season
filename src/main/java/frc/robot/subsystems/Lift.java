@@ -15,11 +15,11 @@ public class Lift extends SubsystemBase {
   
   private VictorSPX motor;
 
-  public Lift() {
-    motor = new VictorSPX(Constants.LIFT);
+  public Lift(int liftId) {
+    motor = new VictorSPX(liftId);
   }
 
-  public void moveCertainSpeed(double speed) {
+  public void setLift(double speed) {
     motor.set(VictorSPXControlMode.PercentOutput, speed);
   }
 

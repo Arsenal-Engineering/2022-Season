@@ -6,21 +6,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class MoveThyLify extends CommandBase {
   private double speed;
   private Lift lift;
+  private DigitalInput limitSwitch;
 
   public MoveThyLify(double speed, Lift lift) {
-    if (lift == null) {
-      System.out.println("lift is null");
-    } else {
-      
-      System.out.println("lift OK!!");
-    }
     addRequirements(lift);
     this.lift = lift;
     this.speed = speed;
+    this.limitSwitch = new DigitalInput(limitSwitchPort);
   }
 
   // Called when the command is initially scheduled.
@@ -30,16 +27,18 @@ public class MoveThyLify extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    lift.moveCertainSpeed(speed);
+    lift.setSpeech(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    lift.setLift(0);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false; //return true if all buttons read nothing
+    return limitSwitch.get(); //return true if all buttons read nothing
   }
 }

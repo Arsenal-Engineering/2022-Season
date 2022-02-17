@@ -51,7 +51,7 @@ public class RobotContainer {
     bR = new WheelDrive("BR", Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, 15, 0.00, 20, 1023, true);
     swerveDrive = new SwerveDrive(bR, bL, fR, fL, 27.0, 21.0);
 
-    lift = new Lift();
+    lift = new Lift(Constants.LIFT);
 
     subsystemList = new SubsystemBase[7];
       subsystemList[0] = swerveDrive;
@@ -78,15 +78,15 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    buttonA.whenPressed(new MoveThyLify(-0.5, lift));
-    buttonB.whenPressed(new MoveThyLify(0.5, lift));
-    buttonX.whenPressed(new MoveThyLify(-1, lift));
-    buttonY.whenPressed(new MoveThyLify(1, lift));
+    buttonA.whenPressed(new MoveThyLify(-0.5, lift, Constants.LIMIT_SWITCH));
+    buttonB.whenPressed(new MoveThyLify(0.5, lift, Constants.LIMIT_SWITCH));
+    buttonX.whenPressed(new MoveThyLify(-1, lift, Constants.LIMIT_SWITCH));
+    buttonY.whenPressed(new MoveThyLify(1, lift, Constants.LIMIT_SWITCH));
 
-    buttonA.whenReleased(new StopLift(lift));
-    buttonB.whenReleased(new StopLift(lift));
-    buttonX.whenReleased(new StopLift(lift));
-    buttonY.whenReleased(new StopLift(lift));
+    buttonA.whenReleased(new StopLift(lift, Constants.LIMIT_SWITCH));
+    buttonB.whenReleased(new StopLift(lift, Constants.LIMIT_SWITCH));
+    buttonX.whenReleased(new StopLift(lift, Constants.LIMIT_SWITCH));
+    buttonY.whenReleased(new StopLift(lift, Constants.LIMIT_SWITCH));
   }
 
   /**
