@@ -40,6 +40,8 @@ public class Robot extends TimedRobot {
   private final DoDaPewPew doDaPewPew = new DoDaPewPew(conveyor, shooter);
   private final ChillinWithDaIntake chillinWithDaIntake = new ChillinWithDaIntake(conveyor);
   private final DriveJoystick driveJoystick = new DriveJoystick(joystick, swerveDrive);
+  private final DriveAuto driveBack = new DriveAuto(0, -1, 0, swerveDrive);
+  private final DriveAuto driveForward = new DriveAuto(0, 1, 0, swerveDrive);
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -118,7 +120,14 @@ public class Robot extends TimedRobot {
     if (timer.get() < 2) {
       doDaPewPew.schedule();
     } else if (timer.get() < 0/* Insert Value Here */) {
-      driveJoystick.schedule();
+      driveBack.schedule();
+      chillinWithDaIntake.schedule();
+    } else if (timer.get() < 0/* Insert Value Here*/) {
+      driveForward.schedule();
+    } else if (timer.get() < 0/* Insert Value Here */) {
+      doDaPewPew.schedule();
+    } else {
+      timer.stop();// e //
     }
   }
 
