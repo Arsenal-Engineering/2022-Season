@@ -13,7 +13,7 @@ public class MoveThyLify extends CommandBase {
   private Lift lift;
   private DigitalInput limitSwitch;
 
-  public MoveThyLify(double speed, Lift lift) {
+  public MoveThyLify(double speed, Lift lift, int limitSwitchPort) {
     addRequirements(lift);
     this.lift = lift;
     this.speed = speed;
@@ -27,7 +27,7 @@ public class MoveThyLify extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    lift.setSpeech(speed);
+    lift.setLift(speed);
   }
 
   // Called once the command ends or is interrupted.

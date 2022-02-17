@@ -78,15 +78,15 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    buttonA.whenPressed(new MoveThyLify(-0.5, lift, Constants.LIMIT_SWITCH));
-    buttonB.whenPressed(new MoveThyLify(0.5, lift, Constants.LIMIT_SWITCH));
-    buttonX.whenPressed(new MoveThyLify(-1, lift, Constants.LIMIT_SWITCH));
-    buttonY.whenPressed(new MoveThyLify(1, lift, Constants.LIMIT_SWITCH));
+    buttonA.whenPressed(new MoveThyLify(-0.5, lift, Constants.LIMIT_SWITCH_BOT));
+    buttonB.whenPressed(new MoveThyLify(0.5, lift, Constants.LIMIT_SWITCH_TOP));
+    buttonX.whenPressed(new MoveThyLify(-1, lift, Constants.LIMIT_SWITCH_BOT));
+    buttonY.whenPressed(new MoveThyLify(1, lift, Constants.LIMIT_SWITCH_TOP));
 
-    buttonA.whenReleased(new StopLift(lift, Constants.LIMIT_SWITCH));
-    buttonB.whenReleased(new StopLift(lift, Constants.LIMIT_SWITCH));
-    buttonX.whenReleased(new StopLift(lift, Constants.LIMIT_SWITCH));
-    buttonY.whenReleased(new StopLift(lift, Constants.LIMIT_SWITCH));
+    buttonA.whenReleased(new StopLift(lift));
+    buttonB.whenReleased(new StopLift(lift));
+    buttonX.whenReleased(new StopLift(lift));
+    buttonY.whenReleased(new StopLift(lift));
   }
 
   /**
