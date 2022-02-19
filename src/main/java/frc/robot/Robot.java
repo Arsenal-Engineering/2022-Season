@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer(joystick,swerveDrive,conveyor,shooter);
+    m_robotContainer = new RobotContainer(joystick, swerveDrive, conveyor, shooter);
 
   }
 
@@ -108,26 +108,17 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    /*
-     * Master Plan
-     * 1. Start x distance away from a pre-placed ball
-     * 2. Shoot ball in storage
-     * 3. Back up & intake ball behind robot
-     * a. make sure robot is ACTUALLY out of Tarmac
-     * 4. Return to start pos
-     * 5. Shoot ball in storage
-     */
     if (timer.get() < 2) {
       doDaPewPew.schedule();
     } else if (timer.get() < 0/* Insert Value Here */) {
       driveBack.schedule();
       chillinWithDaIntake.schedule();
-    } else if (timer.get() < 0/* Insert Value Here*/) {
+    } else if (timer.get() < 0/* Insert Value Here */) {
       driveForward.schedule();
     } else if (timer.get() < 0/* Insert Value Here */) {
       doDaPewPew.schedule();
     } else {
-      timer.stop();// e //
+      timer.stop();
     }
   }
 
@@ -169,4 +160,3 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
   }
 }
-// funny //
