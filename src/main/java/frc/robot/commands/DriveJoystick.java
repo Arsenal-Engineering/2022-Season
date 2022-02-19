@@ -34,24 +34,21 @@ public class DriveJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    /*
-    //assumes y1 is backwards
-    double x1 = joystick.getLeftX();
-    double y1 = joystick.getLeftY();
+    
+    double x1 = -joystick.getLeftX(); //X-axis on robot is flipped, new_y1 and new_x1 are also adjusted as needed
+    double y1 = -joystick.getLeftY();
     double rad = navX.getYaw() * Math.PI / 180;
-    double new_y1 = y1 * -1 * Math.cos(rad) + x1 * Math.sin(rad);
+    double new_y1 = y1 * Math.cos(rad) + x1 * -1 * Math.sin(rad);
     double new_x1 = y1 * Math.sin(rad) + x1 * Math.cos(rad);
-    System.out.println(navX.getYaw());
+    System.out.format("%f (%f, %f) => (%f, %f)\n", navX.getYaw(), x1, y1, new_x1, new_y1);
     
     //adjusts for field oriented control
-    */
-    swerveDrive.drive(joystick.getLeftX(), -joystick.getLeftY(), -joystick.getRightX());
+    swerveDrive.drive(new_x1, new_y1, joystick.getRightX());
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

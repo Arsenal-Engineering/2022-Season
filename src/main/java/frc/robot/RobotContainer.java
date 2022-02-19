@@ -27,27 +27,29 @@ public class RobotContainer {
   private JoystickButton buttonB, buttonY, lBumper;
 
   private final SwerveDrive swerveDrive;
-  private final Conveyor conveyor;
-  private final Shooter shooter;
+  //private final Conveyor conveyor;
+  //private final Shooter shooter;
   public final LimelightCam lLcam;
   private final Camera camera;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-  public RobotContainer(XboxController controller, SwerveDrive swerveDrive, Conveyor conveyor, Shooter shooter) {
+  public RobotContainer(XboxController controller, SwerveDrive swerveDrive/*, Conveyor conveyor, Shooter shooter*/) {
+      System.out.println(3);
     // Configure the button bindings
-    configureButtonBindings();
     joystick = controller;
     buttonB = new JoystickButton(joystick, 1);
     buttonY = new JoystickButton(joystick, 3);
     lBumper = new JoystickButton(joystick, 4);
 
     this.swerveDrive = swerveDrive;
-    this.conveyor = conveyor;
-    this.shooter = shooter;
+    //this.conveyor = conveyor;
+    //this.shooter = shooter;
     camera = new Camera();
     lLcam = new LimelightCam();
+
+    configureButtonBindings();
   }
 
   /**
@@ -62,7 +64,7 @@ public class RobotContainer {
     buttonB.whenPressed(new LimelightSteering(lLcam, swerveDrive, buttonB));
     buttonY.whenPressed(new LimelightDistance(lLcam, swerveDrive, buttonY));
     // Conveyor
-    lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));
+    //lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));
   }
 
   /**
