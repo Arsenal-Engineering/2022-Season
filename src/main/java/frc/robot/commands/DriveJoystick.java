@@ -35,7 +35,7 @@ public class DriveJoystick extends CommandBase {
   @Override
   public void execute() {
     
-    double x1 = -joystick.getLeftX();
+    double x1 = -joystick.getLeftX(); //X-axis on robot is flipped, new_y1 and new_x1 are also adjusted as needed
     double y1 = -joystick.getLeftY();
     double rad = navX.getYaw() * Math.PI / 180;
     double new_y1 = y1 * Math.cos(rad) + x1 * -1 * Math.sin(rad);
