@@ -51,13 +51,6 @@ public class RobotContainer {
     bR = new WheelDrive("BR", 8, 4, 15, 0.00, 20, 1023, true);
     swerveDrive = new SwerveDrive(bR, bL, fR, fL, 27.0, 21.0);
     cam = new LimelightCam();
-    subsystemList = new SubsystemBase[6];
-    subsystemList[0] = swerveDrive;
-    subsystemList[1] = fL;
-    subsystemList[2] = fR;
-    subsystemList[3] = bL;
-    subsystemList[4] = bR;
-    subsystemList[5] = cam;
  
     driveJoystick = new DriveJoystick(swerveDrive, joystick);
  
