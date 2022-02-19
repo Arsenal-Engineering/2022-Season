@@ -9,16 +9,20 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.*;
 
+import com.kauailabs.navx.frc.AHRS;
+
 public class DriveJoystick extends CommandBase {
   /** Creates a new DriveJoystick. */
 
   private SwerveDrive swerveDrive;
   private XboxController joystick;
+  private AHRS navX;
 
   public DriveJoystick(SubsystemBase subsystem, XboxController joystick, SwerveDrive swerveDrive) {
     addRequirements(subsystem);
     this.swerveDrive = swerveDrive;
     this.joystick = joystick;
+    navX = new AHRS(edu.wpi.first.wpilibj.SPI.Port.kMXP);
 
   }
 
@@ -30,7 +34,17 @@ public class DriveJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    swerveDrive.drive(joystick.getLeftX(), joystick.getLeftY(), joystick.getRightX());
+    /*
+    //assumes y1 is backwards
+    double x1 = joystick.getLeftX();
+    double y1 = joystick.getLeftY();
+    double rad = navX.getYaw() * Math.PI / 180;
+    double new_y1 = y1 * -1 * Math.cos(rad) + x1 * Math.sin(rad);
+    double new_x1 = y1 * Math.sin(rad) + x1 * Math.cos(rad);
+    System.out.println(navX.getYaw());
+    */
+    //adjusts for field oriented control
+    swerveDrive.drive(joystick.getLeftX(), -joystick.getLeftY(), -joystick.getRightX());
   }
 
   // Called once the command ends or is interrupted.

@@ -99,11 +99,14 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    m_robotContainer.driveJoystick.schedule();
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    // m_robotContainer.driveJoystick.schedule();
   }
 
   @Override
@@ -111,7 +114,7 @@ public class Robot extends TimedRobot {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
 
-    m_robotContainer.driveJoystick.schedule();
+    // m_robotContainer.driveJoystick.schedule();
   }
 
   /** This function is called periodically during test mode. */

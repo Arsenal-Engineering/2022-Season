@@ -32,6 +32,7 @@ public class RobotContainer {
   private final WheelDrive bR;
   public final DriveJoystick driveJoystick;
   private final Conveyer conveyer;
+  private final Camera cam;
   private final SubsystemBase[] subsystemList;
 
   /**
@@ -42,20 +43,22 @@ public class RobotContainer {
     configureButtonBindings();
     joystick = controller;
 
-    fL = new WheelDrive("FL", Constants.SPEEDMOTOR_FL, Constants.ANGLEMOTOR_FL, 15, 0.00, 2000, 1023, true);
+    fL = new WheelDrive("FL", Constants.SPEEDMOTOR_FL, Constants.ANGLEMOTOR_FL, 15, 0.00, 2000, 1023, false);
     fR = new WheelDrive("FR", Constants.SPEEDMOTOR_FR, Constants.ANGLEMOTOR_FR, 15, 0.00, 20, 1023, true);
-    bL = new WheelDrive("BL", Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, 15, 0.00, 2000, 1023, true);
+    bL = new WheelDrive("BL", Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, 15, 0.00, 2000, 1023, false);
     bR = new WheelDrive("BR", Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, 15, 0.00, 20, 1023, true);
-    swerveDrive = new SwerveDrive(bR, bL, fR, fL, 27.0, 21.0);
+    swerveDrive = new SwerveDrive(bR, bL, fR, fL, 26.0, 22.0);
     conveyer = new Conveyer();
+    cam = new Camera();
 
-    subsystemList = new SubsystemBase[7];
+    subsystemList = new SubsystemBase[8];
       subsystemList[0] = swerveDrive;
       subsystemList[1] = fL;
       subsystemList[2] = fR;
       subsystemList[3] = bL;
       subsystemList[4] = bR;
       subsystemList[6] = conveyer;
+      subsystemList[7] = cam;
 
     driveJoystick = new DriveJoystick(subsystemList[0], joystick, swerveDrive);
   }
