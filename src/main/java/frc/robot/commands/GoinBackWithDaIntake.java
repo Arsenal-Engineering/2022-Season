@@ -5,21 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.*;
 
-public class DriveJoystick extends CommandBase {
-  /** Creates a new DriveJoystick. */
+public class GoinBackWithDaIntake extends CommandBase {
+  /** Creates a new ControlConveyor. */
+  private Conveyor conveyor;
 
-  private SwerveDrive swerveDrive;
-  private XboxController joystick;
-
-  public DriveJoystick(XboxController joystick, SwerveDrive swerveDrive) {
-
-    addRequirements(swerveDrive);
-    this.swerveDrive = swerveDrive;
-    this.joystick = joystick;
-
+  public GoinBackWithDaIntake(Conveyor conveyor) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(conveyor);
+    this.conveyor = conveyor;
   }
 
   // Called when the command is initially scheduled.
@@ -30,7 +25,7 @@ public class DriveJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    swerveDrive.drive(joystick.getLeftX(), joystick.getLeftY(), joystick.getRightX());
+    conveyor.setConveyor(-0.5);
   }
 
   // Called once the command ends or is interrupted.
