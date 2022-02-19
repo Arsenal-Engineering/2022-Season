@@ -24,15 +24,11 @@ import frc.robot.commands.*;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private XboxController joystick;
- 
   private final SwerveDrive swerveDrive;
- 
   public final LimelightCam cam;
- 
   public final DriveJoystick driveJoystick;
- 
   private JoystickButton buttonB, buttonY, lBumper;
-
+  private final Camera camera;
   private final Conveyor conveyor;
   private final Shooter shooter;
 
@@ -48,13 +44,11 @@ public class RobotContainer {
  
     buttonB = new JoystickButton(joystick, 1);
     buttonY = new JoystickButton(joystick, 3);
-
     this.swerveDrive = swerveDrive;
     this.conveyor = conveyor;
     this.shooter = shooter;
-    
+    camera = new Camera();
     cam = new LimelightCam();
-
     lBumper = new JoystickButton(joystick, 4);
   }
  
