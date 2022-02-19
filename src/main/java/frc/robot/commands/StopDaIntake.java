@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.*;
 
@@ -11,25 +12,17 @@ import frc.robot.subsystems.*;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class NoMoPewPew extends InstantCommand {
+public class StopDaIntake extends InstantCommand {
   private Conveyor conveyor;
-  private Shooter shooter;
 
-  /**
-   * Creates a new NoMoPewPew. :(
-   */
-
-  public NoMoPewPew(Conveyor conveyor, Shooter shooter) {
-    addRequirements(shooter);
+  public StopDaIntake(Conveyor conveyor) {
     addRequirements(conveyor);
     this.conveyor = conveyor;
-    this.shooter = shooter;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setShooter(0);
     conveyor.setConveyor(0);
   }
 }

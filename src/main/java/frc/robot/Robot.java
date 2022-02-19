@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import frc.robot.Constants;
+import static frc.robot.Constants.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,22 +26,23 @@ import frc.robot.Constants;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
+  private XboxController joystick;
+
+  private Timer timer;
+
+  private Conveyor conveyor;
+  private Shooter shooter;
+  private SwerveDrive swerveDrive;
+
+  private NoMoPewPew noMoPewPew;
+  private DoDaPewPew doDaPewPew;
+  private ChillinWithDaIntake chillinWithDaIntake;
+  private StopDaIntake stopDaIntake;
+  private DriveJoystick driveJoystick;
+  private DriveAuto driveBack;
+  private DriveAuto driveForward;
+
   private RobotContainer m_robotContainer;
-
-  private final XboxController joystick = new XboxController(0);
-
-  private final Timer timer = new Timer();
-
-  private final Conveyor conveyor = new Conveyor(Constants.CONVEYOR_TOP, Constants.CONVEYOR_BOT);
-  private final Shooter shooter = new Shooter(Constants.SHOOTER);
-  private final SwerveDrive swerveDrive = new SwerveDrive(27.0, 21.0);
-
-  private final NoMoPewPew noMoPewPew = new NoMoPewPew(conveyor, shooter);
-  private final DoDaPewPew doDaPewPew = new DoDaPewPew(conveyor, shooter);
-  private final ChillinWithDaIntake chillinWithDaIntake = new ChillinWithDaIntake(conveyor);
-  private final DriveJoystick driveJoystick = new DriveJoystick(joystick, swerveDrive);
-  private final DriveAuto driveBack = new DriveAuto(0, -1, 0, swerveDrive);
-  private final DriveAuto driveForward = new DriveAuto(0, 1, 0, swerveDrive);
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -50,11 +51,29 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    System.out.println(1);
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer(joystick, swerveDrive, conveyor, shooter);
+    joystick = new XboxController(0);
 
+    timer = new Timer();
+
+    //conveyor = new Conveyor(CONVEYOR_TOP, CONVEYOR_BOT);
+    //shooter = new Shooter(SHOOTER);
+    swerveDrive = new SwerveDrive(27.0, 21.0);
+
+    //noMoPewPew = new NoMoPewPew(conveyor, shooter);
+    //doDaPewPew = new DoDaPewPew(conveyor, shooter);
+    //chillinWithDaIntake = new ChillinWithDaIntake(conveyor);
+    //stopDaIntake = new StopDaIntake(conveyor);
+    driveJoystick = new DriveJoystick(joystick, swerveDrive);
+    driveBack = new DriveAuto(0, -1, 0, swerveDrive);
+    driveForward = new DriveAuto(0, 1, 0, swerveDrive);
+
+    m_robotContainer = new RobotContainer(joystick, swerveDrive/*, conveyor, shooter*/);
+
+    System.out.println(2);
   }
 
   /**
@@ -111,12 +130,15 @@ public class Robot extends TimedRobot {
     if (timer.get() < 2) {
       doDaPewPew.schedule();
     } else if (timer.get() < 0/* Insert Value Here */) {
+      noMoPewPew.schedule();
       driveBack.schedule();
       chillinWithDaIntake.schedule();
     } else if (timer.get() < 0/* Insert Value Here */) {
       driveForward.schedule();
     } else if (timer.get() < 0/* Insert Value Here */) {
       doDaPewPew.schedule();
+    } else if (timer.get() < 0/* Insert Value Here */) {
+      noMoPewPew.schedule();
     } else {
       timer.stop();
     }
@@ -132,7 +154,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     driveJoystick.schedule();
-    chillinWithDaIntake.schedule();
+    //chillinWithDaIntake.schedule();
   }
 
   /** This function is called periodically during operator control. */
@@ -140,11 +162,12 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     driveJoystick.schedule();
     if (joystick.getRightTriggerAxis() > .5) {
-      doDaPewPew.schedule();
+      //doDaPewPew.schedule();
     } else if (joystick.getLeftTriggerAxis() > .5) {
-      chillinWithDaIntake.schedule();
+      //chillinWithDaIntake.schedule();
     } else {
-      noMoPewPew.schedule();
+      //noMoPewPew.schedule();
+      //stopDaIntake.schedule();
     }
   }
 
