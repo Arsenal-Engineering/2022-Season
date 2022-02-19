@@ -1,17 +1,17 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
+ 
 package frc.robot;
-
+ 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
-
+ 
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -24,56 +24,49 @@ import frc.robot.commands.*;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private XboxController joystick;
-
   private final SwerveDrive swerveDrive;
-  private final WheelDrive fL;
-  private final WheelDrive fR;
-  private final WheelDrive bL;
-  private final WheelDrive bR;
+  public final LimelightCam cam;
   public final DriveJoystick driveJoystick;
-  private final Conveyer conveyer;
-  private final Camera cam;
-  private final SubsystemBase[] subsystemList;
+  private JoystickButton buttonB, buttonY, lBumper;
+  private final Camera camera;
+  private final Conveyor conveyor;
+  private final Shooter shooter;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-  public RobotContainer(XboxController controller) {
+  public RobotContainer(XboxController controller, SwerveDrive swerveDrive, Conveyor conveyor, Shooter shooter) {
     // Configure the button bindings
     configureButtonBindings();
     joystick = controller;
-
-    fL = new WheelDrive("FL", Constants.SPEEDMOTOR_FL, Constants.ANGLEMOTOR_FL, 15, 0.00, 2000, 1023, false);
-    fR = new WheelDrive("FR", Constants.SPEEDMOTOR_FR, Constants.ANGLEMOTOR_FR, 15, 0.00, 20, 1023, true);
-    bL = new WheelDrive("BL", Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, 15, 0.00, 2000, 1023, false);
-    bR = new WheelDrive("BR", Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, 15, 0.00, 20, 1023, true);
-    swerveDrive = new SwerveDrive(bR, bL, fR, fL, 26.0, 22.0);
-    conveyer = new Conveyer();
-    cam = new Camera();
-
-    subsystemList = new SubsystemBase[8];
-      subsystemList[0] = swerveDrive;
-      subsystemList[1] = fL;
-      subsystemList[2] = fR;
-      subsystemList[3] = bL;
-      subsystemList[4] = bR;
-      subsystemList[6] = conveyer;
-      subsystemList[7] = cam;
-
-    driveJoystick = new DriveJoystick(subsystemList[0], joystick, swerveDrive);
+ 
+    driveJoystick = new DriveJoystick(swerveDrive, joystick);
+ 
+    buttonB = new JoystickButton(joystick, 1);
+    buttonY = new JoystickButton(joystick, 3);
+    this.swerveDrive = swerveDrive;
+    this.conveyor = conveyor;
+    this.shooter = shooter;
+    camera = new Camera();
+    cam = new LimelightCam();
+    lBumper = new JoystickButton(joystick, 4);
   }
-
+ 
   /**
    * Use this method to define your button->command mappings. Buttons can be
    * created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
-   * it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   * it to a {@linkedu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    //Limelight
+    buttonB.whenPressed(new LimelightSteering(cam, swerveDrive, buttonB));
+    buttonY.whenPressed(new LimelightDistance(cam, swerveDrive, buttonY));
+    //Conveyor
+    lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));
   }
-
+ 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
