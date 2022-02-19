@@ -5,28 +5,35 @@
 package frc.robot;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants
+ * should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    //ID for angle motors
+    // ID for angle motors
     public final static int ANGLEMOTOR_FL = 1;
     public final static int ANGLEMOTOR_FR = 2;
     public final static int ANGLEMOTOR_BL = 3;
     public final static int ANGLEMOTOR_BR = 4;
 
-    //ID for speed motors
+    // ID for speed motors
 
     public final static int SPEEDMOTOR_FL = 5;
     public final static int SPEEDMOTOR_FR = 6;
     public final static int SPEEDMOTOR_BL = 7;
     public final static int SPEEDMOTOR_BR = 8;
 
-    //ID for conveyor motors
+    // ID for conveyor motors
     public final static int CONVEYOR_TOP = 9;
     public final static int CONVEYOR_BOT = 10;
+
+    // ID for Shooter Motors
+    public final static int SHOOTER = 11;
 }

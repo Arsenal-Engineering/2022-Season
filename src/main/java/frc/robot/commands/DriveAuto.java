@@ -5,20 +5,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.*;
 
-public class DriveJoystick extends CommandBase {
+public class DriveAuto extends CommandBase {
   /** Creates a new DriveJoystick. */
 
   private SwerveDrive swerveDrive;
-  private XboxController joystick;
+  private int x1,y1,x2;
 
-  public DriveJoystick(XboxController joystick, SwerveDrive swerveDrive) {
+  public DriveAuto(int x1, int y1, int x2, SwerveDrive swerveDrive) {
     addRequirements(swerveDrive);
     this.swerveDrive = swerveDrive;
-    this.joystick = joystick;
-
+    this.x1 = x1;
+    this.y1 = y1;
+    this.x2 = x2;
   }
 
   // Called when the command is initially scheduled.
@@ -29,7 +29,7 @@ public class DriveJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    swerveDrive.drive(joystick.getLeftX(), joystick.getLeftY(), joystick.getRightX());
+    swerveDrive.drive(x1, y1, x2);
   }
 
   // Called once the command ends or is interrupted.
