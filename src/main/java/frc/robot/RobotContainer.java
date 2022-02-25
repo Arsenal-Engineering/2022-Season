@@ -24,30 +24,42 @@ import frc.robot.commands.*;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private XboxController joystick;
-  private JoystickButton buttonB, buttonY, lBumper;
+  private JoystickButton buttonB, buttonY, lBumper, buttonA;
 
   private final SwerveDrive swerveDrive;
   //private final Conveyor conveyor;
   //private final Shooter shooter;
-  public final LimelightCam lLcam;
+  private final LimelightCam ballCam;
   private final Camera camera;
+  private final LimelightCam shooterCam;
+
+  private final DriveAuto driveBack;
+  private final ChillinWithDaIntake chillinWithDaIntake;
+  private final StopDaIntake stopDaIntake;
+
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-  public RobotContainer(XboxController controller, SwerveDrive swerveDrive/*, Conveyor conveyor, Shooter shooter*/) {
+  public RobotContainer(XboxController controller, SwerveDrive swerveDrive/*, Conveyor conveyor, Shooter shooter*/, DriveAuto driveBack, ChillinWithDaIntake chillinWithDaIntake, StopDaIntake stopDaIntake) {
       System.out.println(3);
     // Configure the button bindings
     joystick = controller;
     buttonB = new JoystickButton(joystick, 1);
     buttonY = new JoystickButton(joystick, 3);
+    buttonA = new JoystickButton(joystick, 0);
     lBumper = new JoystickButton(joystick, 4);
 
     this.swerveDrive = swerveDrive;
     //this.conveyor = conveyor;
     //this.shooter = shooter;
     camera = new Camera();
-    lLcam = new LimelightCam();
+    ballCam = new LimelightCam();
+    shooterCam = new LimelightCam();
+
+    this.driveBack = driveBack;
+    this.chillinWithDaIntake = chillinWithDaIntake;
+    this.stopDaIntake = stopDaIntake;
 
     configureButtonBindings();
   }
@@ -61,8 +73,9 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Limelight
-    buttonB.whenPressed(new LimelightSteering(lLcam, swerveDrive, buttonB));
-    buttonY.whenPressed(new LimelightDistance(lLcam, swerveDrive, buttonY));
+    buttonB.whenPressed(new LimelightSteering(shooterCam, swerveDrive, buttonB));
+    buttonY.whenPressed(new LimelightDistance(shooterCam, swerveDrive, buttonY));
+    buttonA.whenPressed(new TheftOfABall(ballCam, swerveDrive, buttonA, driveBack, chillinWithDaIntake, stopDaIntake));
     // Conveyor
     //lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));
   }

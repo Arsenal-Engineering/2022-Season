@@ -26,6 +26,7 @@ public class LimelightSteering extends CommandBase {
   public LimelightSteering(LimelightCam cam, SwerveDrive swerveDrive, JoystickButton buttonB) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(cam);
+    addRequirements(swerveDrive);
     this.cam = cam;
     Kp = -0.03;
     min_command = 0.05;

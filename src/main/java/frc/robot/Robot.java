@@ -59,19 +59,19 @@ public class Robot extends TimedRobot {
 
     timer = new Timer();
 
-    //conveyor = new Conveyor(CONVEYOR_TOP, CONVEYOR_BOT);
-    //shooter = new Shooter(SHOOTER);
+    // conveyor = new Conveyor(CONVEYOR_TOP, CONVEYOR_BOT);
+    // shooter = new Shooter(SHOOTER);
     swerveDrive = new SwerveDrive(27.0, 21.0);
 
-    //noMoPewPew = new NoMoPewPew(conveyor, shooter);
-    //doDaPewPew = new DoDaPewPew(conveyor, shooter);
-    //chillinWithDaIntake = new ChillinWithDaIntake(conveyor);
-    //stopDaIntake = new StopDaIntake(conveyor);
+    // noMoPewPew = new NoMoPewPew(conveyor, shooter);
+    // doDaPewPew = new DoDaPewPew(conveyor, shooter);
+    // chillinWithDaIntake = new ChillinWithDaIntake(conveyor);
+    // stopDaIntake = new StopDaIntake(conveyor);
     driveJoystick = new DriveJoystick(joystick, swerveDrive);
     driveBack = new DriveAuto(0, -1, 0, swerveDrive);
     driveForward = new DriveAuto(0, 1, 0, swerveDrive);
 
-    m_robotContainer = new RobotContainer(joystick, swerveDrive/*, conveyor, shooter*/);
+    m_robotContainer = new RobotContainer(joystick, swerveDrive/* , conveyor, shooter */, driveBack, chillinWithDaIntake, stopDaIntake);
 
     System.out.println(2);
   }
@@ -131,10 +131,12 @@ public class Robot extends TimedRobot {
       doDaPewPew.schedule();
     } else if (timer.get() < 0/* Insert Value Here */) {
       noMoPewPew.schedule();
+    } else if (timer.get() < 0/* Insert Value Here */) {
       driveBack.schedule();
-      chillinWithDaIntake.schedule();
+      chillinWithDaIntake.schedule();     
     } else if (timer.get() < 0/* Insert Value Here */) {
       driveForward.schedule();
+      stopDaIntake.schedule();
     } else if (timer.get() < 0/* Insert Value Here */) {
       doDaPewPew.schedule();
     } else if (timer.get() < 0/* Insert Value Here */) {
@@ -154,7 +156,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     driveJoystick.schedule();
-    //chillinWithDaIntake.schedule();
+    // chillinWithDaIntake.schedule();
   }
 
   /** This function is called periodically during operator control. */
@@ -162,12 +164,12 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     driveJoystick.schedule();
     if (joystick.getRightTriggerAxis() > .5) {
-      //doDaPewPew.schedule();
+      // doDaPewPew.schedule();
     } else if (joystick.getLeftTriggerAxis() > .5) {
-      //chillinWithDaIntake.schedule();
+      // chillinWithDaIntake.schedule();
     } else {
-      //noMoPewPew.schedule();
-      //stopDaIntake.schedule();
+      // noMoPewPew.schedule();
+      // stopDaIntake.schedule();
     }
   }
 
