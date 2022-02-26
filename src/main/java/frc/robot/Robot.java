@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Timer;
 
 import frc.robot.commands.*;
@@ -72,8 +73,6 @@ public class Robot extends TimedRobot {
     driveForward = new DriveAuto(0, 1, 0, swerveDrive);
 
     m_robotContainer = new RobotContainer(joystick, swerveDrive/*, conveyor, shooter*/);
-
-    System.out.println(2);
   }
 
   /**
@@ -155,6 +154,8 @@ public class Robot extends TimedRobot {
     }
     driveJoystick.schedule();
     //chillinWithDaIntake.schedule();
+    timer.reset();
+    timer.start();
   }
 
   /** This function is called periodically during operator control. */
@@ -169,6 +170,23 @@ public class Robot extends TimedRobot {
       //noMoPewPew.schedule();
       //stopDaIntake.schedule();
     }
+
+    if (timer.get() < .2) {
+      joystick.setRumble(RumbleType.kLeftRumble, 0.9);
+      joystick.setRumble(RumbleType.kRightRumble, 0.9);
+    } else if (timer.get() < .3) {
+      joystick.setRumble(RumbleType.kLeftRumble, 0.0);
+      joystick.setRumble(RumbleType.kRightRumble, 0.0);
+    } else if (timer.get() < .4) {
+      joystick.setRumble(RumbleType.kLeftRumble, 0.9);
+      joystick.setRumble(RumbleType.kRightRumble, 0.9);
+    } else if (timer.get() < .6) {
+      joystick.setRumble(RumbleType.kLeftRumble, 0.0);
+      joystick.setRumble(RumbleType.kRightRumble, 0.0);
+    } else {
+      timer.stop();
+    }
+
   }
 
   @Override

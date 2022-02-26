@@ -40,10 +40,10 @@ public class DriveJoystick extends CommandBase {
     double rad = navX.getYaw() * Math.PI / 180;
     double new_y1 = y1 * Math.cos(rad) + x1 * -1 * Math.sin(rad);
     double new_x1 = y1 * Math.sin(rad) + x1 * Math.cos(rad);
-    System.out.format("%f (%f, %f) => (%f, %f)\n", navX.getYaw(), x1, y1, new_x1, new_y1);
+    // System.out.format("%f (%f, %f) => (%f, %f)\n", navX.getYaw(), x1, y1, new_x1, new_y1);
     
     //adjusts for field oriented control
-    swerveDrive.drive(new_x1, new_y1, joystick.getRightX());
+    swerveDrive.drive(new_x1, new_y1, -joystick.getRightX());
   }
 
   // Called once the command ends or is interrupted.

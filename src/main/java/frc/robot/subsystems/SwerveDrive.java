@@ -23,11 +23,10 @@ public class SwerveDrive extends SubsystemBase {
     L_over_R = length / r;
     W_over_R = width / r;
 
-    fL = new WheelDrive("FL", Constants.SPEEDMOTOR_FL, Constants.ANGLEMOTOR_FL, 15, 0.00, 2000, 1023, false);
-    fR = new WheelDrive("FR", Constants.SPEEDMOTOR_FR, Constants.ANGLEMOTOR_FR, 15, 0.00, 20, 1023, true);
-    bL = new WheelDrive("BL", Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, 20, 0.00, 20, 1023, false);
-    bR = new WheelDrive("BR", Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, 15, 0.00, 20, 1023, true);
-
+    bL = new WheelDrive("FL", Constants.SPEEDMOTOR_FL, Constants.ANGLEMOTOR_FL, 10, 0.00, 20, 1023, true); //ACTUALLY WHEEL BR
+    bR = new WheelDrive("FR", Constants.SPEEDMOTOR_FR, Constants.ANGLEMOTOR_FR, 15, 0.00, 20, 1023, false); //ACTUALLY WHEEL BL
+    fL = new WheelDrive("BL", Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, 13, 0.00, 20, 1023, true); //ACTUALLY WHEEL FR
+    fR = new WheelDrive("BR", Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, 20, 0.00, 20, 1023, false); //ACTUALLY WHEEL FL
   }
 
   public void drive(double x1, double y1, double x2) {
@@ -46,10 +45,10 @@ public class SwerveDrive extends SubsystemBase {
 
       // Arg1 = Speed = Range of 0 to 1
       // Arg2 = Angle = Range of -1 to 1 (or multiply by 180 for angle)
-      bR.drive(Math.sqrt((a * a) + (d * d)), Math.atan2(a, d) / Math.PI);
-      bL.drive(Math.sqrt((a * a) + (c * c)), Math.atan2(a, c) / Math.PI);
-      fR.drive(Math.sqrt((b * b) + (d * d)), Math.atan2(b, d) / Math.PI);
-      fL.drive(Math.sqrt((b * b) + (c * c)), Math.atan2(b, c) / Math.PI);
+      bL.drive(Math.sqrt((a * a) + (d * d)), Math.atan2(a, d) / Math.PI);
+      bR.drive(Math.sqrt((a * a) + (c * c)), Math.atan2(a, c) / Math.PI);
+      fL.drive(Math.sqrt((b * b) + (d * d)), Math.atan2(b, d) / Math.PI);
+      fR.drive(Math.sqrt((b * b) + (c * c)), Math.atan2(b, c) / Math.PI);
     }
   }
 
