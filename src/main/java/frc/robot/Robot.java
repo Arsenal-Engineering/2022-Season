@@ -16,7 +16,7 @@ import frc.robot.subsystems.*;
 import static frc.robot.Constants.*;
 
 /**
- * The VM is configured to automatically run this class, and to call the
+ * The VM is configured to automatically run this c.lass, and to call the
  * functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the
  * name of this class or

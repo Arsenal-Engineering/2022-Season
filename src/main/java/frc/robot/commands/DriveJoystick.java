@@ -18,12 +18,10 @@ public class DriveJoystick extends CommandBase {
   private AHRS navX;
 
   public DriveJoystick(XboxController joystick, SwerveDrive swerveDrive) {
-
     addRequirements(swerveDrive);
     this.swerveDrive = swerveDrive;
     this.joystick = joystick;
     navX = new AHRS(edu.wpi.first.wpilibj.SPI.Port.kMXP);
-
   }
 
   // Called when the command is initially scheduled.
@@ -37,13 +35,15 @@ public class DriveJoystick extends CommandBase {
     
     double x1 = -joystick.getLeftX(); //X-axis on robot is flipped, new_y1 and new_x1 are also adjusted as needed
     double y1 = -joystick.getLeftY();
-    double rad = navX.getYaw() * Math.PI / 180;
-    double new_y1 = y1 * Math.cos(rad) + x1 * -1 * Math.sin(rad);
-    double new_x1 = y1 * Math.sin(rad) + x1 * Math.cos(rad);
-    // System.out.format("%f (%f, %f) => (%f, %f)\n", navX.getYaw(), x1, y1, new_x1, new_y1);
-    
-    //adjusts for field oriented control
-    swerveDrive.drive(new_x1, new_y1, -joystick.getRightX());
+
+    if (swerveDrive.getFieldOrientated()) {
+      double rad = navX.getYaw() * Math.PI / 180;
+      double new_y1 = y1 * Math.cos(rad) + x1 * -1 * Math.sin(rad);
+      double new_x1 = y1 * Math.sin(rad) + x1 * Math.cos(rad);
+      swerveDrive.drive(new_x1, new_y1, -joystick.getRightX());
+    } else {
+      swerveDrive.drive(-x1, -y1, -joystick.getRightX());
+    }
   }
 
   // Called once the command ends or is interrupted.

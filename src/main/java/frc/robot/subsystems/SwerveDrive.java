@@ -17,6 +17,8 @@ public class SwerveDrive extends SubsystemBase {
   private WheelDrive fR;
   private WheelDrive fL;
 
+  private boolean fieldOrientated;
+
   public SwerveDrive(double length, double width) {
 
     double r = Math.sqrt((length * length) + (width + width));
@@ -27,6 +29,8 @@ public class SwerveDrive extends SubsystemBase {
     bR = new WheelDrive("FR", Constants.SPEEDMOTOR_FR, Constants.ANGLEMOTOR_FR, 15, 0.00, 20, 1023, false); //ACTUALLY WHEEL BL
     fL = new WheelDrive("BL", Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, 13, 0.00, 20, 1023, true); //ACTUALLY WHEEL FR
     fR = new WheelDrive("BR", Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, 20, 0.00, 20, 1023, false); //ACTUALLY WHEEL FL
+
+    fieldOrientated = true;
   }
 
   public void drive(double x1, double y1, double x2) {
@@ -50,6 +54,14 @@ public class SwerveDrive extends SubsystemBase {
       fL.drive(Math.sqrt((b * b) + (d * d)), Math.atan2(b, d) / Math.PI);
       fR.drive(Math.sqrt((b * b) + (c * c)), Math.atan2(b, c) / Math.PI);
     }
+  }
+
+  public boolean getFieldOrientated() {
+    return fieldOrientated;
+  }
+
+  public void setFieldOrientated(boolean fieldOrientated) {
+    this.fieldOrientated = fieldOrientated;
   }
 
   @Override
