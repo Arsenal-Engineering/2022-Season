@@ -13,6 +13,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  
 public class LimelightCam extends SubsystemBase {
   NetworkTable table;
+  
  
   public LimelightCam() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
