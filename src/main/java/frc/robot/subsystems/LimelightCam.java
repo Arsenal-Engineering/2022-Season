@@ -34,4 +34,13 @@ public class LimelightCam extends SubsystemBase {
   public double getArea() {
     return table.getEntry("ta").getDouble(0.0);
   }
+
+  public void setPipe(boolean blue) {
+    if (blue) {
+      table.getEntry("pipeline").setNumber(0);
+    }
+    else {
+      table.getEntry("pipeline").setNumber(1);
+    }
+  }
 }
