@@ -27,6 +27,7 @@ public class LimelightDistance extends CommandBase {
   public LimelightDistance(LimelightCam cam, SwerveDrive swerveDrive, JoystickButton buttonY) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(cam);
+    addRequirements(swerveDrive);
     this.cam = cam;
     Kp = -0.1;
     min_command = 0.08;
