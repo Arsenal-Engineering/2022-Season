@@ -17,16 +17,13 @@ public class WheelDrive extends SubsystemBase {
   private WPI_TalonSRX angleMotor;
   private WPI_TalonSRX speedMotor;
   private int encoderTicks;
-  private boolean forward;
   private boolean debug;
   private String name;
 
-  public WheelDrive(String name, int speedMotorID, int angleMotorID, double kP, double kI, double kD, int encoderTicks,
-      boolean forward) {
+  public WheelDrive(String name, int speedMotorID, int angleMotorID, double kP, double kI, double kD, int encoderTicks, boolean debug) {
     this.name = name;
     this.encoderTicks = encoderTicks;
-    this.forward = forward;
-    this.debug = false;
+    this.debug = debug;
 
     angleMotor = new WPI_TalonSRX(angleMotorID);
     speedMotor = new WPI_TalonSRX(speedMotorID);
@@ -48,14 +45,10 @@ public class WheelDrive extends SubsystemBase {
     // You should never have to move your swerve > 90 degrees. Just move the other
     // way an flip the motor speed.
     // Courtesy of 2481
-    // if (Math.abs(desirePos - actualPos) > (encoderTicks / 4) &&
-    // Math.abs(desirePos - actualPos) < (encoderTicks / 4 * 3)) {
-    // desirePos = (desirePos + (encoderTicks / 2)) % encoderTicks;
-    // speed = -speed;
-    // }
-
-    if (!forward) {
-      speed *= -1;
+    if (Math.abs(desirePos - actualPos) > (encoderTicks / 4) &&
+        Math.abs(desirePos - actualPos) < (encoderTicks / 4 * 3)) {
+      desirePos = (desirePos + (encoderTicks / 2)) % encoderTicks;
+      speed = -speed;
     }
 
     speedMotor.set(ControlMode.PercentOutput, speed / 2);
