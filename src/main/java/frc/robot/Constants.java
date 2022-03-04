@@ -36,4 +36,6 @@ public final class Constants {
 
     // ID for Shooter Motors
     public final static int SHOOTER = 11;
+
+    //public final static int COLOR_SWITCH = 12;
 }

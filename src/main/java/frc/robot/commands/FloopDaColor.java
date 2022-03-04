@@ -5,23 +5,25 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.subsystems.*;
-
+import frc.robot.subsystems.LimelightCam;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class StopDaIntake extends InstantCommand {
-  private Conveyor conveyor;
-
-  public StopDaIntake(Conveyor conveyor) {
-    addRequirements(conveyor);
-    this.conveyor = conveyor;
+public class FloopDaColor extends InstantCommand {
+  private LimelightCam ballCam;
+  private boolean blue;
+  public FloopDaColor(LimelightCam ballCam, boolean blue) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(ballCam);
+    this.ballCam = ballCam;
+    this.blue = blue;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    conveyor.setConveyor(0);
+    ballCam.setPipe(blue);
+    blue = !blue;
   }
 }

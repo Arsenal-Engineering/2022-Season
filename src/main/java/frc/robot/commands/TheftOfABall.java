@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Timer;
@@ -56,15 +55,12 @@ public class TheftOfABall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    limelightSteering.schedule();
     if (ta > 50.0) {
       chillinWithDaIntake.schedule();
     } else {
       stopDaIntake.schedule();
     }
-    if (timer.get() > 0.3333333333333333333) {
-      driveBack.schedule();
-    }
+    driveBack.schedule();
   }
 
   // Called once the command ends or is interrupted.
