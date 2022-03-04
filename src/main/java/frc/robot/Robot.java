@@ -8,6 +8,11 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Timer;
+
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
+import static frc.robot.Constants.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -21,9 +26,23 @@ import edu.wpi.first.wpilibj.XboxController;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
-  private RobotContainer m_robotContainer;
+  private XboxController joystick;
 
-  private final XboxController joystick = new XboxController(0);
+  private Timer timer;
+
+  private Conveyor conveyor;
+  private Shooter shooter;
+  private SwerveDrive swerveDrive;
+
+  private NoMoPewPew noMoPewPew;
+  private DoDaPewPew doDaPewPew;
+  private ChillinWithDaIntake chillinWithDaIntake;
+  private StopDaIntake stopDaIntake;
+  private DriveJoystick driveJoystick;
+  private DriveAuto driveBack;
+  private DriveAuto driveForward;
+
+  private RobotContainer m_robotContainer;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -32,11 +51,29 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    System.out.println(1);
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer(joystick);
+    joystick = new XboxController(0);
 
+    timer = new Timer();
+
+    // conveyor = new Conveyor(CONVEYOR_TOP, CONVEYOR_BOT);
+    // shooter = new Shooter(SHOOTER);
+    swerveDrive = new SwerveDrive(27.0, 21.0);
+
+    // noMoPewPew = new NoMoPewPew(conveyor, shooter);
+    // doDaPewPew = new DoDaPewPew(conveyor, shooter);
+    // chillinWithDaIntake = new ChillinWithDaIntake(conveyor);
+    // stopDaIntake = new StopDaIntake(conveyor);
+    driveJoystick = new DriveJoystick(joystick, swerveDrive);
+    driveBack = new DriveAuto(0, -1, 0, swerveDrive);
+    driveForward = new DriveAuto(0, 1, 0, swerveDrive);
+
+    m_robotContainer = new RobotContainer(joystick, swerveDrive/* , conveyor, shooter */, driveBack, chillinWithDaIntake, stopDaIntake);
+
+    System.out.println(2);
   }
 
   /**
@@ -83,11 +120,30 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+    timer.reset();
+    timer.start();
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    if (timer.get() < 2) {
+      doDaPewPew.schedule();
+    } else if (timer.get() < 0/* Insert Value Here */) {
+      noMoPewPew.schedule();
+    } else if (timer.get() < 0/* Insert Value Here */) {
+      driveBack.schedule();
+      chillinWithDaIntake.schedule();     
+    } else if (timer.get() < 0/* Insert Value Here */) {
+      driveForward.schedule();
+      stopDaIntake.schedule();
+    } else if (timer.get() < 0/* Insert Value Here */) {
+      doDaPewPew.schedule();
+    } else if (timer.get() < 0/* Insert Value Here */) {
+      noMoPewPew.schedule();
+    } else {
+      timer.stop();
+    }
   }
 
   @Override
@@ -99,19 +155,29 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    driveJoystick.schedule();
+    // chillinWithDaIntake.schedule();
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    driveJoystick.schedule();
+    if (joystick.getRightTriggerAxis() > .5) {
+      // doDaPewPew.schedule();
+    } else if (joystick.getLeftTriggerAxis() > .5) {
+      // chillinWithDaIntake.schedule();
+    } else {
+      // noMoPewPew.schedule();
+      // stopDaIntake.schedule();
+    }
   }
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-
-    m_robotContainer.driveJoystick.schedule();
+    driveJoystick.schedule();
   }
 
   /** This function is called periodically during test mode. */

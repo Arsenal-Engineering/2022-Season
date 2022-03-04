@@ -7,8 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 
@@ -24,40 +24,44 @@ import frc.robot.commands.*;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private XboxController joystick;
+  private JoystickButton buttonB, buttonY, lBumper, buttonA;
 
   private final SwerveDrive swerveDrive;
-  private final WheelDrive fL;
-  private final WheelDrive fR;
-  private final WheelDrive bL;
-  private final WheelDrive bR;
-  public final DriveJoystick driveJoystick;
-  private final Conveyer conveyer;
-  private final SubsystemBase[] subsystemList;
+  //private final Conveyor conveyor;
+  //private final Shooter shooter;
+  private final LimelightCam ballCam;
+  private final Camera camera;
+  private final LimelightCam shooterCam;
+
+  private final DriveAuto driveBack;
+  private final ChillinWithDaIntake chillinWithDaIntake;
+  private final StopDaIntake stopDaIntake;
+
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-  public RobotContainer(XboxController controller) {
+  public RobotContainer(XboxController controller, SwerveDrive swerveDrive/*, Conveyor conveyor, Shooter shooter*/, DriveAuto driveBack, ChillinWithDaIntake chillinWithDaIntake, StopDaIntake stopDaIntake) {
+      System.out.println(3);
     // Configure the button bindings
-    configureButtonBindings();
     joystick = controller;
+    buttonB = new JoystickButton(joystick, 1);
+    buttonY = new JoystickButton(joystick, 3);
+    buttonA = new JoystickButton(joystick, 0);
+    lBumper = new JoystickButton(joystick, 4);
 
-    fL = new WheelDrive("FL", Constants.SPEEDMOTOR_FL, Constants.ANGLEMOTOR_FL, 15, 0.00, 2000, 1023, true);
-    fR = new WheelDrive("FR", Constants.SPEEDMOTOR_FR, Constants.ANGLEMOTOR_FR, 15, 0.00, 20, 1023, true);
-    bL = new WheelDrive("BL", Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, 15, 0.00, 2000, 1023, true);
-    bR = new WheelDrive("BR", Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, 15, 0.00, 20, 1023, true);
-    swerveDrive = new SwerveDrive(bR, bL, fR, fL, 27.0, 21.0);
-    conveyer = new Conveyer();
+    this.swerveDrive = swerveDrive;
+    //this.conveyor = conveyor;
+    //this.shooter = shooter;
+    camera = new Camera();
+    ballCam = new LimelightCam();
+    shooterCam = new LimelightCam();
 
-    subsystemList = new SubsystemBase[7];
-      subsystemList[0] = swerveDrive;
-      subsystemList[1] = fL;
-      subsystemList[2] = fR;
-      subsystemList[3] = bL;
-      subsystemList[4] = bR;
-      subsystemList[6] = conveyer;
+    this.driveBack = driveBack;
+    this.chillinWithDaIntake = chillinWithDaIntake;
+    this.stopDaIntake = stopDaIntake;
 
-    driveJoystick = new DriveJoystick(subsystemList[0], joystick, swerveDrive);
+    configureButtonBindings();
   }
 
   /**
@@ -65,10 +69,15 @@ public class RobotContainer {
    * created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
-   * it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   * it to a {@linkedu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    // Limelight
+    buttonB.whenPressed(new LimelightSteering(shooterCam, swerveDrive, buttonB));
+    buttonY.whenPressed(new LimelightDistance(shooterCam, swerveDrive, buttonY));
+    buttonA.whenPressed(new TheftOfABall(ballCam, swerveDrive, buttonA, driveBack, chillinWithDaIntake, stopDaIntake));
+    // Conveyor
+    //lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));
   }
 
   /**

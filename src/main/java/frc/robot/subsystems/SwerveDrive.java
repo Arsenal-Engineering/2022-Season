@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class SwerveDrive extends SubsystemBase {
   /** Creates a new SwerveDrive. */
@@ -16,15 +17,17 @@ public class SwerveDrive extends SubsystemBase {
   private WheelDrive fR;
   private WheelDrive fL;
 
-  public SwerveDrive(WheelDrive bR, WheelDrive bL, WheelDrive fR, WheelDrive fL, double length, double width) {
-    this.bR = bR;
-    this.bL = bL;
-    this.fR = fR;
-    this.fL = fL;
+  public SwerveDrive(double length, double width) {
 
     double r = Math.sqrt((length * length) + (width + width));
     L_over_R = length / r;
     W_over_R = width / r;
+
+    fL = new WheelDrive("FL", Constants.SPEEDMOTOR_FL, Constants.ANGLEMOTOR_FL, 15, 0.00, 2000, 1023, false);
+    fR = new WheelDrive("FR", Constants.SPEEDMOTOR_FR, Constants.ANGLEMOTOR_FR, 15, 0.00, 20, 1023, true);
+    bL = new WheelDrive("BL", Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, 20, 0.00, 20, 1023, false);
+    bR = new WheelDrive("BR", Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, 15, 0.00, 20, 1023, true);
+
   }
 
   public void drive(double x1, double y1, double x2) {
