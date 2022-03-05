@@ -1,16 +1,18 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) FIRST and other WPILib contributors.                         */
+/* Open Source Software; you can modify and/or share it under the terms of    */
+/* the WPILib BSD license file in the root directory of this project.         */
+/*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Timer;
 
 public class TheftOfABall extends CommandBase {
-  /** Creates a new TheftOfABall. */
   Timer timer;
   double Kp;
   double min_command;
@@ -21,13 +23,12 @@ public class TheftOfABall extends CommandBase {
   DriveAuto driveBack;
   LimelightCam cam;
   ChillinWithDaIntake chillinWithDaIntake;
-  StopDaIntake stopDaIntake;
+  InstantCommand stopDaIntake;
   SwerveDrive swerveDrive;
   JoystickButton buttonA;
 
   public TheftOfABall(LimelightCam cam, SwerveDrive swerveDrive, JoystickButton buttonA, DriveAuto driveBack,
-      ChillinWithDaIntake chillinWithDaIntake, StopDaIntake stopDaIntake) {
-    // Use addRequirements() here to declare subsystem dependencies.
+      ChillinWithDaIntake chillinWithDaIntake, InstantCommand stopDaIntake) {
     addRequirements(cam);
     addRequirements(swerveDrive);
     timer = new Timer();
@@ -44,15 +45,13 @@ public class TheftOfABall extends CommandBase {
     limelightSteering = new LimelightSteering(cam, swerveDrive, buttonA);
     this.driveBack = driveBack;
   }
-
-  // Called when the command is initially scheduled.
+  
   @Override
   public void initialize() {
     timer.reset();
     timer.start();
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     limelightSteering.schedule();
@@ -66,12 +65,10 @@ public class TheftOfABall extends CommandBase {
     }
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;

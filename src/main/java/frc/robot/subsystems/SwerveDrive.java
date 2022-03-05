@@ -1,6 +1,8 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) FIRST and other WPILib contributors.                         */
+/* Open Source Software; you can modify and/or share it under the terms of    */
+/* the WPILib BSD license file in the root directory of this project.         */
+/*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
 
@@ -8,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class SwerveDrive extends SubsystemBase {
-  /** Creates a new SwerveDrive. */
   private double L_over_R;
   private double W_over_R;
 
@@ -53,7 +54,7 @@ public class SwerveDrive extends SubsystemBase {
       bL.drive(Math.sqrt((a * a) + (c * c)), Math.atan2(a, c) / Math.PI);
       fR.drive(Math.sqrt((b * b) + (d * d)), Math.atan2(b, d) / Math.PI);
       fL.drive(Math.sqrt((b * b) + (c * c)), Math.atan2(b, c) / Math.PI);
-      //Comparing to the documents we used, the left and right wheels are swapped because our x-axis is switched
+      //Comparing to the documents we used, the left and right wheels on our code are swapped because our x-axis is switched
     }
   }
 
