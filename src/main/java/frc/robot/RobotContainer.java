@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-//import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
@@ -26,7 +26,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private XboxController joystick;
   private JoystickButton buttonA, buttonB, buttonX, buttonY, lBumper, leftStickPush, rightStickPush;
-  //private DigitalInput colorSwitch;
+  private DigitalInput colorSwitch;
 
   private final SwerveDrive swerveDrive;
   //private final Conveyor conveyor;
@@ -44,7 +44,6 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer(XboxController controller, SwerveDrive swerveDrive/*, Conveyor conveyor, Shooter shooter*/, DriveAuto driveBack, ChillinWithDaIntake chillinWithDaIntake, StopDaIntake stopDaIntake) {
-      System.out.println(3);
     // Configure the button bindings
     joystick = controller;
     buttonA = new JoystickButton(joystick, 1);
@@ -55,7 +54,7 @@ public class RobotContainer {
     leftStickPush = new JoystickButton(joystick, 9);
     rightStickPush = new JoystickButton(joystick, 10);
 
-    //colorSwitch = new DigitalInput(Constants.COLOR_SWITCH);
+    colorSwitch = new DigitalInput(Constants.COLOR_SWITCH);
 
     this.swerveDrive = swerveDrive;
     //this.conveyor = conveyor;
@@ -86,7 +85,7 @@ public class RobotContainer {
     buttonB.whenPressed(new TheftOfABall(ballCam, swerveDrive, buttonB, driveBack, chillinWithDaIntake, stopDaIntake));
     //buttonX.whenPressed(new LimelightSteering(shooterCam, swerveDrive, buttonX));
     //buttonY.whenPressed(new LimelightDistance(shooterCam, swerveDrive, buttonY));
-    leftStickPush.whenPressed(new FloopDaColor(ballCam));
+    leftStickPush.whenPressed(new FloopDaColor(ballCam, colorSwitch));
     rightStickPush.whenPressed(new LimelightTestV(ballCam));
 
     // Conveyor

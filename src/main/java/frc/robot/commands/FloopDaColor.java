@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.LimelightCam;
 
@@ -12,20 +13,20 @@ import frc.robot.subsystems.LimelightCam;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class FloopDaColor extends InstantCommand {
   private LimelightCam ballCam;
-  private boolean blue;
+  private DigitalInput colorSwitch;
 
-  public FloopDaColor(LimelightCam ballCam) {
+  public FloopDaColor(LimelightCam ballCam, DigitalInput colorSwitch) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(ballCam);
     this.ballCam = ballCam;
-    blue = true;
+    this.colorSwitch = colorSwitch;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     int pipe;
-    if (blue) {
+    if (colorSwitch.get()) {
       pipe = 0;
       System.out.println("Limelight on blue team");
     } else {
@@ -33,6 +34,5 @@ public class FloopDaColor extends InstantCommand {
       System.out.println("Limelight on red team");
     }
     ballCam.setPipe(pipe);
-    blue = !blue;
   }
 }
