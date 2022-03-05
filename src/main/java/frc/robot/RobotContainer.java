@@ -79,6 +79,7 @@ public class RobotContainer {
     buttonA.whenPressed(new TheftOfABall(ballCam, swerveDrive, buttonA, driveBack, chillinWithDaIntake, stopDaIntake));
     // Conveyor
     // lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));
+    // lBumper.whenReleased(new StopDaIntake(conveyor));
     // Drive Mode
     back.whenPressed(new SetDriveMode(true, swerveDrive));
     start.whenPressed(new SetDriveMode(false, swerveDrive));
