@@ -25,10 +25,10 @@ public class SwerveDrive extends SubsystemBase {
     L_over_R = length / r;
     W_over_R = width / r;
 
-    bL = new WheelDrive("FL", Constants.SPEEDMOTOR_FL, Constants.ANGLEMOTOR_FL, 10, 0.00, 20, 1023, true); //ACTUALLY WHEEL BR
-    bR = new WheelDrive("FR", Constants.SPEEDMOTOR_FR, Constants.ANGLEMOTOR_FR, 15, 0.00, 20, 1023, false); //ACTUALLY WHEEL BL
-    fL = new WheelDrive("BL", Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, 13, 0.00, 20, 1023, true); //ACTUALLY WHEEL FR
-    fR = new WheelDrive("BR", Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, 20, 0.00, 20, 1023, false); //ACTUALLY WHEEL FL
+    bR = new WheelDrive("BR", Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, 10, 0.00, 20, 1023, true); //ACTUALLY WHEEL BR
+    bL = new WheelDrive("BL", Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, 15, 0.00, 20, 1023, false); //ACTUALLY WHEEL BL
+    fR = new WheelDrive("FR", Constants.SPEEDMOTOR_FR, Constants.ANGLEMOTOR_FR, 13, 0.00, 20, 1023, true); //ACTUALLY WHEEL FR
+    fL = new WheelDrive("FL", Constants.SPEEDMOTOR_FL, Constants.ANGLEMOTOR_FL, 20, 0.00, 20, 1023, false); //ACTUALLY WHEEL FL
 
     fieldOrientated = true;
   }
@@ -49,10 +49,11 @@ public class SwerveDrive extends SubsystemBase {
 
       // Arg1 = Speed = Range of 0 to 1
       // Arg2 = Angle = Range of -1 to 1 (or multiply by 180 for angle)
-      bL.drive(Math.sqrt((a * a) + (d * d)), Math.atan2(a, d) / Math.PI);
-      bR.drive(Math.sqrt((a * a) + (c * c)), Math.atan2(a, c) / Math.PI);
-      fL.drive(Math.sqrt((b * b) + (d * d)), Math.atan2(b, d) / Math.PI);
-      fR.drive(Math.sqrt((b * b) + (c * c)), Math.atan2(b, c) / Math.PI);
+      bR.drive(Math.sqrt((a * a) + (d * d)), Math.atan2(a, d) / Math.PI);
+      bL.drive(Math.sqrt((a * a) + (c * c)), Math.atan2(a, c) / Math.PI);
+      fR.drive(Math.sqrt((b * b) + (d * d)), Math.atan2(b, d) / Math.PI);
+      fL.drive(Math.sqrt((b * b) + (c * c)), Math.atan2(b, c) / Math.PI);
+      //Comparing to the documents we used, the left and right wheels are swapped because our x-axis is switched
     }
   }
 
@@ -62,6 +63,14 @@ public class SwerveDrive extends SubsystemBase {
 
   public void setFieldOrientated(boolean fieldOrientated) {
     this.fieldOrientated = fieldOrientated;
+  }
+
+  public void setBrakeMode(boolean brakeMode)
+  {
+    bR.setBreakMode(brakeMode);
+    bL.setBreakMode(brakeMode);
+    fR.setBreakMode(brakeMode);
+    fL.setBreakMode(brakeMode);
   }
 
   @Override

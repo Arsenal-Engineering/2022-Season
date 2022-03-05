@@ -18,17 +18,17 @@ package frc.robot;
  */
 public final class Constants {
     // ID for angle motors
-    public final static int ANGLEMOTOR_FL = 1;
-    public final static int ANGLEMOTOR_FR = 2;
-    public final static int ANGLEMOTOR_BL = 3;
-    public final static int ANGLEMOTOR_BR = 4;
+    public final static int ANGLEMOTOR_BR = 1;
+    public final static int ANGLEMOTOR_BL = 2;
+    public final static int ANGLEMOTOR_FR = 3;
+    public final static int ANGLEMOTOR_FL = 4;
 
     // ID for speed motors
 
-    public final static int SPEEDMOTOR_FL = 5;
-    public final static int SPEEDMOTOR_FR = 6;
-    public final static int SPEEDMOTOR_BL = 7;
-    public final static int SPEEDMOTOR_BR = 8;
+    public final static int SPEEDMOTOR_BR = 5;
+    public final static int SPEEDMOTOR_BL = 6;
+    public final static int SPEEDMOTOR_FR = 7;
+    public final static int SPEEDMOTOR_FL = 8;
 
     // ID for conveyor motors
     public final static int CONVEYOR_TOP = 9;

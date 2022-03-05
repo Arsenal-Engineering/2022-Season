@@ -66,6 +66,17 @@ public class WheelDrive extends SubsystemBase {
     angleMotor.set(ControlMode.PercentOutput, 0);
   }
 
+  public void setBreakMode(boolean breakMode) {
+    if (breakMode) {
+      speedMotor.setNeutralMode(NeutralMode.Brake);
+      angleMotor.setNeutralMode(NeutralMode.Brake);
+    }
+    else {
+      speedMotor.setNeutralMode(NeutralMode.Coast);
+      angleMotor.setNeutralMode(NeutralMode.Coast);
+    }
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

@@ -63,6 +63,7 @@ public class Robot extends TimedRobot {
     // conveyor = new Conveyor(CONVEYOR_TOP, CONVEYOR_BOT);
     // shooter = new Shooter(SHOOTER);
     swerveDrive = new SwerveDrive(27.0, 21.0);
+    swerveDrive.setBrakeMode(false);
 
     // noMoPewPew = new NoMoPewPew(conveyor, shooter);
     // doDaPewPew = new DoDaPewPew(conveyor, shooter);
@@ -101,6 +102,7 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
+    swerveDrive.setBrakeMode(false);
   }
 
   @Override
@@ -119,6 +121,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+    swerveDrive.setBrakeMode(true);
     timer.reset();
     timer.start();
   }
@@ -154,6 +157,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    swerveDrive.setBrakeMode(true);
     driveJoystick.schedule();
     //chillinWithDaIntake.schedule();
     timer.reset();
@@ -195,6 +199,7 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    swerveDrive.setBrakeMode(true);
     driveJoystick.schedule();
   }
 
