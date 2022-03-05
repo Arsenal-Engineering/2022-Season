@@ -10,29 +10,18 @@ import frc.robot.subsystems.LimelightCam;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class FloopDaColor extends InstantCommand {
-  private LimelightCam ballCam;
-  private boolean blue;
-
-  public FloopDaColor(LimelightCam ballCam) {
+public class LimelightTestV extends InstantCommand {
+  private LimelightCam cam;
+  
+  public LimelightTestV(LimelightCam cam) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(ballCam);
-    this.ballCam = ballCam;
-    blue = true;
+    addRequirements(cam);
+    this.cam = cam;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    int pipe;
-    if (blue) {
-      pipe = 0;
-      System.out.println("Limelight on blue team");
-    } else {
-      pipe = 1;
-      System.out.println("Limelight on red team");
-    }
-    ballCam.setPipe(pipe);
-    blue = !blue;
+    System.out.println("Limelight valid target: " + cam.getV());
   }
 }

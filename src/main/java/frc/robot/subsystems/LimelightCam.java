@@ -14,14 +14,18 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class LimelightCam extends SubsystemBase {
   NetworkTable table;
  
-  public LimelightCam() {
-    table = NetworkTableInstance.getDefault().getTable("limelight");
+  public LimelightCam(String camName) {
+    table = NetworkTableInstance.getDefault().getTable(camName);
   }
  
   @Override
   public void periodic() {
   }
 
+  public double getV() {
+    return table.getEntry("tv").getDouble(0.0);
+  }
+  
   public double getX() {
     return table.getEntry("tx").getDouble(0.0);
   }
@@ -34,13 +38,7 @@ public class LimelightCam extends SubsystemBase {
     return table.getEntry("ta").getDouble(0.0);
   }
 
-  public void setPipe(boolean blue) {
-    if (blue) {
-      table.getEntry("pipeline").setNumber(0);
-    }
-    else {
-      table.getEntry("pipeline").setNumber(1);
-    }
-    System.out.println(blue);
+  public void setPipe(int pipe) {
+    table.getEntry("pipeline").setNumber(pipe);
   }
 }

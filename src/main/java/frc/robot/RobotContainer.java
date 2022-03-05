@@ -25,16 +25,15 @@ import frc.robot.commands.*;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private XboxController joystick;
-  private JoystickButton buttonA, buttonB, buttonX, buttonY, lBumper, leftStickPush;
+  private JoystickButton buttonA, buttonB, buttonX, buttonY, lBumper, leftStickPush, rightStickPush;
   //private DigitalInput colorSwitch;
 
   private final SwerveDrive swerveDrive;
   //private final Conveyor conveyor;
   //private final Shooter shooter;
-  private final LimelightCam ballCam;
-  private boolean blue;
   private final Camera camera;
-  private final LimelightCam shooterCam;
+  //private final LimelightCam shooterCam;
+  private final LimelightCam ballCam;
 
   private final DriveAuto driveBack;
   private final ChillinWithDaIntake chillinWithDaIntake;
@@ -54,16 +53,18 @@ public class RobotContainer {
     buttonY = new JoystickButton(joystick, 4);
     lBumper = new JoystickButton(joystick, 5);
     leftStickPush = new JoystickButton(joystick, 9);
+    rightStickPush = new JoystickButton(joystick, 10);
 
     //colorSwitch = new DigitalInput(Constants.COLOR_SWITCH);
 
     this.swerveDrive = swerveDrive;
     //this.conveyor = conveyor;
     //this.shooter = shooter;
+
     camera = new Camera();
-    ballCam = new LimelightCam();
-    blue = true;
-    shooterCam = new LimelightCam();
+    //shooterCam = new LimelightCam("limelight-shooter");
+    ballCam = new LimelightCam("limelight-ball");
+
 
     this.driveBack = driveBack;
     this.chillinWithDaIntake = chillinWithDaIntake;
@@ -83,9 +84,10 @@ public class RobotContainer {
     // Limelight
     buttonA.whenPressed(new LimelightSteering(ballCam, swerveDrive, buttonA));
     buttonB.whenPressed(new TheftOfABall(ballCam, swerveDrive, buttonB, driveBack, chillinWithDaIntake, stopDaIntake));
-    buttonX.whenPressed(new LimelightSteering(shooterCam, swerveDrive, buttonX));
-    buttonY.whenPressed(new LimelightDistance(shooterCam, swerveDrive, buttonY));
-    leftStickPush.whenPressed(new FloopDaColor(ballCam, blue));
+    //buttonX.whenPressed(new LimelightSteering(shooterCam, swerveDrive, buttonX));
+    //buttonY.whenPressed(new LimelightDistance(shooterCam, swerveDrive, buttonY));
+    leftStickPush.whenPressed(new FloopDaColor(ballCam));
+    rightStickPush.whenPressed(new LimelightTestV(ballCam));
 
     // Conveyor
     //lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));

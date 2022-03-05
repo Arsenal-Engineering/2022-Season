@@ -45,7 +45,7 @@ public class LimelightSteering extends CommandBase {
   @Override
   public void execute() {
     tx = cam.getX();
- 
+    
     if (tx > 1.0)
     {
       steering_adjust = Kp*tx - min_command;
