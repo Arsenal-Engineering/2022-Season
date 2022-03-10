@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 
@@ -25,6 +26,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private XboxController joystick;
   private JoystickButton buttonA, buttonB, buttonX, buttonY;
+  private POVButton dPadUp, dPadDown;
 
   //Subsystems
   private final SubsystemBase[] subsystemList;
@@ -65,6 +67,8 @@ public class RobotContainer {
       buttonB = new JoystickButton(joystick, 2);
       buttonX = new JoystickButton(joystick, 3);
       buttonY = new JoystickButton(joystick, 4);
+      dPadUp = new POVButton(joystick, 0);
+      dPadDown = new POVButton(joystick, 180);
 
     configureButtonBindings();
   }
@@ -78,15 +82,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    buttonA.whenPressed(new MoveThyLify(-0.5, lift, Constants.LIMIT_SWITCH_BOT));
-    buttonB.whenPressed(new MoveThyLify(0.5, lift, Constants.LIMIT_SWITCH_TOP));
-    buttonX.whenPressed(new MoveThyLify(-1, lift, Constants.LIMIT_SWITCH_BOT));
-    buttonY.whenPressed(new MoveThyLify(1, lift, Constants.LIMIT_SWITCH_TOP));
+    dPadUp.whenPressed(new MoveThyLify(0.5, lift, Constants.LIMIT_SWITCH_TOP));
+    dPadDown.whenPressed(new MoveThyLify(-0.5, lift, Constants.LIMIT_SWITCH_BOT));
 
-    buttonA.whenReleased(new StopLift(lift));
-    buttonB.whenReleased(new StopLift(lift));
-    buttonX.whenReleased(new StopLift(lift));
-    buttonY.whenReleased(new StopLift(lift));
+    dPadUp.whenReleased(new StopLift(lift));
+    dPadDown.whenReleased(new StopLift(lift));
   }
 
   /**
