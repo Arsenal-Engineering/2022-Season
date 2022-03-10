@@ -26,10 +26,10 @@ public class SwerveDrive extends SubsystemBase {
     L_over_R = length / r;
     W_over_R = width / r;
 
-    bR = new WheelDrive("BR", Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, 10, 0.00, 20, 1023, true); //ACTUALLY WHEEL BR
-    bL = new WheelDrive("BL", Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, 15, 0.00, 20, 1023, false); //ACTUALLY WHEEL BL
-    fR = new WheelDrive("FR", Constants.SPEEDMOTOR_FR, Constants.ANGLEMOTOR_FR, 13, 0.00, 20, 1023, true); //ACTUALLY WHEEL FR
-    fL = new WheelDrive("FL", Constants.SPEEDMOTOR_FL, Constants.ANGLEMOTOR_FL, 20, 0.00, 20, 1023, false); //ACTUALLY WHEEL FL
+    bR = new WheelDrive("BR", Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, 10, 0.00, 20, 1023, true);
+    bL = new WheelDrive("BL", Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, 15, 0.00, 20, 1023, false);
+    fR = new WheelDrive("FR", Constants.SPEEDMOTOR_FR, Constants.ANGLEMOTOR_FR, 13, 0.00, 20, 1023, true);
+    fL = new WheelDrive("FL", Constants.SPEEDMOTOR_FL, Constants.ANGLEMOTOR_FL, 20, 0.00, 20, 1023, false);
 
     fieldOrientated = true;
   }
