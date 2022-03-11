@@ -33,6 +33,9 @@ public final class Constants {
     public final static int CONVEYOR_TOP = 9;
     public final static int CONVEYOR_BOT = 10;
 
+    // ID for shooter
+    public final static int SHOOTER = 11;
+
     //ID for lift motor
     public final static int LIFT = 12;
     public final static int LIMIT_SWITCH_TOP = 15;

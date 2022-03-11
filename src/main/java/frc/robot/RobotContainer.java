@@ -20,19 +20,23 @@ public class RobotContainer {
 
   ////SUBSYSTEMS
   private final SwerveDrive swerveDrive;
-  //private final Conveyor conveyor;
-  //private final Shooter shooter;
+  private final Conveyor conveyor;
+  private final Shooter shooter;
   private final LimelightCam ballCam;
   private final Camera camera;
   private final LimelightCam shooterCam;
 
   ////COMMANDS
   private final DriveAuto driveBack;
-  private final ChillinWithDaIntake chillinWithDaIntake;
-  private final InstantCommand stopDaIntake;
+  private final DriveAuto driveForward;
+  private final DriveJoystick driveJoystick;
+  private InstantCommand noMoPewPew;
+  private DoDaPewPew doDaPewPew;
+  private ChillinWithDaIntake chillinWithDaIntake;
+  private InstantCommand stopDaIntake;
 
-  public RobotContainer(XboxController controller, SwerveDrive swerveDrive/*, Conveyor conveyor, Shooter shooter*/, DriveAuto driveBack, ChillinWithDaIntake chillinWithDaIntake, InstantCommand stopDaIntake) {
-    joystick = controller;
+  public RobotContainer() {
+    joystick = new XboxController(0);
     buttonB = new JoystickButton(joystick, 2);
     buttonY = new JoystickButton(joystick, 4);
     buttonA = new JoystickButton(joystick, 1);
@@ -40,16 +44,22 @@ public class RobotContainer {
     back = new JoystickButton(joystick, 7);
     start = new JoystickButton(joystick, 8);
 
-    this.swerveDrive = swerveDrive;
-    //this.conveyor = conveyor;
-    //this.shooter = shooter;
+    swerveDrive = new SwerveDrive(27.0, 21.0);
+    swerveDrive.setBrakeMode(false);
+    conveyor = new Conveyor(Constants.CONVEYOR_TOP, Constants.CONVEYOR_BOT);
+    shooter = new Shooter(Constants.SHOOTER);
     camera = new Camera();
     ballCam = new LimelightCam();
     shooterCam = new LimelightCam();
 
-    this.driveBack = driveBack;
-    this.chillinWithDaIntake = chillinWithDaIntake;
-    this.stopDaIntake = stopDaIntake;
+    driveBack = new DriveAuto(0, -1, 0, swerveDrive);
+    driveForward = new DriveAuto(0, 1, 0, swerveDrive);
+    driveJoystick = new DriveJoystick(joystick, swerveDrive);
+
+    doDaPewPew = new DoDaPewPew(conveyor, shooter);
+    noMoPewPew = new InstantCommand(shooter::stopShooter, shooter);
+    chillinWithDaIntake = new ChillinWithDaIntake(conveyor);
+    stopDaIntake = new InstantCommand(conveyor::stopConveyor, conveyor);
 
     configureButtonBindings();
   }
@@ -61,12 +71,48 @@ public class RobotContainer {
     buttonA.whenPressed(new TheftOfABall(ballCam, swerveDrive, buttonA, driveBack, chillinWithDaIntake, stopDaIntake));
     
     // Conveyor
-    // lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));
-    // lBumper.whenReleased(new StopDaIntake(conveyor));
+    lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));
+    lBumper.whenReleased(stopDaIntake);
     
     // Drive Mode
     back.whenPressed(new SetDriveMode(true, swerveDrive));
     start.whenPressed(new SetDriveMode(false, swerveDrive));
+  }
+
+  public SwerveDrive getSwerveDrive() {
+    return swerveDrive;
+  }
+
+  public DriveAuto getDriveBack() {
+    return driveBack;
+  }
+
+  public DriveAuto getDriveForward() {
+    return driveForward;
+  }
+
+  public DriveJoystick getDriveJoystick() {
+    return driveJoystick;
+  }
+
+  public InstantCommand getStopDaIntake() {
+    return stopDaIntake;
+  }
+
+  public DoDaPewPew getDoDaPewPew() {
+    return doDaPewPew;
+  }
+
+  public InstantCommand getNoMoPewPew() {
+    return noMoPewPew;
+  }
+
+  public ChillinWithDaIntake getChillinWithDaIntake() {
+    return chillinWithDaIntake;
+  }
+
+  public XboxController getJoystick() {
+    return joystick;
   }
 
   public Command getAutonomousCommand() {
