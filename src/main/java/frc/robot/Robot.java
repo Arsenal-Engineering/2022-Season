@@ -45,6 +45,8 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private Rumble rumble;
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any
@@ -73,6 +75,8 @@ public class Robot extends TimedRobot {
     driveForward = new DriveAuto(0, 1, 0, swerveDrive);
 
     m_robotContainer = new RobotContainer(joystick, swerveDrive/*, conveyor, shooter*/, driveBack, chillinWithDaIntake, stopDaIntake);
+
+    rumble = new Rumble(joystick, 0.5, 1.0);
   }
 
   /**
@@ -173,18 +177,10 @@ public class Robot extends TimedRobot {
       // stopDaIntake.schedule();
     }
 
-    if (timer.get() < .2) {
-      joystick.setRumble(RumbleType.kLeftRumble, 0.9);
-      joystick.setRumble(RumbleType.kRightRumble, 0.9);
-    } else if (timer.get() < .3) {
-      joystick.setRumble(RumbleType.kLeftRumble, 0.0);
-      joystick.setRumble(RumbleType.kRightRumble, 0.0);
-    } else if (timer.get() < .4) {
-      joystick.setRumble(RumbleType.kLeftRumble, 0.9);
-      joystick.setRumble(RumbleType.kRightRumble, 0.9);
-    } else if (timer.get() < .6) {
-      joystick.setRumble(RumbleType.kLeftRumble, 0.0);
-      joystick.setRumble(RumbleType.kRightRumble, 0.0);
+    if (timer.get() < 1.0) {
+      rumble.schedule();
+    } else if (timer.get() < 2.0) {
+      rumble.schedule();
     } else {
       timer.stop();
     }
