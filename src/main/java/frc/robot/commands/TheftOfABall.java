@@ -12,37 +12,25 @@ import edu.wpi.first.wpilibj.Timer;
 public class TheftOfABall extends CommandBase {
   /** Creates a new TheftOfABall. */
   Timer timer;
-  double Kp;
-  double min_command;
-  double tx, ta;
-  double heading_error;
-  double steering_adjust;
-  LimelightSteering limelightSteering;
-  DriveAuto driveBack;
-  LimelightCam cam;
-  ChillinWithDaIntake chillinWithDaIntake;
-  StopDaIntake stopDaIntake;
-  SwerveDrive swerveDrive;
-  JoystickButton buttonA;
+  
+  private double ta;
 
-  public TheftOfABall(LimelightCam cam, SwerveDrive swerveDrive, JoystickButton buttonA, DriveAuto driveBack,
-      ChillinWithDaIntake chillinWithDaIntake, StopDaIntake stopDaIntake) {
+  private LimelightCam cam;
+  private ChillinWithDaIntake chillinWithDaIntake;
+  private StopDaIntake stopDaIntake;
+  private SwerveDrive swerveDrive;
+  private JoystickButton buttonA;
+
+  public TheftOfABall(LimelightCam cam, SwerveDrive swerveDrive, JoystickButton buttonA, ChillinWithDaIntake chillinWithDaIntake, StopDaIntake stopDaIntake) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(cam);
     addRequirements(swerveDrive);
     timer = new Timer();
     this.cam = cam;
-    Kp = -0.1;
-    min_command = 0.08;
-    tx = cam.getY();
     ta = cam.getArea();
-    heading_error = -tx;
-    steering_adjust = 0.0;
     this.chillinWithDaIntake = chillinWithDaIntake;
     this.swerveDrive = swerveDrive;
     this.buttonA = buttonA;
-    limelightSteering = new LimelightSteering(cam, swerveDrive, buttonA);
-    this.driveBack = driveBack;
   }
 
   // Called when the command is initially scheduled.
@@ -60,7 +48,7 @@ public class TheftOfABall extends CommandBase {
     } else {
       stopDaIntake.schedule();
     }
-    driveBack.schedule();
+    swerveDrive.drive(0, -1, 0);
   }
 
   // Called once the command ends or is interrupted.
