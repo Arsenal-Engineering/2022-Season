@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
@@ -80,8 +82,8 @@ public class RobotContainer {
     // Conveyor
     // lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));
     // Drive Mode
-    back.whenPressed(new SetDriveMode(true, swerveDrive, joystick));
-    start.whenPressed(new SetDriveMode(false, swerveDrive, joystick));
+    back.whenPressed(new ParallelCommandGroup(new Rumble(joystick, 1.0, 1.0), new InstantCommand(swerveDrive::setFieldOrientated)));
+    start.whenPressed(new ParallelCommandGroup(new Rumble(joystick, 1.0, 1.0), new InstantCommand(swerveDrive::setFieldOrientatedRegular)));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

@@ -60,8 +60,12 @@ public class SwerveDrive extends SubsystemBase {
     return fieldOrientated;
   }
 
-  public void setFieldOrientated(boolean fieldOrientated) {
-    this.fieldOrientated = fieldOrientated;
+  public void setFieldOrientated() {
+    fieldOrientated = true;
+  }
+  
+  public void setFieldOrientatedRegular() {
+    fieldOrientated = false;
   }
 
   @Override
