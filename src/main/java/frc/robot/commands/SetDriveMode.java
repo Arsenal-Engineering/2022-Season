@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.*;
 
@@ -13,16 +14,21 @@ import frc.robot.subsystems.*;
 public class SetDriveMode extends InstantCommand {
   private SwerveDrive swerveDrive;
   private boolean fieldOrientated;
+  private XboxController joystick;
 
-  public SetDriveMode(boolean fieldOrientated, SwerveDrive swerveDrive) {
+  private Rumble rumble = new Rumble(joystick, 1.0, 1.0);
+
+  public SetDriveMode(boolean fieldOrientated, SwerveDrive swerveDrive, XboxController joystick) {
     // do not put addRequirements for swerveDrive!!!
     this.swerveDrive = swerveDrive;
     this.fieldOrientated = fieldOrientated;
+    this.joystick = joystick;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     swerveDrive.setFieldOrientated(fieldOrientated);
+    rumble.schedule();
   }
 }

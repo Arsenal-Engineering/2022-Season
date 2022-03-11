@@ -44,10 +44,10 @@ public class RobotContainer {
       System.out.println(3);
     // Configure the button bindings
     joystick = controller;
-    buttonB = new JoystickButton(joystick, 1);
-    buttonY = new JoystickButton(joystick, 3);
-    buttonA = new JoystickButton(joystick, 0);
-    lBumper = new JoystickButton(joystick, 4);
+    buttonB = new JoystickButton(joystick, 2);
+    buttonY = new JoystickButton(joystick, 4);
+    buttonA = new JoystickButton(joystick, 1);
+    lBumper = new JoystickButton(joystick, 5);
     back = new JoystickButton(joystick, 7);
     start = new JoystickButton(joystick, 8);
 
@@ -80,10 +80,9 @@ public class RobotContainer {
     // Conveyor
     // lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));
     // Drive Mode
-    back.whenPressed(new SetDriveMode(true, swerveDrive));
-    start.whenPressed(new SetDriveMode(false, swerveDrive));
+    back.whenPressed(new SetDriveMode(true, swerveDrive, joystick));
+    start.whenPressed(new SetDriveMode(false, swerveDrive, joystick));
   }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
