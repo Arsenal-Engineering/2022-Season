@@ -1,6 +1,8 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) FIRST and other WPILib contributors.                         */
+/* Open Source Software; you can modify and/or share it under the terms of    */
+/* the WPILib BSD license file in the root directory of this project.         */
+/*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
 
@@ -8,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class SwerveDrive extends SubsystemBase {
-  /** Creates a new SwerveDrive. */
   private double L_over_R;
   private double W_over_R;
 
@@ -17,17 +18,20 @@ public class SwerveDrive extends SubsystemBase {
   private WheelDrive fR;
   private WheelDrive fL;
 
+  private boolean fieldOrientated;
+
   public SwerveDrive(double length, double width) {
 
     double r = Math.sqrt((length * length) + (width + width));
     L_over_R = length / r;
     W_over_R = width / r;
 
-    fL = new WheelDrive("FL", Constants.SPEEDMOTOR_FL, Constants.ANGLEMOTOR_FL, 15, 0.00, 2000, 1023, false);
-    fR = new WheelDrive("FR", Constants.SPEEDMOTOR_FR, Constants.ANGLEMOTOR_FR, 15, 0.00, 20, 1023, true);
-    bL = new WheelDrive("BL", Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, 20, 0.00, 20, 1023, false);
-    bR = new WheelDrive("BR", Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, 15, 0.00, 20, 1023, true);
+    bR = new WheelDrive("BR", Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, 10, 0.00, 20, 1023, true);
+    bL = new WheelDrive("BL", Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, 15, 0.00, 20, 1023, false);
+    fR = new WheelDrive("FR", Constants.SPEEDMOTOR_FR, Constants.ANGLEMOTOR_FR, 13, 0.00, 20, 1023, true);
+    fL = new WheelDrive("FL", Constants.SPEEDMOTOR_FL, Constants.ANGLEMOTOR_FL, 20, 0.00, 20, 1023, false);
 
+    fieldOrientated = true;
   }
 
   public void drive(double x1, double y1, double x2) {
@@ -50,7 +54,24 @@ public class SwerveDrive extends SubsystemBase {
       bL.drive(Math.sqrt((a * a) + (c * c)), Math.atan2(a, c) / Math.PI);
       fR.drive(Math.sqrt((b * b) + (d * d)), Math.atan2(b, d) / Math.PI);
       fL.drive(Math.sqrt((b * b) + (c * c)), Math.atan2(b, c) / Math.PI);
+      //Comparing to the documents we used, the left and right wheels on our code are swapped because our x-axis is switched
     }
+  }
+
+  public boolean getFieldOrientated() {
+    return fieldOrientated;
+  }
+
+  public void setFieldOrientated(boolean fieldOrientated) {
+    this.fieldOrientated = fieldOrientated;
+  }
+
+  public void setBrakeMode(boolean brakeMode)
+  {
+    bR.setBreakMode(brakeMode);
+    bL.setBreakMode(brakeMode);
+    fR.setBreakMode(brakeMode);
+    fL.setBreakMode(brakeMode);
   }
 
   @Override

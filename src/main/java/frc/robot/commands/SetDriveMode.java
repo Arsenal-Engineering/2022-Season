@@ -6,36 +6,24 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.*;
 
-public class DriveAuto extends CommandBase {
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class SetDriveMode extends InstantCommand {
   private SwerveDrive swerveDrive;
-  private int x1,y1,x2;
+  private boolean fieldOrientated;
 
-  public DriveAuto(int x1, int y1, int x2, SwerveDrive swerveDrive) {
-    addRequirements(swerveDrive);
+  public SetDriveMode(boolean fieldOrientated, SwerveDrive swerveDrive) {
+    // do not put addRequirements for swerveDrive!!!
     this.swerveDrive = swerveDrive;
-    this.x1 = x1;
-    this.y1 = y1;
-    this.x2 = x2;
+    this.fieldOrientated = fieldOrientated;
   }
 
   @Override
   public void initialize() {
-  }
-
-  @Override
-  public void execute() {
-    swerveDrive.drive(x1, y1, x2);
-  }
-
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  @Override
-  public boolean isFinished() {
-    return false;
+    swerveDrive.setFieldOrientated(fieldOrientated);
   }
 }

@@ -1,6 +1,8 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) FIRST and other WPILib contributors.                         */
+/* Open Source Software; you can modify and/or share it under the terms of    */
+/* the WPILib BSD license file in the root directory of this project.         */
+/*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
 
@@ -10,7 +12,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 
 public class Camera extends SubsystemBase {
   UsbCamera cam;
-  /** Creates a new camera. */
+
   public Camera() {
     cam = CameraServer.startAutomaticCapture(0);
     cam.setResolution(160,120);
@@ -19,6 +21,5 @@ public class Camera extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
   }
 }
