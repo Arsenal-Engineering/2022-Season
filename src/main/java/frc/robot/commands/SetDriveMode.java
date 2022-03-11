@@ -16,13 +16,14 @@ public class SetDriveMode extends InstantCommand {
   private boolean fieldOrientated;
   private XboxController joystick;
 
-  private Rumble rumble = new Rumble(joystick, 1.0, 1.0);
+  private Rumble rumble;
 
   public SetDriveMode(boolean fieldOrientated, SwerveDrive swerveDrive, XboxController joystick) {
     // do not put addRequirements for swerveDrive!!!
     this.swerveDrive = swerveDrive;
     this.fieldOrientated = fieldOrientated;
     this.joystick = joystick;
+    rumble = new Rumble(joystick, 1.0, 1.0);
   }
 
   // Called when the command is initially scheduled.
