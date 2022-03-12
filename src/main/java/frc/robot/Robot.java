@@ -9,7 +9,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Timer;
 
 public class Robot extends TimedRobot {
@@ -99,19 +98,11 @@ public class Robot extends TimedRobot {
       // noMoPewPew.schedule();
       // stopDaIntake.schedule();
     }
-    
-    if (timer.get() < .2) {
-      m_robotContainer.getJoystick().setRumble(RumbleType.kLeftRumble, 0.9);
-      m_robotContainer.getJoystick().setRumble(RumbleType.kRightRumble, 0.9);
-    } else if (timer.get() < .3) {
-      m_robotContainer.getJoystick().setRumble(RumbleType.kLeftRumble, 0.0);
-      m_robotContainer.getJoystick().setRumble(RumbleType.kRightRumble, 0.0);
-    } else if (timer.get() < .4) {
-      m_robotContainer.getJoystick().setRumble(RumbleType.kLeftRumble, 0.9);
-      m_robotContainer.getJoystick().setRumble(RumbleType.kRightRumble, 0.9);
-    } else if (timer.get() < .6) {
-      m_robotContainer.getJoystick().setRumble(RumbleType.kLeftRumble, 0.0);
-      m_robotContainer.getJoystick().setRumble(RumbleType.kRightRumble, 0.0);
+
+    if (timer.get() < 1.0) {
+      m_robotContainer.getRumble().schedule();
+    } else if (timer.get() < 2.0) {
+      m_robotContainer.getRumble().schedule();
     } else {
       timer.stop();
     }

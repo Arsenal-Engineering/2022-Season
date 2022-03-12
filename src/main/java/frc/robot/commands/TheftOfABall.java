@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.*;
 
-
 public class TheftOfABall extends CommandBase {
   Timer timer;
   double Kp;
@@ -46,7 +45,7 @@ public class TheftOfABall extends CommandBase {
     limelightSteering = new LimelightSteering(cam, swerveDrive, buttonA);
     this.driveBack = driveBack;
   }
-  
+
   @Override
   public void initialize() {
     timer.reset();

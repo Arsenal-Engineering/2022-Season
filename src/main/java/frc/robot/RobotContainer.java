@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
@@ -18,7 +19,7 @@ public class RobotContainer {
   private XboxController joystick;
   private JoystickButton buttonA, buttonB, buttonY, lBumper, back, start;
 
-  ////SUBSYSTEMS
+  //// SUBSYSTEMS
   private final SwerveDrive swerveDrive;
   private final Conveyor conveyor;
   private final Shooter shooter;
@@ -26,7 +27,7 @@ public class RobotContainer {
   private final Camera camera;
   private final LimelightCam shooterCam;
 
-  ////COMMANDS
+  //// COMMANDS
   private final DriveAuto driveBack;
   private final DriveAuto driveForward;
   private final DriveJoystick driveJoystick;
@@ -34,6 +35,7 @@ public class RobotContainer {
   private DoDaPewPew doDaPewPew;
   private ChillinWithDaIntake chillinWithDaIntake;
   private InstantCommand stopDaIntake;
+  private final Rumble rumble;
 
   public RobotContainer() {
     joystick = new XboxController(0);
@@ -61,6 +63,8 @@ public class RobotContainer {
     chillinWithDaIntake = new ChillinWithDaIntake(conveyor);
     stopDaIntake = new InstantCommand(conveyor::stopConveyor, conveyor);
 
+    rumble = new Rumble(joystick, 0.5, 1.0);
+
     configureButtonBindings();
   }
 
@@ -69,14 +73,16 @@ public class RobotContainer {
     buttonB.whenPressed(new LimelightSteering(shooterCam, swerveDrive, buttonB));
     buttonY.whenPressed(new LimelightDistance(shooterCam, swerveDrive, buttonY));
     buttonA.whenPressed(new TheftOfABall(ballCam, swerveDrive, buttonA, driveBack, chillinWithDaIntake, stopDaIntake));
-    
+
     // Conveyor
     lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));
     lBumper.whenReleased(stopDaIntake);
-    
+
     // Drive Mode
-    back.whenPressed(new SetDriveMode(true, swerveDrive));
-    start.whenPressed(new SetDriveMode(false, swerveDrive));
+    back.whenPressed(
+        new ParallelCommandGroup(new Rumble(joystick, 1.0, 1.0), new InstantCommand(swerveDrive::setFieldOrientated)));
+    start.whenPressed(new ParallelCommandGroup(new Rumble(joystick, 1.0, 1.0),
+        new InstantCommand(swerveDrive::setFieldOrientatedRegular)));
   }
 
   public SwerveDrive getSwerveDrive() {
@@ -113,6 +119,10 @@ public class RobotContainer {
 
   public XboxController getJoystick() {
     return joystick;
+  }
+
+  public Rumble getRumble() {
+    return rumble;
   }
 
   public Command getAutonomousCommand() {

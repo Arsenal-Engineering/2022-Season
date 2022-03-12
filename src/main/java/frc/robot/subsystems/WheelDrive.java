@@ -20,7 +20,8 @@ public class WheelDrive extends SubsystemBase {
   private boolean debug;
   private String name;
 
-  public WheelDrive(String name, int speedMotorID, int angleMotorID, double kP, double kI, double kD, int encoderTicks, boolean debug) {
+  public WheelDrive(String name, int speedMotorID, int angleMotorID, double kP, double kI, double kD, int encoderTicks,
+      boolean debug) {
     this.name = name;
     this.encoderTicks = encoderTicks;
     this.debug = debug;
@@ -70,8 +71,7 @@ public class WheelDrive extends SubsystemBase {
     if (breakMode) {
       speedMotor.setNeutralMode(NeutralMode.Brake);
       angleMotor.setNeutralMode(NeutralMode.Brake);
-    }
-    else {
+    } else {
       speedMotor.setNeutralMode(NeutralMode.Coast);
       angleMotor.setNeutralMode(NeutralMode.Coast);
     }

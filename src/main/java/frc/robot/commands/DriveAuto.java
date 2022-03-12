@@ -11,7 +11,7 @@ import frc.robot.subsystems.*;
 
 public class DriveAuto extends CommandBase {
   private SwerveDrive swerveDrive;
-  private int x1,y1,x2;
+  private int x1, y1, x2;
 
   public DriveAuto(int x1, int y1, int x2, SwerveDrive swerveDrive) {
     addRequirements(swerveDrive);

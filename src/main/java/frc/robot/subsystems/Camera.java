@@ -15,7 +15,7 @@ public class Camera extends SubsystemBase {
 
   public Camera() {
     cam = CameraServer.startAutomaticCapture(0);
-    cam.setResolution(160,120);
+    cam.setResolution(160, 120);
     cam.setFPS(10);
   }
 

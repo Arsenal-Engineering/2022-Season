@@ -30,8 +30,8 @@ public class DriveJoystick extends CommandBase {
 
   @Override
   public void execute() {
-    
-    double x1 = -joystick.getLeftX(); //X-axis on robot is flipped, new_y1 and new_x1 are also adjusted as needed
+
+    double x1 = -joystick.getLeftX(); // X-axis on robot is flipped, new_y1 and new_x1 are also adjusted as needed
     double y1 = -joystick.getLeftY();
 
     if (swerveDrive.getFieldOrientated()) {
@@ -45,7 +45,8 @@ public class DriveJoystick extends CommandBase {
   }
 
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   @Override
   public boolean isFinished() {

@@ -35,8 +35,7 @@ public class SwerveDrive extends SubsystemBase {
   }
 
   public void drive(double x1, double y1, double x2) {
-    // If no joystick input, prevent from turning randomly and ensure motors are
-    // stopped
+    // If no joystick input, prevent from turning randomly and ensure motors are stopped
     if (Math.abs(x1) < 0.05 && Math.abs(y1) < 0.05 && Math.abs(x2) < 0.05) {
       bR.stop();
       bL.stop();
@@ -54,7 +53,8 @@ public class SwerveDrive extends SubsystemBase {
       bL.drive(Math.sqrt((a * a) + (c * c)), Math.atan2(a, c) / Math.PI);
       fR.drive(Math.sqrt((b * b) + (d * d)), Math.atan2(b, d) / Math.PI);
       fL.drive(Math.sqrt((b * b) + (c * c)), Math.atan2(b, c) / Math.PI);
-      //Comparing to the documents we used, the left and right wheels on our code are swapped because our x-axis is switched
+      // Compared to the documents we used, the math for left and right wheels on our code are
+      // swapped because our x-axis is switched
     }
   }
 
@@ -62,12 +62,15 @@ public class SwerveDrive extends SubsystemBase {
     return fieldOrientated;
   }
 
-  public void setFieldOrientated(boolean fieldOrientated) {
-    this.fieldOrientated = fieldOrientated;
+  public void setFieldOrientated() {
+    fieldOrientated = true;
   }
 
-  public void setBrakeMode(boolean brakeMode)
-  {
+  public void setFieldOrientatedRegular() {
+    fieldOrientated = false;
+  }
+
+  public void setBrakeMode(boolean brakeMode) {
     bR.setBreakMode(brakeMode);
     bL.setBreakMode(brakeMode);
     fR.setBreakMode(brakeMode);
