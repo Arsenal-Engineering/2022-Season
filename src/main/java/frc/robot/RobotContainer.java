@@ -82,7 +82,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Limelight
     buttonA.whenPressed(new LimelightSteering(ballCam, swerveDrive, buttonA));
-    buttonB.whenPressed(new TheftOfABall(ballCam, swerveDrive, buttonB, chillinWithDaIntake, stopDaIntake));
+    buttonB.whenPressed(new TheftOfABall(ballCam, swerveDrive, chillinWithDaIntake, stopDaIntake));
     //buttonX.whenPressed(new LimelightSteering(shooterCam, swerveDrive, buttonX));
     //buttonY.whenPressed(new LimelightDistance(shooterCam, swerveDrive, buttonY));
     leftStickPush.whenPressed(new FloopDaColor(ballCam, colorSwitch));
