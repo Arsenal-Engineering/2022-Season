@@ -20,16 +20,16 @@ public class SwerveDrive extends SubsystemBase {
 
   private boolean fieldOrientated;
 
-  public SwerveDrive(double length, double width) {
+  public SwerveDrive(double length, double width, int speedBR_ID, int angleBR_ID, int speedBL_ID, int angleBL_ID, int speedFR_ID, int angleFR_ID, int speedFL_ID, int angleFL_ID) {
 
     double r = Math.sqrt((length * length) + (width + width));
     L_over_R = length / r;
     W_over_R = width / r;
 
-    bR = new WheelDrive("BR", Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, 10, 0.00, 20, 1023, true);
-    bL = new WheelDrive("BL", Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, 15, 0.00, 20, 1023, false);
-    fR = new WheelDrive("FR", Constants.SPEEDMOTOR_FR, Constants.ANGLEMOTOR_FR, 13, 0.00, 20, 1023, true);
-    fL = new WheelDrive("FL", Constants.SPEEDMOTOR_FL, Constants.ANGLEMOTOR_FL, 20, 0.00, 20, 1023, false);
+    bR = new WheelDrive("BR", speedBR_ID, angleBR_ID, 10, 0.00, 20, 1023, true);
+    bL = new WheelDrive("BL", speedBL_ID, angleBL_ID, 15, 0.00, 20, 1023, false);
+    fR = new WheelDrive("FR", speedFR_ID, angleFR_ID, 13, 0.00, 20, 1023, true);
+    fL = new WheelDrive("FL", speedFL_ID, angleFL_ID, 20, 0.00, 20, 1023, false);
 
     fieldOrientated = true;
   }
