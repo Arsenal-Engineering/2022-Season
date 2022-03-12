@@ -31,8 +31,8 @@ public class RobotContainer {
   private final Lift lift;
 
   //// COMMANDS
-  private final DriveAuto driveBack;
-  private final DriveAuto driveForward;
+  private final InstantCommand driveForward;
+  private final InstantCommand driveBackward;
   private final DriveJoystick driveJoystick;
   private DoDaPewPew doDaPewPew;
   private InstantCommand noMoPewPew;
@@ -62,8 +62,8 @@ public class RobotContainer {
     lift = new Lift(Constants.LIFT_LEFT, Constants.LIFT_RIGHT);
 
     //// COMMANDS
-    driveBack = new DriveAuto(0, -1, 0, swerveDrive);
-    driveForward = new DriveAuto(0, 1, 0, swerveDrive);
+    driveForward = new InstantCommand(swerveDrive::driveForward, swerveDrive);
+    driveBackward = new InstantCommand(swerveDrive::driveBackward, swerveDrive);
     driveJoystick = new DriveJoystick(joystick, swerveDrive);
     doDaPewPew = new DoDaPewPew(conveyor, shooter);
     noMoPewPew = new InstantCommand(shooter::stopShooter, shooter);
@@ -78,7 +78,7 @@ public class RobotContainer {
     // Limelight
     buttonB.whenPressed(new LimelightSteering(shooterCam, swerveDrive, buttonB));
     buttonY.whenPressed(new LimelightDistance(shooterCam, swerveDrive, buttonY));
-    buttonA.whenPressed(new TheftOfABall(ballCam, swerveDrive, buttonA, driveBack, chillinWithDaIntake, stopDaIntake));
+    buttonA.whenPressed(new TheftOfABall(ballCam, swerveDrive, buttonA, chillinWithDaIntake, stopDaIntake));
 
     // Conveyor
     lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));
@@ -101,12 +101,12 @@ public class RobotContainer {
     return swerveDrive;
   }
 
-  public DriveAuto getDriveBack() {
-    return driveBack;
+  public InstantCommand getDriveForward() {
+    return driveForward;
   }
 
-  public DriveAuto getDriveForward() {
-    return driveForward;
+  public InstantCommand getDriveBack() {
+    return driveBackward;
   }
 
   public DriveJoystick getDriveJoystick() {

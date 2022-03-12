@@ -58,6 +58,14 @@ public class SwerveDrive extends SubsystemBase {
     }
   }
 
+  public void driveForward() {
+    drive(0, -1, 0);
+  }
+
+  public void driveBackward() {
+    drive(0, 1, 0);
+  }
+
   public boolean getFieldOrientated() {
     return fieldOrientated;
   }

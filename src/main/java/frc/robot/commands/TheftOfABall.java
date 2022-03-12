@@ -20,14 +20,13 @@ public class TheftOfABall extends CommandBase {
   double heading_error;
   double steering_adjust;
   LimelightSteering limelightSteering;
-  DriveAuto driveBack;
   LimelightCam cam;
   ChillinWithDaIntake chillinWithDaIntake;
   InstantCommand stopDaIntake;
   SwerveDrive swerveDrive;
   JoystickButton buttonA;
 
-  public TheftOfABall(LimelightCam cam, SwerveDrive swerveDrive, JoystickButton buttonA, DriveAuto driveBack,
+  public TheftOfABall(LimelightCam cam, SwerveDrive swerveDrive, JoystickButton buttonA,
       ChillinWithDaIntake chillinWithDaIntake, InstantCommand stopDaIntake) {
     addRequirements(cam);
     addRequirements(swerveDrive);
@@ -43,7 +42,6 @@ public class TheftOfABall extends CommandBase {
     this.swerveDrive = swerveDrive;
     this.buttonA = buttonA;
     limelightSteering = new LimelightSteering(cam, swerveDrive, buttonA);
-    this.driveBack = driveBack;
   }
 
   @Override
@@ -61,7 +59,7 @@ public class TheftOfABall extends CommandBase {
       stopDaIntake.schedule();
     }
     if (timer.get() > 0.3333333333333333333) {
-      driveBack.schedule();
+      swerveDrive.drive(0, -1, 0);
     }
   }
 
