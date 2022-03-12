@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -53,7 +54,7 @@ public class RobotContainer {
     bR = new WheelDrive("BR", Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, 15, 0.00, 20, 1023, true);
     swerveDrive = new SwerveDrive(bR, bL, fR, fL, 27.0, 21.0);
 
-    lift = new Lift(Constants.LIFT);
+    lift = new Lift(Constants.LIFT_LEFT, Constants.LIFT_RIGHT);
 
     subsystemList = new SubsystemBase[7];
       subsystemList[0] = swerveDrive;
@@ -82,11 +83,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    dPadUp.whenPressed(new MoveThyLify(0.5, lift, Constants.LIMIT_SWITCH_TOP));
-    dPadDown.whenPressed(new MoveThyLify(-0.5, lift, Constants.LIMIT_SWITCH_BOT));
-
-    dPadUp.whenReleased(new StopLift(lift));
-    dPadDown.whenReleased(new StopLift(lift));
+    dPadUp.whenPressed(new UpLift(lift, Constants.LIMIT_SWITCH_LEFT_TOP, Constants.LIMIT_SWITCH_RIGHT_TOP));
+    dPadDown.whenPressed(new DownLift(lift, Constants.LIMIT_SWITCH_LEFT_BOT, Constants.LIMIT_SWITCH_RIGHT_BOT));
+    dPadUp.whenReleased(new InstantCommand(lift::stopLift, lift));
+    dPadDown.whenReleased(new InstantCommand(lift::stopLift, lift));
   }
 
   /**

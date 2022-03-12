@@ -5,26 +5,35 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import frc.robot.Constants;
-
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 public class Lift extends SubsystemBase {
   
-  private VictorSPX motor;
+  private VictorSPX left;
+  private VictorSPX right;
 
-  public Lift(int liftId) {
-    motor = new VictorSPX(liftId);
+  public Lift(int left_ID, int right_ID) {
+    left = new VictorSPX(left_ID);
+    right = new VictorSPX(right_ID);
   }
 
-  public void setLift(double speed) {
-    motor.set(VictorSPXControlMode.PercentOutput, speed);
+  public void upLift() {
+    left.set(VictorSPXControlMode.PercentOutput, 0.5);
+    right.set(VictorSPXControlMode.PercentOutput, 0.5);
+  }
+
+  public void downLift() {
+    left.set(VictorSPXControlMode.PercentOutput, -0.5);
+    right.set(VictorSPXControlMode.PercentOutput, -0.5);
+  }
+
+  public void stopLift() {
+    left.set(VictorSPXControlMode.PercentOutput, 0);
+    right.set(VictorSPXControlMode.PercentOutput, 0);
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
   }
 }

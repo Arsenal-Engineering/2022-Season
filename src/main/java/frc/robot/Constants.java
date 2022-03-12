@@ -30,7 +30,10 @@ public final class Constants {
     public final static int CONVEYOR_BOT = 10;
 
     //ID for lift motor
-    public final static int LIFT = 12;
-    public final static int LIMIT_SWITCH_TOP = 15;
-    public final static int LIMIT_SWITCH_BOT = 15;
+    public final static int LIFT_LEFT = 12;
+    public final static int LIFT_RIGHT = 13;
+    public final static int LIMIT_SWITCH_LEFT_TOP = 0;
+    public final static int LIMIT_SWITCH_LEFT_BOT = 1;
+    public final static int LIMIT_SWITCH_RIGHT_TOP = 2;
+    public final static int LIMIT_SWITCH_RIGHT_BOT = 3;
 }
