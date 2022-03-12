@@ -1,6 +1,8 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) FIRST and other WPILib contributors.                         */
+/* Open Source Software; you can modify and/or share it under the terms of    */
+/* the WPILib BSD license file in the root directory of this project.         */
+/*----------------------------------------------------------------------------*/
 
 package frc.robot;
 
@@ -13,40 +15,30 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 
-/**
- * This class is where the bulk of the robot should be declared. Since
- * Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in
- * the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of
- * the robot (including
- * subsystems, commands, and button mappings) should be declared here.
- */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
   private XboxController joystick;
   private JoystickButton buttonA, buttonB, buttonY, lBumper, back, start;
 
+  //// SUBSYSTEMS
   private final SwerveDrive swerveDrive;
-  //private final Conveyor conveyor;
-  //private final Shooter shooter;
+  private final Conveyor conveyor;
+  private final Shooter shooter;
   private final LimelightCam ballCam;
   private final Camera camera;
   private final LimelightCam shooterCam;
 
+  //// COMMANDS
   private final DriveAuto driveBack;
-  private final ChillinWithDaIntake chillinWithDaIntake;
-  private final StopDaIntake stopDaIntake;
-
+  private final DriveAuto driveForward;
+  private final DriveJoystick driveJoystick;
+  private InstantCommand noMoPewPew;
+  private DoDaPewPew doDaPewPew;
+  private ChillinWithDaIntake chillinWithDaIntake;
+  private InstantCommand stopDaIntake;
   private final Rumble rumble;
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
-  public RobotContainer(XboxController controller, SwerveDrive swerveDrive/*, Conveyor conveyor, Shooter shooter*/, DriveAuto driveBack, ChillinWithDaIntake chillinWithDaIntake, StopDaIntake stopDaIntake) {
-      System.out.println(3);
-    // Configure the button bindings
-    joystick = controller;
+  public RobotContainer() {
+    joystick = new XboxController(0);
     buttonB = new JoystickButton(joystick, 2);
     buttonY = new JoystickButton(joystick, 4);
     buttonA = new JoystickButton(joystick, 1);
@@ -54,52 +46,87 @@ public class RobotContainer {
     back = new JoystickButton(joystick, 7);
     start = new JoystickButton(joystick, 8);
 
-    this.swerveDrive = swerveDrive;
-    //this.conveyor = conveyor;
-    //this.shooter = shooter;
+    swerveDrive = new SwerveDrive(27.0, 21.0);
+    swerveDrive.setBrakeMode(false);
+    conveyor = new Conveyor(Constants.CONVEYOR_TOP, Constants.CONVEYOR_BOT);
+    shooter = new Shooter(Constants.SHOOTER);
     camera = new Camera();
     ballCam = new LimelightCam();
     shooterCam = new LimelightCam();
 
-    this.driveBack = driveBack;
-    this.chillinWithDaIntake = chillinWithDaIntake;
-    this.stopDaIntake = stopDaIntake;
+    driveBack = new DriveAuto(0, -1, 0, swerveDrive);
+    driveForward = new DriveAuto(0, 1, 0, swerveDrive);
+    driveJoystick = new DriveJoystick(joystick, swerveDrive);
+
+    doDaPewPew = new DoDaPewPew(conveyor, shooter);
+    noMoPewPew = new InstantCommand(shooter::stopShooter, shooter);
+    chillinWithDaIntake = new ChillinWithDaIntake(conveyor);
+    stopDaIntake = new InstantCommand(conveyor::stopConveyor, conveyor);
 
     rumble = new Rumble(joystick, 0.5, 1.0);
 
     configureButtonBindings();
   }
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
-   * it to a {@linkedu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
   private void configureButtonBindings() {
     // Limelight
     buttonB.whenPressed(new LimelightSteering(shooterCam, swerveDrive, buttonB));
     buttonY.whenPressed(new LimelightDistance(shooterCam, swerveDrive, buttonY));
     buttonA.whenPressed(new TheftOfABall(ballCam, swerveDrive, buttonA, driveBack, chillinWithDaIntake, stopDaIntake));
+
     // Conveyor
-    // lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));
-    
+    lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));
+    lBumper.whenReleased(stopDaIntake);
+
     // Drive Mode
-    back.whenPressed(new ParallelCommandGroup(new Rumble(joystick, 1.0, 1.0), new InstantCommand(swerveDrive::setFieldOrientated)));
-    start.whenPressed(new ParallelCommandGroup(new Rumble(joystick, 1.0, 1.0), new InstantCommand(swerveDrive::setFieldOrientatedRegular)));
+    back.whenPressed(
+        new ParallelCommandGroup(new Rumble(joystick, 1.0, 1.0), new InstantCommand(swerveDrive::setFieldOrientated)));
+    start.whenPressed(new ParallelCommandGroup(new Rumble(joystick, 1.0, 1.0),
+        new InstantCommand(swerveDrive::setFieldOrientatedRegular)));
   }
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return null;
+
+  public SwerveDrive getSwerveDrive() {
+    return swerveDrive;
+  }
+
+  public DriveAuto getDriveBack() {
+    return driveBack;
+  }
+
+  public DriveAuto getDriveForward() {
+    return driveForward;
+  }
+
+  public DriveJoystick getDriveJoystick() {
+    return driveJoystick;
+  }
+
+  public InstantCommand getStopDaIntake() {
+    return stopDaIntake;
+  }
+
+  public DoDaPewPew getDoDaPewPew() {
+    return doDaPewPew;
+  }
+
+  public InstantCommand getNoMoPewPew() {
+    return noMoPewPew;
+  }
+
+  public ChillinWithDaIntake getChillinWithDaIntake() {
+    return chillinWithDaIntake;
+  }
+
+  public XboxController getJoystick() {
+    return joystick;
   }
 
   public Rumble getRumble() {
     return rumble;
+  }
+
+  public Command getAutonomousCommand() {
+    // An ExampleCommand will run in autonomous
+    return null;
   }
 }

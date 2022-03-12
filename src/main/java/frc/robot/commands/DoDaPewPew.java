@@ -1,8 +1,7 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
+/* Copyright (c) FIRST and other WPILib contributors.                         */
+/* Open Source Software; you can modify and/or share it under the terms of    */
+/* the WPILib BSD license file in the root directory of this project.         */
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
@@ -17,10 +16,6 @@ public class DoDaPewPew extends CommandBase {
   private Conveyor conveyor;
   private Shooter shooter;
 
-  /**
-   * Creates a new DoDaPewPew.
-   */
-
   public DoDaPewPew(Conveyor conveyor, Shooter shooter) {
     timer = new Timer();
     addRequirements(shooter);
@@ -29,14 +24,12 @@ public class DoDaPewPew extends CommandBase {
     this.shooter = shooter;
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     timer.reset();
     timer.start();
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (timer.get() > 1) {
@@ -46,11 +39,10 @@ public class DoDaPewPew extends CommandBase {
       shooter.setShooter(1);
   }
 
-  // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;

@@ -1,30 +1,25 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
+/* Copyright (c) FIRST and other WPILib contributors.                         */
+/* Open Source Software; you can modify and/or share it under the terms of    */
+/* the WPILib BSD license file in the root directory of this project.         */
 /*----------------------------------------------------------------------------*/
- 
+
 package frc.robot.commands;
- 
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.*;
- 
+
 public class LimelightSteering extends CommandBase {
-  /**
-   * Creates a new LimelightSteering.
-   */
-    double Kp;
-    double min_command;  
-    double tx;
-    double steering_adjust;
-    LimelightCam cam;
-    SwerveDrive swerveDrive;
-    JoystickButton buttonB;
- 
+  double Kp;
+  double min_command;
+  double tx;
+  double steering_adjust;
+  LimelightCam cam;
+  SwerveDrive swerveDrive;
+  JoystickButton buttonB;
+
   public LimelightSteering(LimelightCam cam, SwerveDrive swerveDrive, JoystickButton buttonB) {
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(cam);
     addRequirements(swerveDrive);
     this.cam = cam;
@@ -35,36 +30,28 @@ public class LimelightSteering extends CommandBase {
     this.swerveDrive = swerveDrive;
     this.buttonB = buttonB;
   }
- 
-  // Called when the command is initially scheduled.
+
   @Override
   public void initialize() {
   }
- 
-  // Called every time the scheduler runs while the command is scheduled.
+
   @Override
   public void execute() {
     tx = cam.getX();
- 
-    if (tx > 1.0)
-    {
-      steering_adjust = Kp*tx - min_command;
-    }
-    else if (tx < 1.0)
-    {
-      steering_adjust = Kp*tx + min_command;
+
+    if (tx > 1.0) {
+      steering_adjust = Kp * tx - min_command;
+    } else if (tx < 1.0) {
+      steering_adjust = Kp * tx + min_command;
     }
 
     swerveDrive.drive(0, 0, steering_adjust);
   }
-   
- 
-  // Called once the command ends or is interrupted.
+
   @Override
   public void end(boolean interrupted) {
   }
- 
-  // Returns true when the command should end.
+
   @Override
   public boolean isFinished() {
     return !buttonB.get();

@@ -1,6 +1,8 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) FIRST and other WPILib contributors.                         */
+/* Open Source Software; you can modify and/or share it under the terms of    */
+/* the WPILib BSD license file in the root directory of this project.         */
+/*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
 
@@ -12,15 +14,14 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class WheelDrive extends SubsystemBase {
-  /** Creates a new WheelDrive. */
-
   private WPI_TalonSRX angleMotor;
   private WPI_TalonSRX speedMotor;
   private int encoderTicks;
   private boolean debug;
   private String name;
 
-  public WheelDrive(String name, int speedMotorID, int angleMotorID, double kP, double kI, double kD, int encoderTicks, boolean debug) {
+  public WheelDrive(String name, int speedMotorID, int angleMotorID, double kP, double kI, double kD, int encoderTicks,
+      boolean debug) {
     this.name = name;
     this.encoderTicks = encoderTicks;
     this.debug = debug;
@@ -66,8 +67,17 @@ public class WheelDrive extends SubsystemBase {
     angleMotor.set(ControlMode.PercentOutput, 0);
   }
 
+  public void setBreakMode(boolean breakMode) {
+    if (breakMode) {
+      speedMotor.setNeutralMode(NeutralMode.Brake);
+      angleMotor.setNeutralMode(NeutralMode.Brake);
+    } else {
+      speedMotor.setNeutralMode(NeutralMode.Coast);
+      angleMotor.setNeutralMode(NeutralMode.Coast);
+    }
+  }
+
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
   }
 }
