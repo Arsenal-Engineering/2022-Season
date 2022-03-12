@@ -12,12 +12,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 
 public class RobotContainer {
   private XboxController joystick;
   private JoystickButton buttonA, buttonB, buttonY, lBumper, back, start;
+  private POVButton dPadUp, dPadDown;
 
   //// SUBSYSTEMS
   private final SwerveDrive swerveDrive;
@@ -26,26 +28,30 @@ public class RobotContainer {
   private final LimelightCam ballCam;
   private final Camera camera;
   private final LimelightCam shooterCam;
+  private final Lift lift;
 
   //// COMMANDS
   private final DriveAuto driveBack;
   private final DriveAuto driveForward;
   private final DriveJoystick driveJoystick;
-  private InstantCommand noMoPewPew;
   private DoDaPewPew doDaPewPew;
+  private InstantCommand noMoPewPew;
   private ChillinWithDaIntake chillinWithDaIntake;
   private InstantCommand stopDaIntake;
   private final Rumble rumble;
 
   public RobotContainer() {
     joystick = new XboxController(0);
-    buttonB = new JoystickButton(joystick, 2);
-    buttonY = new JoystickButton(joystick, 4);
-    buttonA = new JoystickButton(joystick, 1);
-    lBumper = new JoystickButton(joystick, 5);
-    back = new JoystickButton(joystick, 7);
-    start = new JoystickButton(joystick, 8);
+      buttonA = new JoystickButton(joystick, 1);  
+      buttonB = new JoystickButton(joystick, 2);
+      buttonY = new JoystickButton(joystick, 4);
+      lBumper = new JoystickButton(joystick, 5);
+      back = new JoystickButton(joystick, 7);
+      start = new JoystickButton(joystick, 8);
+      dPadUp = new POVButton(joystick, 0);
+      dPadDown = new POVButton(joystick, 180);
 
+    //// SUBSYSTEMS
     swerveDrive = new SwerveDrive(27.0, 21.0);
     swerveDrive.setBrakeMode(false);
     conveyor = new Conveyor(Constants.CONVEYOR_TOP, Constants.CONVEYOR_BOT);
@@ -53,16 +59,16 @@ public class RobotContainer {
     camera = new Camera();
     ballCam = new LimelightCam();
     shooterCam = new LimelightCam();
+    lift = new Lift(Constants.LIFT_LEFT, Constants.LIFT_RIGHT);
 
+    //// COMMANDS
     driveBack = new DriveAuto(0, -1, 0, swerveDrive);
     driveForward = new DriveAuto(0, 1, 0, swerveDrive);
     driveJoystick = new DriveJoystick(joystick, swerveDrive);
-
     doDaPewPew = new DoDaPewPew(conveyor, shooter);
     noMoPewPew = new InstantCommand(shooter::stopShooter, shooter);
     chillinWithDaIntake = new ChillinWithDaIntake(conveyor);
     stopDaIntake = new InstantCommand(conveyor::stopConveyor, conveyor);
-
     rumble = new Rumble(joystick, 0.5, 1.0);
 
     configureButtonBindings();
@@ -77,6 +83,12 @@ public class RobotContainer {
     // Conveyor
     lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));
     lBumper.whenReleased(stopDaIntake);
+
+    // Lift
+    dPadUp.whenPressed(new UpLift(lift, Constants.LIMIT_SWITCH_LEFT_TOP, Constants.LIMIT_SWITCH_RIGHT_TOP));
+    dPadDown.whenPressed(new DownLift(lift, Constants.LIMIT_SWITCH_LEFT_BOT, Constants.LIMIT_SWITCH_RIGHT_BOT));
+    dPadUp.whenReleased(new InstantCommand(lift::stopLift, lift));
+    dPadDown.whenReleased(new InstantCommand(lift::stopLift, lift));
 
     // Drive Mode
     back.whenPressed(

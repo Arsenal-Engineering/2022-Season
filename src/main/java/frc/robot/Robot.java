@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -82,23 +82,12 @@ public class Robot extends TimedRobot {
 
     m_robotContainer.getSwerveDrive().setBrakeMode(true);
     m_robotContainer.getDriveJoystick().schedule();
-    //chillinWithDaIntake.schedule();
     timer.reset();
     timer.start();
   }
 
   @Override
   public void teleopPeriodic() {
-    m_robotContainer.getDriveJoystick().schedule();
-    if (m_robotContainer.getJoystick().getRightTriggerAxis() > .5) {
-      // doDaPewPew.schedule();
-    } else if (m_robotContainer.getJoystick().getLeftTriggerAxis() > .5) {
-      // chillinWithDaIntake.schedule();
-    } else {
-      // noMoPewPew.schedule();
-      // stopDaIntake.schedule();
-    }
-
     if (timer.get() < 1.0) {
       m_robotContainer.getRumble().schedule();
     } else if (timer.get() < 2.0) {
@@ -107,6 +96,15 @@ public class Robot extends TimedRobot {
       timer.stop();
     }
 
+    m_robotContainer.getDriveJoystick().schedule();
+    if (m_robotContainer.getJoystick().getRightTriggerAxis() > .5) {
+      m_robotContainer.getDoDaPewPew().schedule();
+    } else if (m_robotContainer.getJoystick().getLeftTriggerAxis() > .5) {
+      m_robotContainer.getChillinWithDaIntake().schedule();
+    } else {
+      m_robotContainer.getNoMoPewPew().schedule();
+      m_robotContainer.getStopDaIntake().schedule();
+    }
   }
 
   @Override
