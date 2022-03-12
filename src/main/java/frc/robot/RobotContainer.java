@@ -36,7 +36,7 @@ public class RobotContainer {
   private final DriveJoystick driveJoystick;
   private DoDaPewPew doDaPewPew;
   private InstantCommand noMoPewPew;
-  private ChillinWithDaIntake chillinWithDaIntake;
+  private InstantCommand chillinWithDaIntake;
   private InstantCommand stopDaIntake;
   private final Rumble rumble;
 
@@ -67,7 +67,7 @@ public class RobotContainer {
     driveJoystick = new DriveJoystick(joystick, swerveDrive);
     doDaPewPew = new DoDaPewPew(conveyor, shooter);
     noMoPewPew = new InstantCommand(shooter::stopShooter, shooter);
-    chillinWithDaIntake = new ChillinWithDaIntake(conveyor);
+    chillinWithDaIntake = new InstantCommand(conveyor::startBotConveyor, conveyor);
     stopDaIntake = new InstantCommand(conveyor::stopConveyor, conveyor);
     rumble = new Rumble(joystick, 0.5, 1.0);
 
@@ -81,7 +81,7 @@ public class RobotContainer {
     buttonA.whenPressed(new TheftOfABall(ballCam, swerveDrive, buttonA, chillinWithDaIntake, stopDaIntake));
 
     // Conveyor
-    lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));
+    lBumper.whenPressed(new InstantCommand(conveyor::reverseConveyor, conveyor));
     lBumper.whenReleased(stopDaIntake);
 
     // Lift
@@ -125,7 +125,7 @@ public class RobotContainer {
     return noMoPewPew;
   }
 
-  public ChillinWithDaIntake getChillinWithDaIntake() {
+  public InstantCommand getChillinWithDaIntake() {
     return chillinWithDaIntake;
   }
 

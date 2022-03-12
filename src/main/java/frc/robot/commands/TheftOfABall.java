@@ -21,13 +21,13 @@ public class TheftOfABall extends CommandBase {
   double steering_adjust;
   LimelightSteering limelightSteering;
   LimelightCam cam;
-  ChillinWithDaIntake chillinWithDaIntake;
+  InstantCommand chillinWithDaIntake;
   InstantCommand stopDaIntake;
   SwerveDrive swerveDrive;
   JoystickButton buttonA;
 
   public TheftOfABall(LimelightCam cam, SwerveDrive swerveDrive, JoystickButton buttonA,
-      ChillinWithDaIntake chillinWithDaIntake, InstantCommand stopDaIntake) {
+      InstantCommand chillinWithDaIntake, InstantCommand stopDaIntake) {
     addRequirements(cam);
     addRequirements(swerveDrive);
     timer = new Timer();

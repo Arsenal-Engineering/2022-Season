@@ -24,12 +24,13 @@ public class Conveyor extends SubsystemBase {
     conveyorBot.set(speed);
   }
 
-  public void setConveyorBot(double speed) {
-    conveyorBot.set(speed);
+  public void startBotConveyor() {
+    conveyorTop.set(0.5);
   }
-
-  public void setConveyorTop(double speed) {
-    conveyorTop.set(speed);
+  
+  public void reverseConveyor() {
+    conveyorTop.set(0.5);
+    conveyorBot.set(0.5);
   }
 
   public void stopConveyor() {
