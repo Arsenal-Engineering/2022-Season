@@ -8,36 +8,34 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
-import edu.wpi.first.wpilibj.DigitalInput;
 
-public class DownLift extends CommandBase {
-  private Lift lift;
-  private DigitalInput switchLeft;
-  private DigitalInput switchRight;
+public class DriveAuto extends CommandBase {
+  private SwerveDrive swerveDrive;
+  private int x1, y1, x2;
 
-  public DownLift(Lift lift, int switchLB_ID, int switchRB_ID) {
-    addRequirements(lift);
-    this.lift = lift;
-    switchLeft = new DigitalInput(switchLB_ID);
-    switchRight = new DigitalInput(switchRB_ID);
+  public DriveAuto(int x1, int y1, int x2, SwerveDrive swerveDrive) {
+    addRequirements(swerveDrive);
+    this.swerveDrive = swerveDrive;
+    this.x1 = x1;
+    this.y1 = y1;
+    this.x2 = x2;
   }
 
   @Override
   public void initialize() {
-    lift.downLift();
   }
 
   @Override
   public void execute() {
+    swerveDrive.drive(x1, y1, x2);
   }
 
   @Override
   public void end(boolean interrupted) {
-    lift.stopLift();
   }
 
   @Override
   public boolean isFinished() {
-    return switchLeft.get() || switchRight.get();
+    return false;
   }
 }

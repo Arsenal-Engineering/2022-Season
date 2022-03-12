@@ -8,36 +8,30 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
-import edu.wpi.first.wpilibj.DigitalInput;
 
-public class DownLift extends CommandBase {
-  private Lift lift;
-  private DigitalInput switchLeft;
-  private DigitalInput switchRight;
+public class GoinBackWithDaIntake extends CommandBase {
+  private Conveyor conveyor;
 
-  public DownLift(Lift lift, int switchLB_ID, int switchRB_ID) {
-    addRequirements(lift);
-    this.lift = lift;
-    switchLeft = new DigitalInput(switchLB_ID);
-    switchRight = new DigitalInput(switchRB_ID);
+  public GoinBackWithDaIntake(Conveyor conveyor) {
+    addRequirements(conveyor);
+    this.conveyor = conveyor;
   }
 
   @Override
   public void initialize() {
-    lift.downLift();
   }
 
   @Override
   public void execute() {
+    conveyor.setConveyor(-0.5);
   }
 
   @Override
   public void end(boolean interrupted) {
-    lift.stopLift();
   }
 
   @Override
   public boolean isFinished() {
-    return switchLeft.get() || switchRight.get();
+    return false;
   }
 }

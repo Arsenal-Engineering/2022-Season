@@ -4,15 +4,22 @@
 /* the WPILib BSD license file in the root directory of this project.         */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 
-public final class Main {
-  private Main() {
+public class Camera extends SubsystemBase {
+  UsbCamera cam;
+
+  public Camera() {
+    cam = CameraServer.startAutomaticCapture(0);
+    cam.setResolution(160, 120);
+    cam.setFPS(10);
   }
 
-  public static void main(String... args) {
-    RobotBase.startRobot(Robot::new);
+  @Override
+  public void periodic() {
   }
 }
