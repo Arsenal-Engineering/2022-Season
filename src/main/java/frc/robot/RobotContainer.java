@@ -38,6 +38,7 @@ public class RobotContainer {
   private final ChillinWithDaIntake chillinWithDaIntake;
   private final StopDaIntake stopDaIntake;
 
+  private final Rumble rumble;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -64,6 +65,8 @@ public class RobotContainer {
     this.chillinWithDaIntake = chillinWithDaIntake;
     this.stopDaIntake = stopDaIntake;
 
+    rumble = new Rumble(joystick, 0.5, 1.0);
+
     configureButtonBindings();
   }
 
@@ -81,6 +84,7 @@ public class RobotContainer {
     buttonA.whenPressed(new TheftOfABall(ballCam, swerveDrive, buttonA, driveBack, chillinWithDaIntake, stopDaIntake));
     // Conveyor
     // lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));
+    
     // Drive Mode
     back.whenPressed(new ParallelCommandGroup(new Rumble(joystick, 1.0, 1.0), new InstantCommand(swerveDrive::setFieldOrientated)));
     start.whenPressed(new ParallelCommandGroup(new Rumble(joystick, 1.0, 1.0), new InstantCommand(swerveDrive::setFieldOrientatedRegular)));
@@ -93,5 +97,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return null;
+  }
+
+  public Rumble getRumble() {
+    return rumble;
   }
 }

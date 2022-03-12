@@ -74,8 +74,6 @@ public class Robot extends TimedRobot {
     driveForward = new DriveAuto(0, 1, 0, swerveDrive);
 
     m_robotContainer = new RobotContainer(joystick, swerveDrive/*, conveyor, shooter*/, driveBack, chillinWithDaIntake, stopDaIntake);
-
-    rumble = new Rumble(joystick, 0.5, 1.0);
   }
 
   /**
@@ -177,9 +175,9 @@ public class Robot extends TimedRobot {
     }
 
     if (timer.get() < 1.0) {
-      rumble.schedule();
+      m_robotContainer.getRumble().schedule();
     } else if (timer.get() < 2.0) {
-      rumble.schedule();
+      m_robotContainer.getRumble().schedule();
     } else {
       timer.stop();
     }
