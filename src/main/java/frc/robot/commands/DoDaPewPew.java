@@ -32,11 +32,9 @@ public class DoDaPewPew extends CommandBase {
 
   @Override
   public void execute() {
-    if (timer.get() > 1) {
-      shooter.setShooter(1);
+    if (timer.get() > 1)
       conveyor.setConveyor(0.7);
-    } else
-      shooter.setShooter(1);
+    shooter.setShooter(0.5);
   }
 
   @Override

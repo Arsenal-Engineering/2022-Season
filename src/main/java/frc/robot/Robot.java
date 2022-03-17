@@ -88,6 +88,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    System.out.println("POV UP: " + m_robotContainer.dPadUp.get() + "    POV DOWN: " + m_robotContainer.dPadDown.get());
+
     if (timer.get() < 1.0) {
       m_robotContainer.getRumble().schedule();
     } else if (timer.get() < 2.0) {
@@ -103,7 +105,8 @@ public class Robot extends TimedRobot {
       m_robotContainer.getChillinWithDaIntake().schedule();
     } else {
       m_robotContainer.getNoMoPewPew().schedule();
-      m_robotContainer.getStopDaIntake().schedule();
+      if (!m_robotContainer.lBumper.get())
+        m_robotContainer.getStopDaIntake().schedule();
     }
   }
 

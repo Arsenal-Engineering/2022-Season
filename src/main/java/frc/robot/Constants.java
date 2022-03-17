@@ -10,7 +10,7 @@ public final class Constants {
     // ID for angle motors
     public final static int ANGLEMOTOR_FL = 1;
     public final static int ANGLEMOTOR_FR = 2;
-    public final static int ANGLEMOTOR_BL = 3;
+    public final static int ANGLEMOTOR_BL = 3;  
     public final static int ANGLEMOTOR_BR = 4;
 
     // ID for speed motors
@@ -29,8 +29,8 @@ public final class Constants {
     // ID for lift motor
     public final static int LIFT_LEFT = 12;
     public final static int LIFT_RIGHT = 13;
-    public final static int LIMIT_SWITCH_LEFT_TOP = 0;
-    public final static int LIMIT_SWITCH_LEFT_BOT = 1;
-    public final static int LIMIT_SWITCH_RIGHT_TOP = 2;
-    public final static int LIMIT_SWITCH_RIGHT_BOT = 3;
+    public final static int LIMIT_SWITCH_LEFT_TOP = 9;
+    public final static int LIMIT_SWITCH_LEFT_BOT = 8;
+    public final static int LIMIT_SWITCH_RIGHT_TOP = 7;
+    public final static int LIMIT_SWITCH_RIGHT_BOT = 6;
 }

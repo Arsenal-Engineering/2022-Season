@@ -18,8 +18,9 @@ import frc.robot.commands.*;
 
 public class RobotContainer {
   private XboxController joystick;
-  private JoystickButton buttonA, buttonB, buttonY, lBumper, back, start;
-  private POVButton dPadUp, dPadDown;
+  private JoystickButton buttonA, buttonB, buttonY, back, start;
+  public JoystickButton lBumper;
+  public POVButton dPadUp, dPadDown;
 
   //// SUBSYSTEMS
   private final SwerveDrive swerveDrive;
@@ -48,8 +49,8 @@ public class RobotContainer {
       lBumper = new JoystickButton(joystick, 5);
       back = new JoystickButton(joystick, 7);
       start = new JoystickButton(joystick, 8);
-      dPadUp = new POVButton(joystick, 0);
-      dPadDown = new POVButton(joystick, 180);
+      dPadUp = new POVButton(joystick, 0, 0);
+      dPadDown = new POVButton(joystick, 180, 4);
 
     //// SUBSYSTEMS
     swerveDrive = new SwerveDrive(27.0, 21.0, Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, Constants.SPEEDMOTOR_FR, Constants.ANGLEMOTOR_FR, Constants.SPEEDMOTOR_FL, Constants.ANGLEMOTOR_FL);
