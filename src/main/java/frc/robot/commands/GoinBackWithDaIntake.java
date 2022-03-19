@@ -8,13 +8,16 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class GoinBackWithDaIntake extends CommandBase {
   private Conveyor conveyor;
+  private JoystickButton button;
 
-  public GoinBackWithDaIntake(Conveyor conveyor) {
+  public GoinBackWithDaIntake(Conveyor conveyor, JoystickButton button) {
     addRequirements(conveyor);
     this.conveyor = conveyor;
+    this.button = button;
   }
 
   @Override
@@ -28,10 +31,11 @@ public class GoinBackWithDaIntake extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
+    
   }
 
   @Override
   public boolean isFinished() {
-    return false;
+    return !button.get();
   }
 }

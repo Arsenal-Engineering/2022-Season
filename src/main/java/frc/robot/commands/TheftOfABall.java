@@ -8,69 +8,67 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.*;
 
 public class TheftOfABall extends CommandBase {
   Timer timer;
-  double Kp;
-  double min_command;
-  double tx, ta;
-  double heading_error;
-  double steering_adjust;
-  LimelightSteering limelightSteering;
-  DriveAuto driveBack;
-  LimelightCam cam;
-  ChillinWithDaIntake chillinWithDaIntake;
-  InstantCommand stopDaIntake;
-  SwerveDrive swerveDrive;
-  JoystickButton buttonA;
+  
+  private double tx;
+  private boolean hasSeenBall;
+  private JoystickButton button;
 
-  public TheftOfABall(LimelightCam cam, SwerveDrive swerveDrive, JoystickButton buttonA, DriveAuto driveBack,
-      ChillinWithDaIntake chillinWithDaIntake, InstantCommand stopDaIntake) {
+  private LimelightCam cam;
+  private ChillinWithDaIntake chillinWithDaIntake;
+  private InstantCommand stopDaIntake;
+  private SwerveDrive swerveDrive;
+
+  public TheftOfABall(LimelightCam cam, SwerveDrive swerveDrive, ChillinWithDaIntake chillinWithDaIntake, InstantCommand stopDaIntake, JoystickButton button) {
     addRequirements(cam);
     addRequirements(swerveDrive);
     timer = new Timer();
     this.cam = cam;
-    Kp = -0.1;
-    min_command = 0.08;
-    tx = cam.getY();
-    ta = cam.getArea();
-    heading_error = -tx;
-    steering_adjust = 0.0;
+    tx = cam.getX();
     this.chillinWithDaIntake = chillinWithDaIntake;
     this.swerveDrive = swerveDrive;
-    this.buttonA = buttonA;
-    limelightSteering = new LimelightSteering(cam, swerveDrive, buttonA);
-    this.driveBack = driveBack;
+    hasSeenBall = false;
+    this.button = button;
   }
 
   @Override
   public void initialize() {
     timer.reset();
     timer.start();
+    hasSeenBall = false;
   }
 
   @Override
   public void execute() {
-    limelightSteering.schedule();
-    if (ta > 50.0) {
+    if (tx < 50.0) {
       chillinWithDaIntake.schedule();
-    } else {
+      hasSeenBall = true;
+      timer.reset();
+    }
+    else if (timer.get() > 0.125){
       stopDaIntake.schedule();
     }
-    if (timer.get() > 0.3333333333333333333) {
-      driveBack.schedule();
+    else if (hasSeenBall) {
+      chillinWithDaIntake.schedule();
     }
+
+    swerveDrive.drive(0, -0.5, 0);
   }
 
   @Override
   public void end(boolean interrupted) {
+    Robot.robotContainer.getDriveJoystick().schedule();
+    // stopDaIntake.schedule(); hmmm maybe, maybe not- remember to review if changes are needed during drive practice
   }
 
   @Override
   public boolean isFinished() {
-    return false;
+    return !button.get();
   }
 }

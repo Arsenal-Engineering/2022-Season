@@ -18,15 +18,15 @@ import frc.robot.commands.*;
 
 public class RobotContainer {
   private XboxController joystick;
-  private JoystickButton buttonA, buttonB, buttonY, lBumper, back, start;
+  private JoystickButton buttonA, buttonB, buttonX, buttonY, lBumper, rightStickPush, back, start;
   private POVButton dPadUp, dPadDown;
 
   //// SUBSYSTEMS
   private final SwerveDrive swerveDrive;
   private final Conveyor conveyor;
   private final Shooter shooter;
-  private final LimelightCam ballCam;
   private final Camera camera;
+  private final LimelightCam ballCam;
   private final LimelightCam shooterCam;
   private final Lift lift;
 
@@ -38,16 +38,19 @@ public class RobotContainer {
   private InstantCommand noMoPewPew;
   private ChillinWithDaIntake chillinWithDaIntake;
   private InstantCommand stopDaIntake;
+  private final FloopDaColor floopDaColor;
   private final Rumble rumble;
 
   public RobotContainer() {
     joystick = new XboxController(0);
       buttonA = new JoystickButton(joystick, 1);  
       buttonB = new JoystickButton(joystick, 2);
+      buttonX = new JoystickButton(joystick, 3);
       buttonY = new JoystickButton(joystick, 4);
       lBumper = new JoystickButton(joystick, 5);
       back = new JoystickButton(joystick, 7);
       start = new JoystickButton(joystick, 8);
+      rightStickPush = new JoystickButton(joystick, 10);
       dPadUp = new POVButton(joystick, 0);
       dPadDown = new POVButton(joystick, 180);
 
@@ -57,8 +60,8 @@ public class RobotContainer {
     conveyor = new Conveyor(Constants.CONVEYOR_TOP, Constants.CONVEYOR_BOT);
     shooter = new Shooter(Constants.SHOOTER);
     camera = new Camera();
-    ballCam = new LimelightCam();
-    shooterCam = new LimelightCam();
+    shooterCam = new LimelightCam("limelight-shooter");
+    ballCam = new LimelightCam("limelight-ball");
     lift = new Lift(Constants.LIFT_LEFT, Constants.LIFT_RIGHT);
 
     //// COMMANDS
@@ -71,18 +74,21 @@ public class RobotContainer {
     stopDaIntake = new InstantCommand(conveyor::stopConveyor, conveyor);
     rumble = new Rumble(joystick, 0.5, 1.0);
 
+    floopDaColor = new FloopDaColor(ballCam, Constants.COLOR_SWITCH);
+
     configureButtonBindings();
   }
 
   private void configureButtonBindings() {
     // Limelight
-    buttonB.whenPressed(new LimelightSteering(shooterCam, swerveDrive, buttonB));
+    buttonA.whenPressed(new LimelightSteering(ballCam, swerveDrive, buttonA));
+    buttonB.whenPressed(new TheftOfABall(ballCam, swerveDrive, chillinWithDaIntake, stopDaIntake, buttonB));
+    buttonX.whenPressed(new LimelightSteering(shooterCam, swerveDrive, buttonX));
     buttonY.whenPressed(new LimelightDistance(shooterCam, swerveDrive, buttonY));
-    buttonA.whenPressed(new TheftOfABall(ballCam, swerveDrive, buttonA, driveBack, chillinWithDaIntake, stopDaIntake));
+    rightStickPush.whenPressed(new LimelightTestV(ballCam));
 
     // Conveyor
-    lBumper.whenPressed(new GoinBackWithDaIntake(conveyor));
-    lBumper.whenReleased(stopDaIntake);
+    lBumper.whenPressed(new GoinBackWithDaIntake(conveyor, lBumper));
 
     // Lift
     dPadUp.whenPressed(new UpLift(lift, Constants.LIMIT_SWITCH_LEFT_TOP, Constants.LIMIT_SWITCH_RIGHT_TOP));
@@ -140,5 +146,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return null;
+  }
+
+  public FloopDaColor getFloopDaColor() {
+    return floopDaColor;
   }
 }
