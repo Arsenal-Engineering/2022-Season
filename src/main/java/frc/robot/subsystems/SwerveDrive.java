@@ -18,6 +18,7 @@ public class SwerveDrive extends SubsystemBase {
   private WheelDrive fL;
 
   private boolean fieldOrientated;
+  private boolean liftExtended;
 
   public SwerveDrive(double length, double width, int speedBR_ID, int angleBR_ID, int speedBL_ID, int angleBL_ID, int speedFR_ID, int angleFR_ID, int speedFL_ID, int angleFL_ID) {
 
@@ -31,9 +32,16 @@ public class SwerveDrive extends SubsystemBase {
     fL = new WheelDrive("FL", speedFL_ID, angleFL_ID, 20, 0.00, 20, 1023, false);
 
     fieldOrientated = true;
+    liftExtended = false;
   }
 
   public void drive(double x1, double y1, double x2) {
+    if (liftExtended) {
+      x1 /= 8;
+      y1 /= 8;
+      x2 /= 8;
+    }
+
     // If no joystick input, prevent from turning randomly and ensure motors are stopped
     if (Math.abs(x1) < 0.05 && Math.abs(y1) < 0.05 && Math.abs(x2) < 0.05) {
       bR.stop();
@@ -75,6 +83,10 @@ public class SwerveDrive extends SubsystemBase {
 
   public void setFieldOrientatedRegular() {
     fieldOrientated = false;
+  }
+
+  public void setLiftExtended(boolean liftExtended) {
+    this.liftExtended = liftExtended;
   }
 
   public void setBrakeMode(boolean brakeMode) {

@@ -41,7 +41,6 @@ public class RobotContainer {
   private final Rumble rumble;
   private final UpLift upLift;
   private final DownLift downLift;
-  private final InstantCommand stopLift;
 
   public RobotContainer() {
     joystick = new XboxController(0);
@@ -75,7 +74,6 @@ public class RobotContainer {
     rumble = new Rumble(joystick, 0.5, 1.0);
     upLift = new UpLift(lift, Constants.LIMIT_SWITCH_LEFT_TOP, Constants.LIMIT_SWITCH_RIGHT_TOP);
     downLift = new DownLift(lift, Constants.LIMIT_SWITCH_LEFT_BOT, Constants.LIMIT_SWITCH_RIGHT_BOT);
-    stopLift = new InstantCommand(lift::stopLift, lift);
 
     configureButtonBindings();
   }
@@ -134,10 +132,6 @@ public class RobotContainer {
 
   public InstantCommand getChillinWithDaIntake() {
     return chillinWithDaIntake;
-  }
-
-  public InstantCommand getStopLift() {
-    return stopLift;
   }
 
   public XboxController getJoystick() {

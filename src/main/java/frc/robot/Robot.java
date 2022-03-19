@@ -108,10 +108,6 @@ public class Robot extends TimedRobot {
       if (!robotContainer.getJoystick().getLeftBumperPressed())
         robotContainer.getStopDaIntake().schedule();
     }
-
-    System.out.println("POV Value: " + robotContainer.getJoystick().getPOV());
-    if (!(robotContainer.getJoystick().getPOV() == 0 || robotContainer.getJoystick().getPOV() == 180))
-    robotContainer.getStopLift().schedule();
   }
 
   @Override
@@ -123,5 +119,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testPeriodic() {
+  }
+
+  public static RobotContainer getRobotContainer() {
+    return robotContainer;
   }
 }

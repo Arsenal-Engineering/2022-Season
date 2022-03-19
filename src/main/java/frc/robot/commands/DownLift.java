@@ -8,6 +8,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class DownLift extends CommandBase {
@@ -28,16 +30,28 @@ public class DownLift extends CommandBase {
 
   @Override
   public void execute() {
-    lift.downLift();
+    if (switchLeft.get())
+      lift.stopLeft();
+    else
+      lift.upLeft();
+
+    if (switchRight.get())
+      lift.stopRight();
+    else
+      lift.upRight();
   }
 
   @Override
   public void end(boolean interrupted) {
-    lift.stopLift();
+    lift.stopLeft();
+    lift.stopRight();
+
+    if (switchLeft.get() && switchRight.get())
+      Robot.getRobotContainer().getSwerveDrive().setLiftExtended(false);
   }
 
   @Override
   public boolean isFinished() {
-    return switchLeft.get() || switchRight.get();
+    return (switchLeft.get() && switchRight.get()) || Robot.getRobotContainer().getJoystick().getPOV() != 0;
   }
 }

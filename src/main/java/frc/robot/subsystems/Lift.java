@@ -20,18 +20,27 @@ public class Lift extends SubsystemBase {
     right = new WPI_TalonSRX(right_ID);
   }
 
-  public void upLift() {
+  public void upLeft() {
     left.set(0.5);
+  }
+
+  public void upRight() {
     right.set(0.5);
   }
 
-  public void downLift() {
+  public void downLeft() {
     left.set(-0.5);
+  }
+
+  public void downRight() {
     right.set(-0.5);
   }
 
-  public void stopLift() {
+  public void stopLeft() {
     left.set(0);
+  }
+
+  public void stopRight() {
     right.set(0);
   }
 
