@@ -57,7 +57,7 @@ public class TheftOfABall extends CommandBase {
 
 
 
-    swerveDrive.drive(0, -1, 0);
+    swerveDrive.drive(0, -0.5, 0);
   }
 
   // Called once the command ends or is interrupted.
