@@ -24,11 +24,11 @@ public class DownLift extends CommandBase {
 
   @Override
   public void initialize() {
-    lift.downLift();
   }
 
   @Override
   public void execute() {
+    lift.downLift();
   }
 
   @Override

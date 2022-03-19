@@ -18,9 +18,8 @@ import frc.robot.commands.*;
 
 public class RobotContainer {
   private XboxController joystick;
-  private JoystickButton buttonA, buttonB, buttonY, back, start;
-  public JoystickButton lBumper;
-  public POVButton dPadUp, dPadDown;
+  private JoystickButton buttonA, buttonB, buttonY, lBumper, back, start;
+  private POVButton dPadUp, dPadDown;
 
   //// SUBSYSTEMS
   private final SwerveDrive swerveDrive;
@@ -35,11 +34,14 @@ public class RobotContainer {
   private final InstantCommand driveForward;
   private final InstantCommand driveBackward;
   private final DriveJoystick driveJoystick;
-  private DoDaPewPew doDaPewPew;
-  private InstantCommand noMoPewPew;
-  private InstantCommand chillinWithDaIntake;
-  private InstantCommand stopDaIntake;
+  private final DoDaPewPew doDaPewPew;
+  private final InstantCommand noMoPewPew;
+  private final InstantCommand chillinWithDaIntake;
+  private final InstantCommand stopDaIntake;
   private final Rumble rumble;
+  private final UpLift upLift;
+  private final DownLift downLift;
+  private final InstantCommand stopLift;
 
   public RobotContainer() {
     joystick = new XboxController(0);
@@ -49,8 +51,8 @@ public class RobotContainer {
       lBumper = new JoystickButton(joystick, 5);
       back = new JoystickButton(joystick, 7);
       start = new JoystickButton(joystick, 8);
-      dPadUp = new POVButton(joystick, 0, 0);
-      dPadDown = new POVButton(joystick, 180, 4);
+      dPadUp = new POVButton(joystick, 0);
+      dPadDown = new POVButton(joystick, 180);
 
     //// SUBSYSTEMS
     swerveDrive = new SwerveDrive(27.0, 21.0, Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, Constants.SPEEDMOTOR_FR, Constants.ANGLEMOTOR_FR, Constants.SPEEDMOTOR_FL, Constants.ANGLEMOTOR_FL);
@@ -71,6 +73,9 @@ public class RobotContainer {
     chillinWithDaIntake = new InstantCommand(conveyor::startBotConveyor, conveyor);
     stopDaIntake = new InstantCommand(conveyor::stopConveyor, conveyor);
     rumble = new Rumble(joystick, 0.5, 1.0);
+    upLift = new UpLift(lift, Constants.LIMIT_SWITCH_LEFT_TOP, Constants.LIMIT_SWITCH_RIGHT_TOP);
+    downLift = new DownLift(lift, Constants.LIMIT_SWITCH_LEFT_BOT, Constants.LIMIT_SWITCH_RIGHT_BOT);
+    stopLift = new InstantCommand(lift::stopLift, lift);
 
     configureButtonBindings();
   }
@@ -86,10 +91,11 @@ public class RobotContainer {
     lBumper.whenReleased(stopDaIntake);
 
     // Lift
-    dPadUp.whenPressed(new UpLift(lift, Constants.LIMIT_SWITCH_LEFT_TOP, Constants.LIMIT_SWITCH_RIGHT_TOP));
-    dPadDown.whenPressed(new DownLift(lift, Constants.LIMIT_SWITCH_LEFT_BOT, Constants.LIMIT_SWITCH_RIGHT_BOT));
-    dPadUp.whenReleased(new InstantCommand(lift::stopLift, lift));
-    dPadDown.whenReleased(new InstantCommand(lift::stopLift, lift));
+    dPadUp.whenPressed(upLift);
+    dPadDown.whenPressed(downLift);
+    //dPadUp.whenReleased(new InstantCommand(lift::stopLift, lift)); //Haven't been consistent with their performance
+    // m_robotContainer.whyIsMyPeeRed().realMenGetHemorrhages;
+    //dPadDown.whenReleased(new InstantCommand(lift::stopLift, lift));
 
     // Drive Mode
     back.whenPressed(
@@ -128,6 +134,10 @@ public class RobotContainer {
 
   public InstantCommand getChillinWithDaIntake() {
     return chillinWithDaIntake;
+  }
+
+  public InstantCommand getStopLift() {
+    return stopLift;
   }
 
   public XboxController getJoystick() {

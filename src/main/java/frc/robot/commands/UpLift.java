@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.DigitalInput;
 
+
 public class UpLift extends CommandBase {
   private Lift lift;
   private DigitalInput switchLeft;
@@ -18,17 +19,18 @@ public class UpLift extends CommandBase {
   public UpLift(Lift lift, int switchLT_ID, int switchRT_ID) {
     addRequirements(lift);
     this.lift = lift;
-    switchLeft = new DigitalInput(switchLT_ID);
     switchRight = new DigitalInput(switchRT_ID);
+    switchLeft = new DigitalInput(switchLT_ID);
   }
 
   @Override
   public void initialize() {
-    lift.upLift();
   }
 
   @Override
-  public void execute() {}
+  public void execute() {
+    lift.upLift();
+  }
 
   @Override
   public void end(boolean interrupted) {
