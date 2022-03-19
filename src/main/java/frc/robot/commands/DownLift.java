@@ -33,12 +33,12 @@ public class DownLift extends CommandBase {
     if (switchLeft.get())
       lift.stopLeft();
     else
-      lift.upLeft();
+      lift.downLeft();
 
     if (switchRight.get())
       lift.stopRight();
     else
-      lift.upRight();
+      lift.downRight();
   }
 
   @Override
@@ -52,6 +52,6 @@ public class DownLift extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return (switchLeft.get() && switchRight.get()) || Robot.getRobotContainer().getJoystick().getPOV() != 0;
+    return (switchLeft.get() && switchRight.get()) || Robot.getRobotContainer().getJoystick().getPOV() != 180;
   }
 }

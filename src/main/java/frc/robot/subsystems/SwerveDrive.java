@@ -37,9 +37,9 @@ public class SwerveDrive extends SubsystemBase {
 
   public void drive(double x1, double y1, double x2) {
     if (liftExtended) {
-      x1 /= 8;
-      y1 /= 8;
-      x2 /= 8;
+      x1 /= 5;
+      y1 /= 5;
+      x2 /= 5;
     }
 
     // If no joystick input, prevent from turning randomly and ensure motors are stopped
