@@ -6,15 +6,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class GoinBackWithDaIntake extends CommandBase {
   /** Creates a new ControlConveyor. */
   private Conveyor conveyor;
+  private JoystickButton button;
 
-  public GoinBackWithDaIntake(Conveyor conveyor) {
+  public GoinBackWithDaIntake(Conveyor conveyor, JoystickButton button) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(conveyor);
     this.conveyor = conveyor;
+    this.button = button;
   }
 
   // Called when the command is initially scheduled.
@@ -36,6 +39,6 @@ public class GoinBackWithDaIntake extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return !button.get();
   }
 }

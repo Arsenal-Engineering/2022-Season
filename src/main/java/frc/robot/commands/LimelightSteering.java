@@ -9,22 +9,19 @@ package frc.robot.commands;
  
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Robot;
 import frc.robot.subsystems.*;
  
 public class LimelightSteering extends CommandBase {
-  /**
-   * Creates a new LimelightSteering.
-   */
     double Kp;
     double min_command;  
     double tx;
     double steering_adjust;
     LimelightCam cam;
     SwerveDrive swerveDrive;
-    JoystickButton buttonB;
+    JoystickButton button;
  
-  public LimelightSteering(LimelightCam cam, SwerveDrive swerveDrive, JoystickButton buttonB) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public LimelightSteering(LimelightCam cam, SwerveDrive swerveDrive, JoystickButton button) {
     addRequirements(cam);
     addRequirements(swerveDrive);
     this.cam = cam;
@@ -33,15 +30,13 @@ public class LimelightSteering extends CommandBase {
     tx = cam.getX();
     steering_adjust = 0.0;
     this.swerveDrive = swerveDrive;
-    this.buttonB = buttonB;
+    this.button = button;
   }
  
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
   }
  
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     tx = cam.getX();
@@ -59,14 +54,13 @@ public class LimelightSteering extends CommandBase {
   }
    
  
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Robot.robotContainer.getDriveJoystick().schedule();
   }
  
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !buttonB.get();
+    return !button.get();
   }
 }

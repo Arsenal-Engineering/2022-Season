@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
   private DriveAuto driveBack;
   private DriveAuto driveForward;
 
-  private RobotContainer m_robotContainer;
+  public static RobotContainer robotContainer;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -69,7 +69,9 @@ public class Robot extends TimedRobot {
     driveBack = new DriveAuto(0, -1, 0, swerveDrive);
     driveForward = new DriveAuto(0, 1, 0, swerveDrive);
 
-    m_robotContainer = new RobotContainer(joystick, swerveDrive/* , conveyor, shooter */, driveBack, chillinWithDaIntake, stopDaIntake);
+    robotContainer = new RobotContainer(joystick, swerveDrive, conveyor, shooter, driveBack, chillinWithDaIntake, stopDaIntake);
+
+    
 
   }
 
@@ -111,7 +113,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
