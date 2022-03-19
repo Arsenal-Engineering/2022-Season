@@ -7,44 +7,37 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj.DigitalInput;
 
-public class DoDaPewPew extends CommandBase {
-  Timer timer;
+public class UpLift extends CommandBase {
+  private Lift lift;
+  private DigitalInput switchLeft;
+  private DigitalInput switchRight;
 
-  private Conveyor conveyor;
-  private Shooter shooter;
-
-  public DoDaPewPew(Conveyor conveyor, Shooter shooter) {
-    timer = new Timer();
-    addRequirements(shooter);
-    addRequirements(conveyor);
-    this.conveyor = conveyor;
-    this.shooter = shooter;
+  public UpLift(Lift lift, int switchLT_ID, int switchRT_ID) {
+    addRequirements(lift);
+    this.lift = lift;
+    switchLeft = new DigitalInput(switchLT_ID);
+    switchRight = new DigitalInput(switchRT_ID);
   }
 
   @Override
   public void initialize() {
-    timer.reset();
-    timer.start();
+    lift.upLift();
   }
 
   @Override
   public void execute() {
-    if (timer.get() > 1) {
-      shooter.setShooter(1);
-      conveyor.setConveyor(0.7);
-    } else
-      shooter.setShooter(1);
   }
 
   @Override
   public void end(boolean interrupted) {
+    lift.stopLift();
   }
 
   @Override
   public boolean isFinished() {
-    return false;
+    return switchLeft.get() || switchRight.get();
   }
 }

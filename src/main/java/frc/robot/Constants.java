@@ -1,21 +1,11 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) FIRST and other WPILib contributors.                         */
+/* Open Source Software; you can modify and/or share it under the terms of    */
+/* the WPILib BSD license file in the root directory of this project.         */
+/*----------------------------------------------------------------------------*/
 
 package frc.robot;
 
-/**
- * The Constants class provides a convenient place for teams to hold robot-wide
- * numerical or boolean
- * constants. This class should not be used for any other purpose. All constants
- * should be declared
- * globally (i.e. public static). Do not put anything functional in this class.
- *
- * <p>
- * It is advised to statically import this class (or one of its inner classes)
- * wherever the
- * constants are needed, to reduce verbosity.
- */
 public final class Constants {
     // ID for angle motors
     public final static int ANGLEMOTOR_FL = 1;
@@ -24,7 +14,6 @@ public final class Constants {
     public final static int ANGLEMOTOR_BR = 4;
 
     // ID for speed motors
-
     public final static int SPEEDMOTOR_FL = 5;
     public final static int SPEEDMOTOR_FR = 6;
     public final static int SPEEDMOTOR_BL = 7;
@@ -34,8 +23,17 @@ public final class Constants {
     public final static int CONVEYOR_TOP = 9;
     public final static int CONVEYOR_BOT = 10;
 
-    // ID for Shooter Motors
+    // ID for shooter
     public final static int SHOOTER = 11;
 
+    // ID for team color
     public final static int COLOR_SWITCH = 5;
+
+    // ID for lift motor
+    public final static int LIFT_LEFT = 12;
+    public final static int LIFT_RIGHT = 13;
+    public final static int LIMIT_SWITCH_LEFT_TOP = 0;
+    public final static int LIMIT_SWITCH_LEFT_BOT = 1;
+    public final static int LIMIT_SWITCH_RIGHT_TOP = 2;
+    public final static int LIMIT_SWITCH_RIGHT_BOT = 3;
 }
