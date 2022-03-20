@@ -26,9 +26,9 @@ public class SwerveDrive extends SubsystemBase {
     L_over_R = length / r;
     W_over_R = width / r;
 
-    bR = new WheelDrive("BR", speedBR_ID, angleBR_ID, 10, 0.00, 20, 1023, true);
+    bR = new WheelDrive("BR", speedBR_ID, angleBR_ID, 10, 0.00, 20, 1023, false);
     bL = new WheelDrive("BL", speedBL_ID, angleBL_ID, 15, 0.00, 20, 1023, false);
-    fR = new WheelDrive("FR", speedFR_ID, angleFR_ID, 13, 0.00, 20, 1023, true);
+    fR = new WheelDrive("FR", speedFR_ID, angleFR_ID, 13, 0.00, 20, 1023, false);
     fL = new WheelDrive("FL", speedFL_ID, angleFL_ID, 20, 0.00, 20, 1023, false);
 
     fieldOrientated = true;

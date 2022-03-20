@@ -23,6 +23,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     robotContainer = new RobotContainer();
     timer = new Timer();
+    robotContainer.getFloopDaColor();
   }
 
   @Override
@@ -44,9 +45,9 @@ public class Robot extends TimedRobot {
     // m_autonomousCommand = robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
+    // if (m_autonomousCommand != null) {
+    //   m_autonomousCommand.schedule();
+    // }
 
     robotContainer.getSwerveDrive().setBrakeMode(true);
     timer.reset();
@@ -98,7 +99,10 @@ public class Robot extends TimedRobot {
       timer.stop();
     }
 
-    robotContainer.getDriveJoystick().schedule();
+    if (!(robotContainer.getJoystick().getAButton() || robotContainer.getJoystick().getBButton() || robotContainer.getJoystick().getXButton() || robotContainer.getJoystick().getYButton())) {
+      robotContainer.getDriveJoystick().schedule();
+    }
+
     if (robotContainer.getJoystick().getRightTriggerAxis() > .5) {
       robotContainer.getDoDaPewPew().schedule();
     } else if (robotContainer.getJoystick().getLeftTriggerAxis() > .5) {
