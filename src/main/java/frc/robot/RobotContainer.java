@@ -156,12 +156,12 @@ public class RobotContainer {
     return rumble;
   }
 
+  public FloopDaColor getFloopDaColor() {
+    return floopDaColor;
+  }
+
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return null;
-  }
-
-  public FloopDaColor getFloopDaColor() {
-    return floopDaColor;
   }
 }
