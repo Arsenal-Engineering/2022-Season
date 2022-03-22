@@ -11,19 +11,19 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.*;
 
 public class DoDaPewPew extends CommandBase {
-  private Timer timer;
-  private double shooterReduction;
+  Timer timer;
 
   private Conveyor conveyor;
   private Shooter shooter;
+  private double speedFactor;
 
-  public DoDaPewPew(Conveyor conveyor, Shooter shooter, double shooterReduction) {
+  public DoDaPewPew(Conveyor conveyor, Shooter shooter, double speedFactor) {
     timer = new Timer();
     addRequirements(shooter);
     addRequirements(conveyor);
     this.conveyor = conveyor;
     this.shooter = shooter;
-    this.shooterReduction = shooterReduction;
+    this.speedFactor = speedFactor;
   }
 
   @Override
@@ -34,14 +34,15 @@ public class DoDaPewPew extends CommandBase {
 
   @Override
   public void execute() {
-    if (timer.get() > 1.5)
+    if (timer.get() > 2)
       conveyor.setConveyor(1);
-    if (timer.get() < 0.75)
-      shooter.setShooter(0.3);
+    
+    if (timer.get() < 1)
+      shooter.setShooter(0.3 * speedFactor);
     else if (timer.get() < 1.5)
-      shooter.setShooter(0.5);
+      shooter.setShooter(0.5 * speedFactor);
     else
-      shooter.setShooter(0.7 * shooterReduction);
+      shooter.setShooter(0.7 * speedFactor);
   }
 
   @Override

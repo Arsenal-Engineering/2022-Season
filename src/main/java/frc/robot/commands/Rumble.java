@@ -37,7 +37,7 @@ public class Rumble extends CommandBase {
 
   @Override
   public void execute() {
-    System.out.printf("**Rumble**");
+    System.out.print("**Rumble**");
   }
 
   @Override

@@ -8,7 +8,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Robot;
 import frc.robot.subsystems.*;
 
 public class LimelightSteering extends CommandBase {
@@ -35,16 +34,16 @@ public class LimelightSteering extends CommandBase {
     this.button = button;
     this.upsideDown = upsideDown;
   }
- 
+
   @Override
   public void initialize() {
   }
- 
+
   @Override
   public void execute() {
     tx = cam.getX();
     heading_error = upsideDown ? tx : -tx;
-    
+
     if (tx > 1.0) {
       steering_adjust = Kp * tx - min_command;
     } else if (tx < 1.0) {
@@ -53,11 +52,11 @@ public class LimelightSteering extends CommandBase {
 
     swerveDrive.drive(0, 0, steering_adjust);
   }
-   
+
   @Override
   public void end(boolean interrupted) {
   }
- 
+
   @Override
   public boolean isFinished() {
     return !button.get();

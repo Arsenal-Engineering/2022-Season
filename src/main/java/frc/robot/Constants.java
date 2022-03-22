@@ -25,6 +25,9 @@ public final class Constants {
 
     // ID for shooter
     public final static int SHOOTER = 11;
+    
+    // ID for team color
+    public final static int COLOR_SWITCH = 5;
 
     // ID for lift motor
     public final static int LIFT_LEFT = 12;
