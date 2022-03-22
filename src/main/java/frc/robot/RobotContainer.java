@@ -18,15 +18,15 @@ import frc.robot.commands.*;
 
 public class RobotContainer {
   private XboxController joystick;
-  private JoystickButton buttonA, buttonB, buttonY, lBumper, back, start;
+  private JoystickButton buttonA, buttonB, buttonX, buttonY, lBumper, rightStickPush, back, start;
   private POVButton dPadUp, dPadDown;
 
   //// SUBSYSTEMS
   private final SwerveDrive swerveDrive;
   private final Conveyor conveyor;
   private final Shooter shooter;
-  private final LimelightCam ballCam;
   private final Camera camera;
+  private final LimelightCam ballCam;
   private final LimelightCam shooterCam;
   private final Lift lift;
 
@@ -34,7 +34,8 @@ public class RobotContainer {
   private final InstantCommand driveForward;
   private final InstantCommand driveBackward;
   private final DriveJoystick driveJoystick;
-  private final DoDaPewPew doDaPewPew;
+  private final DoDaPewPew doDaPewPewHigh;
+  private final DoDaPewPew doDaPewPewLow;
   private final InstantCommand noMoPewPew;
   private final InstantCommand chillinWithDaIntake;
   private final InstantCommand stopDaIntake;
@@ -46,10 +47,12 @@ public class RobotContainer {
     joystick = new XboxController(0);
       buttonA = new JoystickButton(joystick, 1);  
       buttonB = new JoystickButton(joystick, 2);
+      buttonX = new JoystickButton(joystick, 3);
       buttonY = new JoystickButton(joystick, 4);
       lBumper = new JoystickButton(joystick, 5);
       back = new JoystickButton(joystick, 7);
       start = new JoystickButton(joystick, 8);
+      rightStickPush = new JoystickButton(joystick, 10);
       dPadUp = new POVButton(joystick, 0);
       dPadDown = new POVButton(joystick, 180);
 
@@ -59,15 +62,16 @@ public class RobotContainer {
     conveyor = new Conveyor(Constants.CONVEYOR_TOP, Constants.CONVEYOR_BOT);
     shooter = new Shooter(Constants.SHOOTER);
     camera = new Camera();
-    ballCam = new LimelightCam();
     shooterCam = new LimelightCam();
+    ballCam = new LimelightCam();
     lift = new Lift(Constants.LIFT_LEFT, Constants.LIFT_RIGHT);
 
     //// COMMANDS
     driveForward = new InstantCommand(swerveDrive::driveForward, swerveDrive);
     driveBackward = new InstantCommand(swerveDrive::driveBackward, swerveDrive);
     driveJoystick = new DriveJoystick(joystick, swerveDrive);
-    doDaPewPew = new DoDaPewPew(conveyor, shooter);
+    doDaPewPewHigh = new DoDaPewPew(conveyor, shooter, 1.0);
+    doDaPewPewLow = new DoDaPewPew(conveyor, shooter, 0.3);
     noMoPewPew = new InstantCommand(shooter::stopShooter, shooter);
     chillinWithDaIntake = new InstantCommand(conveyor::startBotConveyor, conveyor);
     stopDaIntake = new InstantCommand(conveyor::stopConveyor, conveyor);
@@ -80,13 +84,12 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     // Limelight
-    buttonB.whenPressed(new LimelightSteering(shooterCam, swerveDrive, buttonB));
-    buttonY.whenPressed(new LimelightDistance(shooterCam, swerveDrive, buttonY));
+    buttonB.whenPressed(new LimelightSteering(shooterCam, swerveDrive, buttonB, true));
+    buttonY.whenPressed(new LimelightDistance(shooterCam, swerveDrive, buttonY, true));
     buttonA.whenPressed(new TheftOfABall(ballCam, swerveDrive, buttonA, chillinWithDaIntake, stopDaIntake));
 
     // Conveyor
     lBumper.whenPressed(new InstantCommand(conveyor::reverseConveyor, conveyor));
-    lBumper.whenReleased(stopDaIntake);
 
     // Lift
     dPadUp.whenPressed(upLift);
@@ -122,8 +125,12 @@ public class RobotContainer {
     return stopDaIntake;
   }
 
-  public DoDaPewPew getDoDaPewPew() {
-    return doDaPewPew;
+  public DoDaPewPew getDoDaPewPewHigh() {
+    return doDaPewPewHigh;
+  }
+
+  public DoDaPewPew getDoDaPewPewLow() {
+    return doDaPewPewLow;
   }
 
   public InstantCommand getNoMoPewPew() {

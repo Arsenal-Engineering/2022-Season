@@ -7,6 +7,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -18,10 +19,10 @@ public class LimelightDistance extends CommandBase {
   double steering_adjust;
   LimelightCam cam;
   SwerveDrive swerveDrive;
-  JoystickButton buttonY;
+  JoystickButton button;
+  boolean upsideDown;
 
-  public LimelightDistance(LimelightCam cam, SwerveDrive swerveDrive, JoystickButton buttonY) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public LimelightDistance(LimelightCam cam, SwerveDrive swerveDrive, JoystickButton button, boolean upsideDown) {
     addRequirements(cam);
     addRequirements(swerveDrive);
     this.cam = cam;
@@ -31,17 +32,18 @@ public class LimelightDistance extends CommandBase {
     heading_error = -ty;
     steering_adjust = 0.0;
     this.swerveDrive = swerveDrive;
-    this.buttonY = buttonY;
+    this.button = button;
+    this.upsideDown = upsideDown;
   }
-
+ 
   @Override
   public void initialize() {
   }
-
+ 
   @Override
   public void execute() {
     ty = cam.getY();
-    heading_error = -ty;
+    heading_error = upsideDown ? ty : -ty;
 
     if (ty > 1.0) {
       steering_adjust = Kp * heading_error - min_command;
@@ -51,13 +53,13 @@ public class LimelightDistance extends CommandBase {
 
     swerveDrive.drive(0, steering_adjust, 0);
   }
-
+ 
   @Override
   public void end(boolean interrupted) {
   }
-
+ 
   @Override
   public boolean isFinished() {
-    return !buttonY.get();
+    return !button.get();
   }
 }

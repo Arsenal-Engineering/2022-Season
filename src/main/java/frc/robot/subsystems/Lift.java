@@ -8,6 +8,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 
 public class Lift extends SubsystemBase {
@@ -18,6 +19,8 @@ public class Lift extends SubsystemBase {
   public Lift(int left_ID, int right_ID) {
     left = new WPI_TalonSRX(left_ID);
     right = new WPI_TalonSRX(right_ID);
+    left.setNeutralMode(NeutralMode.Brake);
+    right.setNeutralMode(NeutralMode.Brake);
   }
 
   public void upLeft() {
@@ -25,7 +28,7 @@ public class Lift extends SubsystemBase {
   }
 
   public void upRight() {
-    right.set(0.5);
+    right.set(0.45);
   }
 
   public void downLeft() {
@@ -33,7 +36,7 @@ public class Lift extends SubsystemBase {
   }
 
   public void downRight() {
-    right.set(-0.5);
+    right.set(-0.45);
   }
 
   public void stopLeft() {

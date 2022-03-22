@@ -41,7 +41,7 @@ public class TheftOfABall extends CommandBase {
     this.chillinWithDaIntake = chillinWithDaIntake;
     this.swerveDrive = swerveDrive;
     this.buttonA = buttonA;
-    limelightSteering = new LimelightSteering(cam, swerveDrive, buttonA);
+    limelightSteering = new LimelightSteering(cam, swerveDrive, buttonA, false);
   }
 
   @Override

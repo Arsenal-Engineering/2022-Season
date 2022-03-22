@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     if (timer.get() < 2) {
-      robotContainer.getDoDaPewPew().schedule();
+      robotContainer.getDoDaPewPewHigh().schedule();
     } else if (timer.get() < 0/* Insert Value Here */) {
       robotContainer.getNoMoPewPew().schedule();
       robotContainer.getStopDaIntake().schedule();
@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
       robotContainer.getDriveForward().schedule();
       robotContainer.getStopDaIntake().schedule();
     } else if (timer.get() < 0/* Insert Value Here */) {
-      robotContainer.getDoDaPewPew().schedule();
+      robotContainer.getDoDaPewPewHigh().schedule();
     } else if (timer.get() < 0/* Insert Value Here */) {
       robotContainer.getNoMoPewPew().schedule();
       robotContainer.getStopDaIntake().schedule();
@@ -100,9 +100,11 @@ public class Robot extends TimedRobot {
 
     robotContainer.getDriveJoystick().schedule();
     if (robotContainer.getJoystick().getRightTriggerAxis() > .5) {
-      robotContainer.getDoDaPewPew().schedule();
+      robotContainer.getDoDaPewPewHigh().schedule();
     } else if (robotContainer.getJoystick().getLeftTriggerAxis() > .5) {
       robotContainer.getChillinWithDaIntake().schedule();
+    } else if (robotContainer.getJoystick().getRightBumper()) {
+      robotContainer.getDoDaPewPewLow().schedule();
     } else {
       robotContainer.getNoMoPewPew().schedule();
       if (!robotContainer.getJoystick().getLeftBumperPressed())
