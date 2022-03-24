@@ -29,10 +29,20 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     robotContainer.getSwerveDrive().setBrakeMode(false);
+    robotContainer.getStopDaIntake().schedule();
+    robotContainer.getNoMoPewPew().schedule();
+    robotContainer.createDriveAuto(0.0, 0.0, 0.0).schedule();
+    robotContainer.getDownLift().schedule(); //Should immediately end and set lift motors to 0 or lower them then set them to 0...
+    timer.reset();
+    timer.start();
+
+    //Question? can we keep running th emototrs after time
   }
 
   @Override
   public void disabledPeriodic() {
+    if (timer.get() > 1)
+      CommandScheduler.getInstance().cancelAll();
   }
 
   @Override
@@ -50,31 +60,31 @@ public class Robot extends TimedRobot {
       robotContainer.getLimelightDistance().schedule();
     } else*/ if (timer.get() < 3) { //Shoot for 3.0s  ---> hehe need to fix if using limelight
       robotContainer.getDoDaPewPewHigh().schedule();
-    } else if (timer.get() < 3.125) { //Stop shooting/conveyor for 0.125s
+    } else if (timer.get() < 5) { //Stop shooting/conveyor for 0.125s
       robotContainer.getNoMoPewPew().schedule();
       robotContainer.getStopDaIntake().schedule();
-    } else if (timer.get() < 4.125) { //Turn around for 1.0s
-      robotContainer.createDriveAuto(0.0, 0.0, 0.5).schedule();  
-    } else if (timer.get() < 7.125/*5.625*/) { //Drive forward for 3.0s (1.5s)
-      robotContainer.createDriveAuto(0.0, 0.75, 0.0).schedule();
-      robotContainer.getChillinWithDaIntake().schedule();
+    // } else if (timer.get() < 4.125) { //Turn around for 1.0s
+    //   robotContainer.createDriveAuto(0.0, 0.0, 0.5).schedule();  
+    } else if (timer.get() < 13/*5.625*/) { //Drive forward for 3.0s (1.5s)
+      robotContainer.createDriveAuto(0.0, 0.3, 0.0).schedule();
     /*} else if (timer.get() < 6.0) { //Steer to ball for 0.375s
       robotContainer.getLimelightSteeringBall().schedule();
     } else if (timer.get() < 8.0) { //Pick up ball for 2s
       robotContainer.getTheftOfABall().schedule();*/
-    } else if (timer.get() < 8.125/*9.0*/) { //Turn around for 1.0s
-      robotContainer.createDriveAuto(0.0, 0.0, 0.5).schedule();
-    } else if (timer.get() < 11.125/*11.0*/) { //Drive forward for 3.0s
-      robotContainer.createDriveAuto(0.0, 0.0, 0.5).schedule(); 
-    /*} else if (timer.get() < 11.5) { //Steer to hub for 0.5s
-      robotContainer.getLimelightSteeringShooter().schedule();
-    } else if (timer.get() < 12) { //Distance to hub for 0.5s
-      robotContainer.getLimelightDistance().schedule();*/
-    } else if (timer.get() < 14.125/*15*/) { //Shoot for 3.0s
-      robotContainer.getDoDaPewPewHigh().schedule();
-    } else if (timer.get() < 14.875) { //Stop shooting/conveyor until near end
+    // } else if (timer.get() < 8.125/*9.0*/) { //Turn around for 1.0s
+    //   robotContainer.createDriveAuto(0.0, 0.0, 0.5).schedule();
+    // } else if (timer.get() < 11.125/*11.0*/) { //Drive forward for 3.0s
+    //   robotContainer.createDriveAuto(0.0, -0.5, 0.0).schedule(); 
+    // /*} else if (timer.get() < 11.5) { //Steer to hub for 0.5s
+    //   robotContainer.getLimelightSteeringShooter().schedule();
+    // } else if (timer.get() < 12) { //Distance to hub for 0.5s
+    //   robotContainer.getLimelightDistance().schedule();*/
+    // } else if (timer.get() < 14.125/*15*/) { //Shoot for 3.0s
+    //   robotContainer.getDoDaPewPewHigh().schedule();
+    } else if (timer.get() <12) { //Stop shooting/conveyor until near end
       robotContainer.getNoMoPewPew().schedule();
-      robotContainer.getStopDaIntake().schedule();
+      robotContainer.createDriveAuto(0.0, 0.0, 0.0).schedule();
+      // robotContainer.getStopDaIntake().schedule();
     } else {
       timer.stop();
     }
@@ -83,8 +93,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     robotContainer.getSwerveDrive().setBrakeMode(true);
-    robotContainer.getNoMoPewPew().schedule();
-    robotContainer.getStopDaIntake().schedule();
     robotContainer.getDriveJoystick().schedule();
     timer.reset();
     timer.start();
@@ -100,9 +108,9 @@ public class Robot extends TimedRobot {
       timer.stop();
     }
 
-    if (!(robotContainer.getJoystick().getAButton() || robotContainer.getJoystick().getBButton() || robotContainer.getJoystick().getXButton() || robotContainer.getJoystick().getYButton())) {
+    // if (!(robotContainer.getJoystick().getAButton() || robotContainer.getJoystick().getBButton() || robotContainer.getJoystick().getXButton() || robotContainer.getJoystick().getYButton())) {
       robotContainer.getDriveJoystick().schedule();
-    }
+    // }
 
     if (robotContainer.getJoystick().getRightTriggerAxis() > .5) {
       robotContainer.getDoDaPewPewHigh().schedule();
