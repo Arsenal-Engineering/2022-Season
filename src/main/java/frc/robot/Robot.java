@@ -54,20 +54,35 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    if (timer.get() < 2) {
+    /*if (timer.get() < 0.5) { //Steer to hub for 0.5s
+      robotContainer.getLimelightSteeringShooter().schedule();
+    } else if (timer.get() < 1.0) { //Distance to hub for 0.5s
+      robotContainer.getLimelightDistance().schedule();
+    } else*/ if (timer.get() < 3) { //Shoot for 3.0s
       robotContainer.getDoDaPewPewHigh().schedule();
-    } else if (timer.get() < 0/* Insert Value Here */) {
+    } else if (timer.get() < 3.125) { //Stop shooting/conveyor for 0.125s
       robotContainer.getNoMoPewPew().schedule();
       robotContainer.getStopDaIntake().schedule();
-    } else if (timer.get() < 0/* Insert Value Here */) {
-      robotContainer.getDriveBack().schedule();
-      robotContainer.getChillinWithDaIntake().schedule();     
-    } else if (timer.get() < 0/* Insert Value Here */) {
-      robotContainer.getDriveForward().schedule();
-      robotContainer.getStopDaIntake().schedule();
-    } else if (timer.get() < 0/* Insert Value Here */) {
+    } else if (timer.get() < 4.125) { //Turn around for 1.0s
+      robotContainer.createDriveAuto(0.0, 0.0, 0.5).schedule();  
+    } else if (timer.get() < 7.125/*5.625*/) { //Drive forward for 3.0s (1.5s)
+      robotContainer.createDriveAuto(0.0, 0.75, 0.0).schedule();
+      robotContainer.getChillinWithDaIntake().schedule();
+    /*} else if (timer.get() < 6.0) { //Steer to ball for 0.375s
+      robotContainer.getLimelightSteeringBall().schedule();
+    } else if (timer.get() < 8.0) { //Pick up ball for 2s
+      robotContainer.getTheftOfABall().schedule();*/
+    } else if (timer.get() < 8.125/*9.0*/) { //Turn around for 1.0s
+      robotContainer.createDriveAuto(0.0, 0.0, 0.5).schedule();
+    } else if (timer.get() < 11.125/*11.0*/) { //Drive forward for 3.0s
+      robotContainer.createDriveAuto(0.0, 0.0, 0.5).schedule(); 
+    /*} else if (timer.get() < 11.5) { //Steer to hub for 0.5s
+      robotContainer.getLimelightSteeringShooter().schedule();
+    } else if (timer.get() < 12) { //Distance to hub for 0.5s
+      robotContainer.getLimelightDistance().schedule();*/
+    } else if (timer.get() < 14.125/*15*/) { //Shoot for 3.0s
       robotContainer.getDoDaPewPewHigh().schedule();
-    } else if (timer.get() < 0/* Insert Value Here */) {
+    } else if (timer.get() < 14.875) { //Stop shooting/conveyor until near end
       robotContainer.getNoMoPewPew().schedule();
       robotContainer.getStopDaIntake().schedule();
     } else {
