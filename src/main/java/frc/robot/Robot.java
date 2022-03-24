@@ -58,7 +58,7 @@ public class Robot extends TimedRobot {
       robotContainer.getLimelightSteeringShooter().schedule();
     } else if (timer.get() < 1.0) { //Distance to hub for 0.5s
       robotContainer.getLimelightDistance().schedule();
-    } else*/ if (timer.get() < 3) { //Shoot for 3.0s
+    } else*/ if (timer.get() < 3) { //Shoot for 3.0s  ---> hehe need to fix if using limelight
       robotContainer.getDoDaPewPewHigh().schedule();
     } else if (timer.get() < 3.125) { //Stop shooting/conveyor for 0.125s
       robotContainer.getNoMoPewPew().schedule();
@@ -92,11 +92,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
-
     robotContainer.getSwerveDrive().setBrakeMode(true);
+    robotContainer.getNoMoPewPew().schedule();
+    robotContainer.getStopDaIntake().schedule();
     robotContainer.getDriveJoystick().schedule();
     timer.reset();
     timer.start();
