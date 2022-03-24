@@ -65,7 +65,7 @@ public class Robot extends TimedRobot {
       robotContainer.getStopDaIntake().schedule();
     // } else if (timer.get() < 4.125) { //Turn around for 1.0s
     //   robotContainer.createDriveAuto(0.0, 0.0, 0.5).schedule();  
-    } else if (timer.get() < 13/*5.625*/) { //Drive forward for 3.0s (1.5s)
+    } else if (timer.get() < 10/*5.625*/) { //Drive forward for 3.0s (1.5s)
       robotContainer.createDriveAuto(0.0, 0.3, 0.0).schedule();
     /*} else if (timer.get() < 6.0) { //Steer to ball for 0.375s
       robotContainer.getLimelightSteeringBall().schedule();
@@ -96,6 +96,7 @@ public class Robot extends TimedRobot {
     robotContainer.getDriveJoystick().schedule();
     timer.reset();
     timer.start();
+    robotContainer.getFloopDaColor().schedule();
   }
 
   @Override
@@ -108,9 +109,9 @@ public class Robot extends TimedRobot {
       timer.stop();
     }
 
-    // if (!(robotContainer.getJoystick().getAButton() || robotContainer.getJoystick().getBButton() || robotContainer.getJoystick().getXButton() || robotContainer.getJoystick().getYButton())) {
+    if (!(robotContainer.getJoystick().getAButton() || robotContainer.getJoystick().getBButton() || robotContainer.getJoystick().getXButton() || robotContainer.getJoystick().getYButton())) {
       robotContainer.getDriveJoystick().schedule();
-    // }
+    }
 
     if (robotContainer.getJoystick().getRightTriggerAxis() > .5) {
       robotContainer.getDoDaPewPewHigh().schedule();

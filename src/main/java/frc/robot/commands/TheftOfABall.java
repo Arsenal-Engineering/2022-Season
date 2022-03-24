@@ -23,6 +23,7 @@ public class TheftOfABall extends CommandBase {
   public TheftOfABall(LimelightCam cam, SwerveDrive swerveDrive, Conveyor conveyor, JoystickButton button) {
     addRequirements(cam);
     addRequirements(swerveDrive);
+    addRequirements(conveyor);
     timer = new Timer();
     this.cam = cam;
     this.conveyor = conveyor;
@@ -37,6 +38,7 @@ public class TheftOfABall extends CommandBase {
 
   @Override
   public void execute() {
+    System.out.println("See ball: " + cam.getV());
     if (cam.getV() == 1.0) {
       conveyor.startBotConveyor();
       timer.reset();
@@ -47,6 +49,7 @@ public class TheftOfABall extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
+    System.out.println("stopping theft ball");
     conveyor.stopConveyor();
     swerveDrive.drive(0, 0, 0);
   }
