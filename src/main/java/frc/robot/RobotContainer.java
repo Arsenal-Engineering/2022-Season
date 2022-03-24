@@ -75,7 +75,7 @@ public class RobotContainer {
     driveBackward = new InstantCommand(swerveDrive::driveBackward, swerveDrive);
     driveJoystick = new DriveJoystick(joystick, swerveDrive);
     doDaPewPewHigh = new DoDaPewPew(conveyor, shooter, 1.0);
-    doDaPewPewLow = new DoDaPewPew(conveyor, shooter, 0.75);
+    doDaPewPewLow = new DoDaPewPew(conveyor, shooter, 0.5);
     noMoPewPew = new InstantCommand(shooter::stopShooter, shooter);
     chillinWithDaIntake = new InstantCommand(conveyor::startBotConveyor, conveyor);
     stopDaIntake = new InstantCommand(conveyor::stopConveyor, conveyor);
@@ -93,10 +93,10 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     // Limelight
-    // buttonA.whenPressed(limelightSteeringBall);
-    // buttonB.whenPressed(theftOfABall);
-    // buttonX.whenPressed(limelightSteeringShooter);
-    // buttonY.whenPressed(limelightDistance);
+    buttonA.whenPressed(limelightSteeringBall);
+    buttonB.whenPressed(theftOfABall);
+    buttonX.whenPressed(limelightSteeringShooter);
+    buttonY.whenPressed(limelightDistance);
 
     // Conveyor
     lBumper.whenPressed(new InstantCommand(conveyor::reverseConveyor, conveyor));
