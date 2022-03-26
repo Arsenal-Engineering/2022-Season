@@ -25,7 +25,7 @@ public class RobotContainer {
   private final Shooter shooter;
   private final Camera camera;
   private final LimelightCam ballCam;
-  private final LimelightCam shooterCam;
+  // private final LimelightCam shooterCam;
   private final Lift lift;
 
   //// COMMANDS
@@ -35,16 +35,17 @@ public class RobotContainer {
   private final DoDaPewPew doDaPewPewHigh;
   private final DoDaPewPew doDaPewPewLow;
   private final InstantCommand noMoPewPew;
-  private final InstantCommand chillinWithDaIntake;
-  private final InstantCommand stopDaIntake;
+  private final ChillinWithDaIntake chillinWithDaIntake;
+  private final InstantCommand reverseConveyor;
+  private final StopDaIntake stopDaIntake;
   private final FloopDaColor floopDaColor;
   private final Rumble rumble;
   private final UpLift upLift;
   private final DownLift downLift;
   private final LimelightSteering limelightSteeringBall;
-  private final LimelightSteering limelightSteeringShooter;
+  // private final LimelightSteering limelightSteeringShooter;
   private final TheftOfABall theftOfABall;
-  private final LimelightDistance limelightDistance;
+  // private final LimelightDistance limelightDistance;
 
   public RobotContainer() {
     joystick = new XboxController(0);
@@ -66,7 +67,7 @@ public class RobotContainer {
     conveyor = new Conveyor(Constants.CONVEYOR_TOP, Constants.CONVEYOR_BOT);
     shooter = new Shooter(Constants.SHOOTER);
     camera = new Camera();
-    shooterCam = new LimelightCam("limelight-shooter");
+    // shooterCam = new LimelightCam("limelight-shooter");
     ballCam = new LimelightCam("limelight-ball");
     lift = new Lift(Constants.LIFT_LEFT, Constants.LIFT_RIGHT);
 
@@ -77,16 +78,17 @@ public class RobotContainer {
     doDaPewPewHigh = new DoDaPewPew(conveyor, shooter, 1.0);
     doDaPewPewLow = new DoDaPewPew(conveyor, shooter, 0.5);
     noMoPewPew = new InstantCommand(shooter::stopShooter, shooter);
-    chillinWithDaIntake = new InstantCommand(conveyor::startBotConveyor, conveyor);
-    stopDaIntake = new InstantCommand(conveyor::stopConveyor, conveyor);
+    chillinWithDaIntake = new ChillinWithDaIntake(conveyor);
+    reverseConveyor = new InstantCommand(conveyor::stopConveyor, conveyor);
+    stopDaIntake = new StopDaIntake(conveyor);
     rumble = new Rumble(joystick, 0.5, 1.0);
     upLift = new UpLift(lift, Constants.LIMIT_SWITCH_LEFT_TOP, Constants.LIMIT_SWITCH_RIGHT_TOP);
     downLift = new DownLift(lift, Constants.LIMIT_SWITCH_LEFT_BOT, Constants.LIMIT_SWITCH_RIGHT_BOT);
     floopDaColor = new FloopDaColor(ballCam, Constants.COLOR_SWITCH);
     limelightSteeringBall = new LimelightSteering(ballCam, swerveDrive, buttonA, false);
-    limelightSteeringShooter = new LimelightSteering(shooterCam, swerveDrive, buttonX, true);
+    // limelightSteeringShooter = new LimelightSteering(shooterCam, swerveDrive, buttonX, true);
     theftOfABall = new TheftOfABall(ballCam, swerveDrive, conveyor, buttonB);
-    limelightDistance = new LimelightDistance(shooterCam, swerveDrive, buttonY, true);
+    // limelightDistance = new LimelightDistance(shooterCam, swerveDrive, buttonY, true);
 
     configureButtonBindings();
   }
@@ -94,14 +96,15 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Limelight
     buttonA.whenPressed(limelightSteeringBall);
-    buttonB.whenPressed(theftOfABall);
-    buttonX.whenPressed(limelightSteeringShooter);
-    buttonY.whenPressed(limelightDistance);
+    // buttonB.whenPressed(theftOfABall);
+    buttonX.whenPressed(new LimelightTestV(ballCam));
+    // buttonX.whenPressed(limelightSteeringShooter);
+    // buttonY.whenPressed(limelightDistance);
 
     // Conveyor
-    lBumper.whenPressed(new InstantCommand(conveyor::reverseConveyor, conveyor));
-    rightStickPush.whenPressed(new LimelightTestV(ballCam));
-    leftStickPush.whenPressed(new LimelightTestV(shooterCam));
+    // lBumper.whenPressed(new InstantCommand(conveyor::reverseConveyor, conveyor));
+    // rightStickPush.whenPressed(new LimelightTestV(ballCam));
+    // leftStickPush.whenPressed(new LimelightTestV(shooterCam));
 
     // Lift
     dPadUp.whenPressed(upLift);
@@ -149,8 +152,12 @@ public class RobotContainer {
     return noMoPewPew;
   }
 
-  public InstantCommand getChillinWithDaIntake() {
+  public ChillinWithDaIntake getChillinWithDaIntake() {
     return chillinWithDaIntake;
+  }
+
+  public InstantCommand getReverseConveyor() {
+    return reverseConveyor;
   }
 
   public XboxController getJoystick() {
@@ -173,17 +180,17 @@ public class RobotContainer {
     return limelightSteeringBall;
   }
 
-  public LimelightSteering getLimelightSteeringShooter() {
-    return limelightSteeringShooter;
-  }
+  // public LimelightSteering getLimelightSteeringShooter() {
+  //   return limelightSteeringShooter;
+  // }
 
   public TheftOfABall getTheftOfABall() {
     return theftOfABall;
   }
 
-  public LimelightDistance getLimelightDistance() {
-    return limelightDistance;
-  }
+  // public LimelightDistance getLimelightDistance() {
+  //   return limelightDistance;
+  // }
 
   public DriveAuto createDriveAuto(double x1, double y1, double x2) {
     return new DriveAuto(x1, y1, x2, swerveDrive);

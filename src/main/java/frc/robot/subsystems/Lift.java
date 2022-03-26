@@ -24,19 +24,19 @@ public class Lift extends SubsystemBase {
   }
 
   public void upLeft() {
-    left.set(0.75);
+    left.set(1.0);
   }
 
   public void upRight() {
-    right.set(0.75);
+    right.set(1.0);
   }
 
   public void downLeft() {
-    left.set(-0.75);
+    left.set(-1.0);
   }
 
   public void downRight() {
-    right.set(-0.75);
+    right.set(-1.0);
   }
 
   public void stopLeft() {
