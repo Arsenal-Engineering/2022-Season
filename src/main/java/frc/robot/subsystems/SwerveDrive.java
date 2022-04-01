@@ -39,16 +39,16 @@ public class SwerveDrive extends SubsystemBase {
 
   public void drive(double x1, double y1, double x2) {
     if (liftExtended) {
-      x1 /= 5;
-      y1 /= 5;
-      x2 /= 5;
+      x1 /= 3.5;
+      y1 /= 3.5;
+      x2 /= 3.5;
     }
 
-    if (conveyorOn) {
-      x1 /= 2;
-      y1 /= 2;
-      x2 /= 2;
-    }
+    // if (conveyorOn) {
+    //   x1 /= 2;
+    //   y1 /= 2;
+    //   x2 /= 2;
+    // }
 
     // If no joystick input, prevent from turning randomly and ensure motors are stopped
     if (Math.abs(x1) < 0.05 && Math.abs(y1) < 0.05 && Math.abs(x2) < 0.05) {
