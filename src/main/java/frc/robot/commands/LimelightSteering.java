@@ -50,6 +50,9 @@ public class LimelightSteering extends CommandBase {
       steering_adjust = Kp * tx + min_command;
     }
 
+    if (steering_adjust > 0.5)
+      steering_adjust = 0.5;
+
     swerveDrive.drive(0, 0, steering_adjust);
   }
    
