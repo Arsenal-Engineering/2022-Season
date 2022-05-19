@@ -79,7 +79,7 @@ public class RobotContainer {
     doDaPewPewLow = new DoDaPewPew(conveyor, shooter, 0.5);
     noMoPewPew = new InstantCommand(shooter::stopShooter, shooter);
     chillinWithDaIntake = new ChillinWithDaIntake(conveyor);
-    reverseConveyor = new InstantCommand(conveyor::stopConveyor, conveyor);
+    reverseConveyor = new InstantCommand(conveyor::reverseConveyor, conveyor);
     stopDaIntake = new StopDaIntake(conveyor);
     rumble = new Rumble(joystick, 0.5, 1.0);
     upLift = new UpLift(lift, Constants.LIMIT_SWITCH_LEFT_TOP, Constants.LIMIT_SWITCH_RIGHT_TOP);

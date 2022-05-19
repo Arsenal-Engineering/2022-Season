@@ -22,7 +22,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void stopShooter() {
-    shooter.set(0);
+    shooter.set(0.0);
   }
 
   @Override

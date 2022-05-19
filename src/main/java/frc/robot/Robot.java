@@ -116,9 +116,9 @@ public class Robot extends TimedRobot {
       robotContainer.getNoMoPewPew().schedule();
     } else if (robotContainer.getJoystick().getRightBumper()) {
       robotContainer.getDoDaPewPewLow().schedule();
-    // } else if (robotContainer.getJoystick().getLeftBumper()) {
-    //   robotContainer.getReverseConveyor().schedule();
-    //   robotContainer.getNoMoPewPew().schedule();
+    } else if (robotContainer.getJoystick().getLeftBumper()) {
+      robotContainer.getReverseConveyor().schedule();
+      robotContainer.getNoMoPewPew().schedule();
     } else {
       robotContainer.getNoMoPewPew().schedule();
       robotContainer.getStopDaIntake().schedule();
