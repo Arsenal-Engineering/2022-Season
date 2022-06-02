@@ -105,10 +105,12 @@ public class Robot extends TimedRobot {
       timer.stop();
     }
 
+    //When you're not limelighting, user can drive
     if (!(robotContainer.getJoystick().getAButton() || robotContainer.getJoystick().getBButton() || robotContainer.getJoystick().getXButton() || robotContainer.getJoystick().getYButton())) {
       robotContainer.getDriveJoystick().schedule();
     }
 
+    //Includes all buttons for conveyor and shooter usage
     if (robotContainer.getJoystick().getRightTriggerAxis() > .5) {
       robotContainer.getDoDaPewPewHigh().schedule();
     } else if (robotContainer.getJoystick().getLeftTriggerAxis() > .5) {

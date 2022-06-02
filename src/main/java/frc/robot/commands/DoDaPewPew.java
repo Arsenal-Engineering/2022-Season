@@ -8,6 +8,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.Constants;
 import frc.robot.subsystems.*;
 
 public class DoDaPewPew extends CommandBase {
@@ -38,11 +39,11 @@ public class DoDaPewPew extends CommandBase {
       conveyor.setConveyor(1);
     
     if (timer.get() < 1)
-      shooter.setShooter(0.3 * speedFactor);
+      shooter.setShooter(Constants.MAX_POWER * 0.3 * speedFactor);
     else if (timer.get() < 1.5)
-      shooter.setShooter(0.5 * speedFactor);
+      shooter.setShooter(Constants.MAX_POWER * 0.6 * speedFactor);
     else
-      shooter.setShooter(0.7 * speedFactor);
+      shooter.setShooter(Constants.MAX_POWER * speedFactor);
   }
 
   @Override
