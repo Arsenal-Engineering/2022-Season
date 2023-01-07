@@ -26,7 +26,7 @@ public class LimelightDistance extends CommandBase {
     addRequirements(swerveDrive);
     this.cam = cam;
     Kp = -0.1;
-    min_command = 0.08;
+    min_command = 0.25;
     ty = cam.getY();
     heading_error = -ty;
     steering_adjust = 0.0;

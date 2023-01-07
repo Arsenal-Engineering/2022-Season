@@ -26,7 +26,7 @@ public class LimelightSteering extends CommandBase {
     addRequirements(swerveDrive);
     this.cam = cam;
     Kp = -0.03;
-    min_command = 0.05;
+    min_command = 0.08;
     tx = cam.getX();
     heading_error = upsideDown ? tx : -tx;
     steering_adjust = 0.0;
@@ -42,7 +42,6 @@ public class LimelightSteering extends CommandBase {
   @Override
   public void execute() {
     tx = cam.getX();
-    heading_error = upsideDown ? tx : -tx;
 
     if (tx > 1.0) {
       steering_adjust = Kp * tx - min_command;
@@ -50,14 +49,17 @@ public class LimelightSteering extends CommandBase {
       steering_adjust = Kp * tx + min_command;
     }
 
-    if (steering_adjust > 0.5)
-      steering_adjust = 0.5;
+    System.out.println("steering_adjust: " + steering_adjust);
 
-    swerveDrive.drive(0, 0, steering_adjust);
+    if (steering_adjust > 0.4)
+      steering_adjust = 0.4;
+
+    swerveDrive.drive(0, 0, -steering_adjust);
   }
    
   @Override
   public void end(boolean interrupted) {
+    System.out.println("ending limelightsteering");
   }
  
   @Override

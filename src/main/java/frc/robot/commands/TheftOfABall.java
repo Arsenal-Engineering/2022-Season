@@ -7,7 +7,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -18,17 +17,16 @@ public class TheftOfABall extends CommandBase {
   private JoystickButton button;
 
   private LimelightCam cam;
-  private InstantCommand chillinWithDaIntake;
-  private InstantCommand stopDaIntake;
+  private Conveyor conveyor;
   private SwerveDrive swerveDrive;
 
-  public TheftOfABall(LimelightCam cam, SwerveDrive swerveDrive, InstantCommand chillinWithDaIntake, InstantCommand stopDaIntake, JoystickButton button) {
+  public TheftOfABall(LimelightCam cam, SwerveDrive swerveDrive, Conveyor conveyor, JoystickButton button) {
     addRequirements(cam);
     addRequirements(swerveDrive);
+    addRequirements(conveyor);
     timer = new Timer();
     this.cam = cam;
-    this.chillinWithDaIntake = chillinWithDaIntake;
-    this.swerveDrive = swerveDrive;
+    this.conveyor = conveyor;
     this.button = button;
   }
 
@@ -40,8 +38,9 @@ public class TheftOfABall extends CommandBase {
 
   @Override
   public void execute() {
+    System.out.println("See ball: " + cam.getV());
     if (cam.getV() == 1.0) {
-      chillinWithDaIntake.schedule();
+      conveyor.startBotConveyor();
       timer.reset();
     }
 
@@ -50,7 +49,8 @@ public class TheftOfABall extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    stopDaIntake.schedule();
+    System.out.println("stopping theft ball");
+    conveyor.stopConveyor();
     swerveDrive.drive(0, 0, 0);
   }
 

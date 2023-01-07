@@ -52,7 +52,7 @@ public class WheelDrive extends SubsystemBase {
       speed = -speed;
     }
 
-    speedMotor.set(ControlMode.PercentOutput, speed / 2);
+    speedMotor.set(ControlMode.PercentOutput, speed * 0.4);
     angleMotor.set(ControlMode.Position, desirePos);
 
     // Debugging code (using a parameter so you can turn on for one motor)
