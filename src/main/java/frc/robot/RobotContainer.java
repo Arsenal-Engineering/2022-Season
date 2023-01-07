@@ -16,7 +16,7 @@ import frc.robot.commands.*;
 
 public class RobotContainer {
   private XboxController joystick;
-  private JoystickButton buttonA, buttonB, buttonX, buttonY, lBumper, rightStickPush, leftStickPush, back, start;
+  private JoystickButton buttonA, buttonB, buttonX, buttonY, rightStickPush, leftStickPush, back, start;
   private POVButton dPadUp, dPadDown;
 
   //// SUBSYSTEMS
@@ -53,7 +53,6 @@ public class RobotContainer {
       buttonB = new JoystickButton(joystick, 2);
       buttonX = new JoystickButton(joystick, 3);
       buttonY = new JoystickButton(joystick, 4);
-      lBumper = new JoystickButton(joystick, 5);
       back = new JoystickButton(joystick, 7);
       start = new JoystickButton(joystick, 8);
       rightStickPush = new JoystickButton(joystick, 10);
@@ -76,10 +75,10 @@ public class RobotContainer {
     driveBackward = new InstantCommand(swerveDrive::driveBackward, swerveDrive);
     driveJoystick = new DriveJoystick(joystick, swerveDrive);
     doDaPewPewHigh = new DoDaPewPew(conveyor, shooter, 1.0);
-    doDaPewPewLow = new DoDaPewPew(conveyor, shooter, 0.5);
+    doDaPewPewLow = new DoDaPewPew(conveyor, shooter, Constants.LOW_SPEED_FACTOR);
     noMoPewPew = new InstantCommand(shooter::stopShooter, shooter);
     chillinWithDaIntake = new ChillinWithDaIntake(conveyor);
-    reverseConveyor = new InstantCommand(conveyor::stopConveyor, conveyor);
+    reverseConveyor = new InstantCommand(conveyor::reverseConveyor, conveyor);
     stopDaIntake = new StopDaIntake(conveyor);
     rumble = new Rumble(joystick, 0.5, 1.0);
     upLift = new UpLift(lift, Constants.LIMIT_SWITCH_LEFT_TOP, Constants.LIMIT_SWITCH_RIGHT_TOP);
@@ -101,17 +100,9 @@ public class RobotContainer {
     // buttonX.whenPressed(limelightSteeringShooter);
     // buttonY.whenPressed(limelightDistance);
 
-    // Conveyor
-    // lBumper.whenPressed(new InstantCommand(conveyor::reverseConveyor, conveyor));
-    // rightStickPush.whenPressed(new LimelightTestV(ballCam));
-    // leftStickPush.whenPressed(new LimelightTestV(shooterCam));
-
     // Lift
     dPadUp.whenPressed(upLift);
     dPadDown.whenPressed(downLift);
-    //dPadUp.whenReleased(new InstantCommand(lift::stopLift, lift)); //Haven't been consistent with their performance
-    // m_robotContainer.whyIsMyPeeRed().realMenGetHemorrhages;
-    //dPadDown.whenReleased(new InstantCommand(lift::stopLift, lift));
 
     // Drive Mode
     back.whenPressed(

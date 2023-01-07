@@ -86,10 +86,12 @@ public class Robot extends TimedRobot {
       timer.stop();
     }
 
+    //When you're not limelighting, user can drive
     if (!(robotContainer.getJoystick().getAButton() || robotContainer.getJoystick().getBButton() || robotContainer.getJoystick().getXButton() || robotContainer.getJoystick().getYButton())) {
       robotContainer.getDriveJoystick().schedule();
     }
 
+    //Includes all buttons for conveyor and shooter usage
     if (robotContainer.getJoystick().getRightTriggerAxis() > .5) {
       robotContainer.getDoDaPewPewHigh().schedule();
     } else if (robotContainer.getJoystick().getLeftTriggerAxis() > .5) {
@@ -97,9 +99,9 @@ public class Robot extends TimedRobot {
       robotContainer.getNoMoPewPew().schedule();
     } else if (robotContainer.getJoystick().getRightBumper()) {
       robotContainer.getDoDaPewPewLow().schedule();
-    // } else if (robotContainer.getJoystick().getLeftBumper()) {
-    //   robotContainer.getReverseConveyor().schedule();
-    //   robotContainer.getNoMoPewPew().schedule();
+    } else if (robotContainer.getJoystick().getLeftBumper()) {
+      robotContainer.getReverseConveyor().schedule();
+      robotContainer.getNoMoPewPew().schedule();
     } else {
       robotContainer.getNoMoPewPew().schedule();
       robotContainer.getStopDaIntake().schedule();
