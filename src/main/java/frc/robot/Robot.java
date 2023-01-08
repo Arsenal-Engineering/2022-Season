@@ -7,21 +7,18 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.Timer;
 
 public class Robot extends TimedRobot {
-  public static RobotContainer robotContainer;
+  private static RobotContainer robotContainer;
   private Timer timer;
-
-  private Command m_autonomousCommand;
 
   @Override
   public void robotInit() {
     robotContainer = new RobotContainer();
     timer = new Timer();
-    robotContainer.getFloopDaColor();
+    robotContainer.getFloopDaColor().schedule();
   }
 
   @Override
@@ -32,21 +29,22 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     robotContainer.getSwerveDrive().setBrakeMode(false);
+    robotContainer.getStopDaIntake().schedule();
+    robotContainer.getNoMoPewPew().schedule();
+    robotContainer.createDriveAuto(0.0, 0.0, 0.0).schedule();
+    robotContainer.getDownLift().schedule(); //Should immediately end and set lift motors to 0 or lower them then set them to 0...
+    timer.reset();
+    timer.start();
   }
 
   @Override
   public void disabledPeriodic() {
+    if (timer.get() > 1)
+      CommandScheduler.getInstance().cancelAll();
   }
 
   @Override
   public void autonomousInit() {
-    // m_autonomousCommand = robotContainer.getAutonomousCommand();
-
-    // schedule the autonomous command (example)
-    // if (m_autonomousCommand != null) {
-    //   m_autonomousCommand.schedule();
-    // }
-
     robotContainer.getSwerveDrive().setBrakeMode(true);
     timer.reset();
     timer.start();
@@ -54,22 +52,16 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    if (timer.get() < 2) {
-      robotContainer.getDoDaPewPew().schedule();
-    } else if (timer.get() < 0/* Insert Value Here */) {
+    if (timer.get() < 3) { //Shoot for 3.0s
+      robotContainer.getDoDaPewPewHigh().schedule();
+    } else if (timer.get() < 5) { //Stop shooting/conveyor for 0.125s
       robotContainer.getNoMoPewPew().schedule();
       robotContainer.getStopDaIntake().schedule();
-    } else if (timer.get() < 0/* Insert Value Here */) {
-      robotContainer.getDriveBack().schedule();
-      robotContainer.getChillinWithDaIntake().schedule();     
-    } else if (timer.get() < 0/* Insert Value Here */) {
-      robotContainer.getDriveForward().schedule();
-      robotContainer.getStopDaIntake().schedule();
-    } else if (timer.get() < 0/* Insert Value Here */) {
-      robotContainer.getDoDaPewPew().schedule();
-    } else if (timer.get() < 0/* Insert Value Here */) {
+    } else if (timer.get() < 8.2) { //Drive forward for 3.8s
+      robotContainer.createDriveAuto(0.0, 0.5, 0.0).schedule();
+    } else if (timer.get() < 12) { //Stop shooting/conveyor until near end
       robotContainer.getNoMoPewPew().schedule();
-      robotContainer.getStopDaIntake().schedule();
+      robotContainer.createDriveAuto(0.0, 0.0, 0.0).schedule();
     } else {
       timer.stop();
     }
@@ -77,14 +69,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
-
     robotContainer.getSwerveDrive().setBrakeMode(true);
     robotContainer.getDriveJoystick().schedule();
     timer.reset();
     timer.start();
+    robotContainer.getFloopDaColor().schedule();
   }
 
   @Override
@@ -97,11 +86,22 @@ public class Robot extends TimedRobot {
       timer.stop();
     }
 
-    robotContainer.getDriveJoystick().schedule();
+    //When you're not limelighting, user can drive
+    if (!(robotContainer.getJoystick().getAButton() || robotContainer.getJoystick().getBButton() || robotContainer.getJoystick().getXButton() || robotContainer.getJoystick().getYButton())) {
+      robotContainer.getDriveJoystick().schedule();
+    }
+
+    //Includes all buttons for conveyor and shooter usage
     if (robotContainer.getJoystick().getRightTriggerAxis() > .5) {
-      robotContainer.getDoDaPewPew().schedule();
+      robotContainer.getDoDaPewPewHigh().schedule();
     } else if (robotContainer.getJoystick().getLeftTriggerAxis() > .5) {
       robotContainer.getChillinWithDaIntake().schedule();
+      robotContainer.getNoMoPewPew().schedule();
+    } else if (robotContainer.getJoystick().getRightBumper()) {
+      robotContainer.getDoDaPewPewLow().schedule();
+    } else if (robotContainer.getJoystick().getLeftBumper()) {
+      robotContainer.getReverseConveyor().schedule();
+      robotContainer.getNoMoPewPew().schedule();
     } else {
       robotContainer.getNoMoPewPew().schedule();
       robotContainer.getStopDaIntake().schedule();

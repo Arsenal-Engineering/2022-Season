@@ -7,32 +7,44 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 
 public class Lift extends SubsystemBase {
 
-  private VictorSPX left;
-  private VictorSPX right;
+  private WPI_TalonSRX left;
+  private WPI_TalonSRX right;
 
   public Lift(int left_ID, int right_ID) {
-    left = new VictorSPX(left_ID);
-    right = new VictorSPX(right_ID);
+    left = new WPI_TalonSRX(left_ID);
+    right = new WPI_TalonSRX(right_ID);
+    left.setNeutralMode(NeutralMode.Brake);
+    right.setNeutralMode(NeutralMode.Brake);
   }
 
-  public void upLift() {
-    left.set(VictorSPXControlMode.PercentOutput, 0.5);
-    right.set(VictorSPXControlMode.PercentOutput, 0.5);
+  public void upLeft() {
+    left.set(1.0);
   }
 
-  public void downLift() {
-    left.set(VictorSPXControlMode.PercentOutput, -0.5);
-    right.set(VictorSPXControlMode.PercentOutput, -0.5);
+  public void upRight() {
+    right.set(1.0);
   }
 
-  public void stopLift() {
-    left.set(VictorSPXControlMode.PercentOutput, 0);
-    right.set(VictorSPXControlMode.PercentOutput, 0);
+  public void downLeft() {
+    left.set(-1.0);
+  }
+
+  public void downRight() {
+    right.set(-1.0);
+  }
+
+  public void stopLeft() {
+    left.set(0);
+  }
+
+  public void stopRight() {
+    right.set(0);
   }
 
   @Override

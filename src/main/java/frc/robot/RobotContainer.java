@@ -6,9 +6,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -18,7 +16,7 @@ import frc.robot.commands.*;
 
 public class RobotContainer {
   private XboxController joystick;
-  private JoystickButton buttonA, buttonB, buttonX, buttonY, lBumper, rightStickPush, back, start;
+  private JoystickButton buttonA, buttonB, buttonX, buttonY, rightStickPush, leftStickPush, back, start;
   private POVButton dPadUp, dPadDown;
 
   //// SUBSYSTEMS
@@ -27,19 +25,27 @@ public class RobotContainer {
   private final Shooter shooter;
   private final Camera camera;
   private final LimelightCam ballCam;
-  private final LimelightCam shooterCam;
+  // private final LimelightCam shooterCam;
   private final Lift lift;
 
   //// COMMANDS
-  private final DriveAuto driveBack;
-  private final DriveAuto driveForward;
+  private final InstantCommand driveForward;
+  private final InstantCommand driveBackward;
   private final DriveJoystick driveJoystick;
-  private DoDaPewPew doDaPewPew;
-  private InstantCommand noMoPewPew;
-  private ChillinWithDaIntake chillinWithDaIntake;
-  private InstantCommand stopDaIntake;
+  private final DoDaPewPew doDaPewPewHigh;
+  private final DoDaPewPew doDaPewPewLow;
+  private final InstantCommand noMoPewPew;
+  private final ChillinWithDaIntake chillinWithDaIntake;
+  private final InstantCommand reverseConveyor;
+  private final StopDaIntake stopDaIntake;
   private final FloopDaColor floopDaColor;
   private final Rumble rumble;
+  private final UpLift upLift;
+  private final DownLift downLift;
+  private final LimelightSteering limelightSteeringBall;
+  // private final LimelightSteering limelightSteeringShooter;
+  private final TheftOfABall theftOfABall;
+  // private final LimelightDistance limelightDistance;
 
   public RobotContainer() {
     joystick = new XboxController(0);
@@ -47,54 +53,56 @@ public class RobotContainer {
       buttonB = new JoystickButton(joystick, 2);
       buttonX = new JoystickButton(joystick, 3);
       buttonY = new JoystickButton(joystick, 4);
-      lBumper = new JoystickButton(joystick, 5);
       back = new JoystickButton(joystick, 7);
       start = new JoystickButton(joystick, 8);
       rightStickPush = new JoystickButton(joystick, 10);
+      leftStickPush = new JoystickButton(joystick, 9);
       dPadUp = new POVButton(joystick, 0);
       dPadDown = new POVButton(joystick, 180);
 
     //// SUBSYSTEMS
-    swerveDrive = new SwerveDrive(27.0, 21.0);
+    swerveDrive = new SwerveDrive(27.0, 21.0, Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, Constants.SPEEDMOTOR_FR, Constants.ANGLEMOTOR_FR, Constants.SPEEDMOTOR_FL, Constants.ANGLEMOTOR_FL);
     swerveDrive.setBrakeMode(false);
     conveyor = new Conveyor(Constants.CONVEYOR_TOP, Constants.CONVEYOR_BOT);
     shooter = new Shooter(Constants.SHOOTER);
     camera = new Camera();
-    shooterCam = new LimelightCam("limelight-shooter");
+    // shooterCam = new LimelightCam("limelight-shooter");
     ballCam = new LimelightCam("limelight-ball");
     lift = new Lift(Constants.LIFT_LEFT, Constants.LIFT_RIGHT);
 
     //// COMMANDS
-    driveBack = new DriveAuto(0, -1, 0, swerveDrive);
-    driveForward = new DriveAuto(0, 1, 0, swerveDrive);
+    driveForward = new InstantCommand(swerveDrive::driveForward, swerveDrive);
+    driveBackward = new InstantCommand(swerveDrive::driveBackward, swerveDrive);
     driveJoystick = new DriveJoystick(joystick, swerveDrive);
-    doDaPewPew = new DoDaPewPew(conveyor, shooter);
+    doDaPewPewHigh = new DoDaPewPew(conveyor, shooter, 1.0);
+    doDaPewPewLow = new DoDaPewPew(conveyor, shooter, Constants.LOW_SPEED_FACTOR);
     noMoPewPew = new InstantCommand(shooter::stopShooter, shooter);
     chillinWithDaIntake = new ChillinWithDaIntake(conveyor);
-    stopDaIntake = new InstantCommand(conveyor::stopConveyor, conveyor);
+    reverseConveyor = new InstantCommand(conveyor::reverseConveyor, conveyor);
+    stopDaIntake = new StopDaIntake(conveyor);
     rumble = new Rumble(joystick, 0.5, 1.0);
-
+    upLift = new UpLift(lift, Constants.LIMIT_SWITCH_LEFT_TOP, Constants.LIMIT_SWITCH_RIGHT_TOP);
+    downLift = new DownLift(lift, Constants.LIMIT_SWITCH_LEFT_BOT, Constants.LIMIT_SWITCH_RIGHT_BOT);
     floopDaColor = new FloopDaColor(ballCam, Constants.COLOR_SWITCH);
+    limelightSteeringBall = new LimelightSteering(ballCam, swerveDrive, buttonA, false);
+    // limelightSteeringShooter = new LimelightSteering(shooterCam, swerveDrive, buttonX, true);
+    theftOfABall = new TheftOfABall(ballCam, swerveDrive, conveyor, buttonB);
+    // limelightDistance = new LimelightDistance(shooterCam, swerveDrive, buttonY, true);
 
     configureButtonBindings();
   }
 
   private void configureButtonBindings() {
     // Limelight
-    buttonA.whenPressed(new LimelightSteering(ballCam, swerveDrive, buttonA));
-    buttonB.whenPressed(new TheftOfABall(ballCam, swerveDrive, chillinWithDaIntake, stopDaIntake, buttonB));
-    buttonX.whenPressed(new LimelightSteering(shooterCam, swerveDrive, buttonX));
-    buttonY.whenPressed(new LimelightDistance(shooterCam, swerveDrive, buttonY));
-    rightStickPush.whenPressed(new LimelightTestV(ballCam));
-
-    // Conveyor
-    lBumper.whenPressed(new GoinBackWithDaIntake(conveyor, lBumper));
+    buttonA.whenPressed(limelightSteeringBall);
+    // buttonB.whenPressed(theftOfABall);
+    buttonX.whenPressed(new LimelightTestV(ballCam));
+    // buttonX.whenPressed(limelightSteeringShooter);
+    // buttonY.whenPressed(limelightDistance);
 
     // Lift
-    dPadUp.whenPressed(new UpLift(lift, Constants.LIMIT_SWITCH_LEFT_TOP, Constants.LIMIT_SWITCH_RIGHT_TOP));
-    dPadDown.whenPressed(new DownLift(lift, Constants.LIMIT_SWITCH_LEFT_BOT, Constants.LIMIT_SWITCH_RIGHT_BOT));
-    dPadUp.whenReleased(new InstantCommand(lift::stopLift, lift));
-    dPadDown.whenReleased(new InstantCommand(lift::stopLift, lift));
+    dPadUp.whenPressed(upLift);
+    dPadDown.whenPressed(downLift);
 
     // Drive Mode
     back.whenPressed(
@@ -107,12 +115,12 @@ public class RobotContainer {
     return swerveDrive;
   }
 
-  public DriveAuto getDriveBack() {
-    return driveBack;
+  public InstantCommand getDriveForward() {
+    return driveForward;
   }
 
-  public DriveAuto getDriveForward() {
-    return driveForward;
+  public InstantCommand getDriveBack() {
+    return driveBackward;
   }
 
   public DriveJoystick getDriveJoystick() {
@@ -123,8 +131,12 @@ public class RobotContainer {
     return stopDaIntake;
   }
 
-  public DoDaPewPew getDoDaPewPew() {
-    return doDaPewPew;
+  public DoDaPewPew getDoDaPewPewHigh() {
+    return doDaPewPewHigh;
+  }
+
+  public DoDaPewPew getDoDaPewPewLow() {
+    return doDaPewPewLow;
   }
 
   public InstantCommand getNoMoPewPew() {
@@ -135,6 +147,10 @@ public class RobotContainer {
     return chillinWithDaIntake;
   }
 
+  public InstantCommand getReverseConveyor() {
+    return reverseConveyor;
+  }
+
   public XboxController getJoystick() {
     return joystick;
   }
@@ -143,12 +159,31 @@ public class RobotContainer {
     return rumble;
   }
 
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return null;
-  }
-
   public FloopDaColor getFloopDaColor() {
     return floopDaColor;
+  }
+
+  public DownLift getDownLift() {
+    return downLift;
+  }
+
+  public LimelightSteering getLimelightSteeringBall() {
+    return limelightSteeringBall;
+  }
+
+  // public LimelightSteering getLimelightSteeringShooter() {
+  //   return limelightSteeringShooter;
+  // }
+
+  public TheftOfABall getTheftOfABall() {
+    return theftOfABall;
+  }
+
+  // public LimelightDistance getLimelightDistance() {
+  //   return limelightDistance;
+  // }
+
+  public DriveAuto createDriveAuto(double x1, double y1, double x2) {
+    return new DriveAuto(x1, y1, x2, swerveDrive);
   }
 }

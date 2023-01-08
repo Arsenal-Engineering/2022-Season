@@ -10,7 +10,7 @@ public final class Constants {
     // ID for angle motors
     public final static int ANGLEMOTOR_FL = 1;
     public final static int ANGLEMOTOR_FR = 2;
-    public final static int ANGLEMOTOR_BL = 3;
+    public final static int ANGLEMOTOR_BL = 3;  
     public final static int ANGLEMOTOR_BR = 4;
 
     // ID for speed motors
@@ -25,15 +25,19 @@ public final class Constants {
 
     // ID for shooter
     public final static int SHOOTER = 11;
-
+    
     // ID for team color
     public final static int COLOR_SWITCH = 5;
 
-    // ID for lift motor
+    // ID for lift motor`
     public final static int LIFT_LEFT = 12;
     public final static int LIFT_RIGHT = 13;
-    public final static int LIMIT_SWITCH_LEFT_TOP = 0;
-    public final static int LIMIT_SWITCH_LEFT_BOT = 1;
-    public final static int LIMIT_SWITCH_RIGHT_TOP = 2;
-    public final static int LIMIT_SWITCH_RIGHT_BOT = 3;
+    public final static int LIMIT_SWITCH_LEFT_TOP = 9;
+    public final static int LIMIT_SWITCH_LEFT_BOT = 8;
+    public final static int LIMIT_SWITCH_RIGHT_TOP = 7;
+    public final static int LIMIT_SWITCH_RIGHT_BOT = 6;
+
+    // Shooter speeds
+    public final static double MAX_POWER = 0.7;
+    public final static double LOW_SPEED_FACTOR = 0.4; //low power = MAX_POWER * LOW_SPEED_FACTOR
 }

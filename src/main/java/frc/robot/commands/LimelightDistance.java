@@ -7,7 +7,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -20,18 +19,20 @@ public class LimelightDistance extends CommandBase {
   LimelightCam cam;
   SwerveDrive swerveDrive;
   JoystickButton button;
- 
-  public LimelightDistance(LimelightCam cam, SwerveDrive swerveDrive, JoystickButton button) {
+  boolean upsideDown;
+
+  public LimelightDistance(LimelightCam cam, SwerveDrive swerveDrive, JoystickButton button, boolean upsideDown) {
     addRequirements(cam);
     addRequirements(swerveDrive);
     this.cam = cam;
     Kp = -0.1;
-    min_command = 0.08;
+    min_command = 0.25;
     ty = cam.getY();
     heading_error = -ty;
     steering_adjust = 0.0;
     this.swerveDrive = swerveDrive;
     this.button = button;
+    this.upsideDown = upsideDown;
   }
  
   @Override
@@ -41,7 +42,7 @@ public class LimelightDistance extends CommandBase {
   @Override
   public void execute() {
     ty = cam.getY();
-    heading_error = -ty;
+    heading_error = upsideDown ? ty : -ty;
 
     if (ty > 1.0) {
       steering_adjust = Kp * heading_error - min_command;
@@ -54,7 +55,6 @@ public class LimelightDistance extends CommandBase {
  
   @Override
   public void end(boolean interrupted) {
-    Robot.robotContainer.getDriveJoystick().schedule();
   }
  
   @Override

@@ -6,10 +6,10 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.*;
 
-public class ChillinWithDaIntake extends CommandBase {
+public class ChillinWithDaIntake extends InstantCommand {
   private Conveyor conveyor;
 
   public ChillinWithDaIntake(Conveyor conveyor) {
@@ -19,19 +19,6 @@ public class ChillinWithDaIntake extends CommandBase {
 
   @Override
   public void initialize() {
-  }
-
-  @Override
-  public void execute() {
-    conveyor.setConveyor(0.5);
-  }
-
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  @Override
-  public boolean isFinished() {
-    return false;
+    conveyor.startBotConveyor();
   }
 }

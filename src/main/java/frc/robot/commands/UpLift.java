@@ -7,8 +7,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.DigitalInput;
+
 
 public class UpLift extends CommandBase {
   private Lift lift;
@@ -18,26 +20,36 @@ public class UpLift extends CommandBase {
   public UpLift(Lift lift, int switchLT_ID, int switchRT_ID) {
     addRequirements(lift);
     this.lift = lift;
-    switchLeft = new DigitalInput(switchLT_ID);
     switchRight = new DigitalInput(switchRT_ID);
+    switchLeft = new DigitalInput(switchLT_ID);
   }
 
   @Override
   public void initialize() {
-    lift.upLift();
+    Robot.getRobotContainer().getSwerveDrive().setLiftExtended(true);
   }
 
   @Override
   public void execute() {
+    if (switchLeft.get())
+      lift.stopLeft();
+    else
+      lift.upLeft();
+
+    if (switchRight.get())
+      lift.stopRight();
+    else
+      lift.upRight();
   }
 
   @Override
   public void end(boolean interrupted) {
-    lift.stopLift();
+    lift.stopLeft();
+    lift.stopRight();
   }
 
   @Override
   public boolean isFinished() {
-    return switchLeft.get() || switchRight.get();
+    return (switchLeft.get() && switchRight.get()) || Robot.getRobotContainer().getJoystick().getPOV() != 0;
   }
 }

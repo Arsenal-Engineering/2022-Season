@@ -38,9 +38,9 @@ public class DriveJoystick extends CommandBase {
       double rad = navX.getYaw() * Math.PI / 180;
       double new_y1 = y1 * Math.cos(rad) + -1 * x1 * Math.sin(rad);
       double new_x1 = y1 * Math.sin(rad) + x1 * Math.cos(rad);
-      swerveDrive.drive(new_x1, new_y1, -joystick.getRightX());
+      swerveDrive.drive(new_x1, new_y1, joystick.getRightX());
     } else {
-      swerveDrive.drive(-x1, -y1, -joystick.getRightX());
+      swerveDrive.drive(-x1, -y1, joystick.getRightX());
     }
   }
 

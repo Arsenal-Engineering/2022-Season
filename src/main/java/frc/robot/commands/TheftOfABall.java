@@ -7,33 +7,26 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.*;
 
 public class TheftOfABall extends CommandBase {
   Timer timer;
-  
-  private double tx;
-  private boolean hasSeenBall;
+
   private JoystickButton button;
 
   private LimelightCam cam;
-  private ChillinWithDaIntake chillinWithDaIntake;
-  private InstantCommand stopDaIntake;
+  private Conveyor conveyor;
   private SwerveDrive swerveDrive;
 
-  public TheftOfABall(LimelightCam cam, SwerveDrive swerveDrive, ChillinWithDaIntake chillinWithDaIntake, InstantCommand stopDaIntake, JoystickButton button) {
+  public TheftOfABall(LimelightCam cam, SwerveDrive swerveDrive, Conveyor conveyor, JoystickButton button) {
     addRequirements(cam);
     addRequirements(swerveDrive);
+    addRequirements(conveyor);
     timer = new Timer();
     this.cam = cam;
-    tx = cam.getX();
-    this.chillinWithDaIntake = chillinWithDaIntake;
-    this.swerveDrive = swerveDrive;
-    hasSeenBall = false;
+    this.conveyor = conveyor;
     this.button = button;
   }
 
@@ -41,21 +34,14 @@ public class TheftOfABall extends CommandBase {
   public void initialize() {
     timer.reset();
     timer.start();
-    hasSeenBall = false;
   }
 
   @Override
   public void execute() {
-    if (tx < 50.0) {
-      chillinWithDaIntake.schedule();
-      hasSeenBall = true;
+    System.out.println("See ball: " + cam.getV());
+    if (cam.getV() == 1.0) {
+      conveyor.startBotConveyor();
       timer.reset();
-    }
-    else if (timer.get() > 0.125){
-      stopDaIntake.schedule();
-    }
-    else if (hasSeenBall) {
-      chillinWithDaIntake.schedule();
     }
 
     swerveDrive.drive(0, -0.5, 0);
@@ -63,12 +49,13 @@ public class TheftOfABall extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    Robot.robotContainer.getDriveJoystick().schedule();
-    // stopDaIntake.schedule(); hmmm maybe, maybe not- remember to review if changes are needed during drive practice
+    System.out.println("stopping theft ball");
+    conveyor.stopConveyor();
+    swerveDrive.drive(0, 0, 0);
   }
 
   @Override
   public boolean isFinished() {
-    return !button.get();
+    return !button.get() || timer.get() > 0.2;
   }
 }

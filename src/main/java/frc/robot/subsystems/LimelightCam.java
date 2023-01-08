@@ -12,13 +12,19 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class LimelightCam extends SubsystemBase {
   NetworkTable table;
+  String camName;
  
   public LimelightCam(String camName) {
     table = NetworkTableInstance.getDefault().getTable(camName);
+    this.camName = camName;
   }
 
   @Override
   public void periodic() {
+  }
+
+  public String getName() {
+    return camName;
   }
 
   public double getV() {

@@ -7,7 +7,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 public class SwerveDrive extends SubsystemBase {
   private double L_over_R;
@@ -19,22 +18,30 @@ public class SwerveDrive extends SubsystemBase {
   private WheelDrive fL;
 
   private boolean fieldOrientated;
+  private boolean liftExtended;
 
-  public SwerveDrive(double length, double width) {
+  public SwerveDrive(double length, double width, int speedBR_ID, int angleBR_ID, int speedBL_ID, int angleBL_ID, int speedFR_ID, int angleFR_ID, int speedFL_ID, int angleFL_ID) {
 
     double r = Math.sqrt((length * length) + (width + width));
     L_over_R = length / r;
     W_over_R = width / r;
 
-    bR = new WheelDrive("BR", Constants.SPEEDMOTOR_BR, Constants.ANGLEMOTOR_BR, 10, 0.00, 20, 1023, true);
-    bL = new WheelDrive("BL", Constants.SPEEDMOTOR_BL, Constants.ANGLEMOTOR_BL, 15, 0.00, 20, 1023, false);
-    fR = new WheelDrive("FR", Constants.SPEEDMOTOR_FR, Constants.ANGLEMOTOR_FR, 13, 0.00, 20, 1023, true);
-    fL = new WheelDrive("FL", Constants.SPEEDMOTOR_FL, Constants.ANGLEMOTOR_FL, 20, 0.00, 20, 1023, false);
+    bR = new WheelDrive("BR", speedBR_ID, angleBR_ID, 10, 0.00, 20, 1023, false);
+    bL = new WheelDrive("BL", speedBL_ID, angleBL_ID, 15, 0.00, 20, 1023, false);
+    fR = new WheelDrive("FR", speedFR_ID, angleFR_ID, 13, 0.00, 20, 1023, false);
+    fL = new WheelDrive("FL", speedFL_ID, angleFL_ID, 20, 0.00, 20, 1023, false);
 
     fieldOrientated = true;
+    liftExtended = false;
   }
 
   public void drive(double x1, double y1, double x2) {
+    if (liftExtended) {
+      x1 /= 3.5;
+      y1 /= 3.5;
+      x2 /= 3.5;
+    }
+
     // If no joystick input, prevent from turning randomly and ensure motors are stopped
     if (Math.abs(x1) < 0.05 && Math.abs(y1) < 0.05 && Math.abs(x2) < 0.05) {
       bR.stop();
@@ -58,6 +65,14 @@ public class SwerveDrive extends SubsystemBase {
     }
   }
 
+  public void driveForward() {
+    drive(0, -1, 0);
+  }
+
+  public void driveBackward() {
+    drive(0, 1, 0);
+  }
+
   public boolean getFieldOrientated() {
     return fieldOrientated;
   }
@@ -68,6 +83,10 @@ public class SwerveDrive extends SubsystemBase {
 
   public void setFieldOrientatedRegular() {
     fieldOrientated = false;
+  }
+
+  public void setLiftExtended(boolean liftExtended) {
+    this.liftExtended = liftExtended;
   }
 
   public void setBrakeMode(boolean brakeMode) {
